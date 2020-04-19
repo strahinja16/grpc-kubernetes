@@ -1,0 +1,41 @@
+{
+  "name": "api-gateway",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start:dev": "npm run build:dev",
+    "build:dev": "nodemon 'src/server.ts' --exec 'ts-node' src/server.ts -e ts,graphql",
+    "build:proto": "./scripts/protoc.sh"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/compression": "^1.7.0",
+    "@types/express": "^4.17.6",
+    "@types/google-protobuf": "^3.7.2",
+    "@types/graphql": "^14.5.0",
+    "@types/graphql-depth-limit": "^1.1.2",
+    "@types/node": "^13.13.0",
+    "graphql-depth-limit": "^1.1.0",
+    "graphql-import": "^1.0.2",
+    "graphql-import-node": "0.0.4",
+    "grpc-tools": "^1.8.1",
+    "grpc_tools_node_protoc_ts": "^2.5.11",
+    "nodemon": "^2.0.3",
+    "ts-node": "^8.8.2",
+    "typescript": "^3.8.3"
+  },
+  "dependencies": {
+    "apollo-server-express": "^2.12.0",
+    "compression": "^1.7.4",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "google-protobuf": "^3.11.4",
+    "graphql": "^15.0.0",
+    "grpc": "^1.24.2",
+    "http": "0.0.1-security",
+    "ncp": "^2.0.0"
+  }
+}
