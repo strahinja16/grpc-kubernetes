@@ -8,6 +8,7 @@ export class Warehouse {
 
     @Column({
         length: 50,
+        unique: true,
     })
     name: string;
 

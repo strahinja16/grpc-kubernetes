@@ -2,14 +2,89 @@ syntax = "proto3";
 
 package warehouse;
 
-service Warehouse {
-    rpc SayHello (HelloRequest) returns (HelloResponse);
+service WarehouseAndMaterials {
+    rpc addMaterialType (AddMaterialTypeRequest) returns (AddMaterialTypeResponse);
+    rpc addMaterialItems (AddMaterialItemsRequest) returns (AddMaterialItemsResponse);
+    rpc addWarehouse (AddWarehouseRequest) returns (AddWarehouseResponse);
+    rpc addProductTypeAndMaterialSpecifications (AddProductTypeAndMaterialSpecificationsRequest) returns (AddProductTypeAndMaterialSpecificationsResponse);
+    rpc setOrderForMaterialItems (SetOrderForMaterialItemsRequest) returns (SetOrderForMaterialItemsResponse);
 }
 
-message HelloRequest {
+message AddMaterialTypeRequest {
     string name = 1;
 }
+message AddMaterialTypeResponse {
+    int32 id = 1;
+    string name = 2;
+}
 
-message HelloResponse {
-    string message = 1;
+message AddMaterialItemsRequest {
+    repeated MaterialItem materialItems = 1;
+}
+message AddMaterialItemsResponse {
+    repeated MaterialItem materialItems = 1;
+}
+
+message AddWarehouseRequest {
+    Warehouse warehouse = 1;
+}
+message AddWarehouseResponse {
+    Warehouse warehouse = 1;
+}
+
+message AddProductTypeAndMaterialSpecificationsRequest {
+    ProductType productType = 1;
+    repeated MaterialSpecification materialSpecs = 2;
+}
+message AddProductTypeAndMaterialSpecificationsResponse {
+    ProductType productType = 1;
+    repeated MaterialSpecification materialSpecs = 2;
+}
+
+message SetOrderForMaterialItemsRequest {
+    string orderSerial = 1;
+    repeated int32 materialItemIds = 2;
+}
+message SetOrderForMaterialItemsResponse {
+    repeated MaterialItem materialItems = 1;
+}
+
+
+// entities
+message Warehouse {
+    int32 id = 1;
+    string name = 2;
+    int32 capacity = 3;
+}
+
+message MaterialType {
+    int32 id = 1;
+    string name = 2;
+}
+
+message ProductType {
+    int32 id = 1;
+    string name = 2;
+}
+
+message MaterialSpecification {
+    int32 id = 1;
+    int32 quantity = 2;
+    ProductType productType = 3;
+    MaterialType materialType = 4;
+}
+
+message MaterialItem {
+    int32 id = 1;
+    string serial = 2;
+    MaterialType materialType = 3;
+    Warehouse warehouse = 4;
+    string orderSerial = 5;
+    MaterialState materialState = 6;
+}
+
+enum MaterialState {
+    available = 0;
+    taken = 1;
+    usedUp = 2;
 }

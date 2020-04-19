@@ -2,6 +2,7 @@ version: '3'
 
 services:
   api-gateway:
+    restart: always
     build: ./api-gateway
     ports:
       - "3000:3000"
@@ -13,6 +14,7 @@ services:
       - warehouse-service
 
   warehouse-service:
+    restart: always
     build: ./warehouse-service
     ports:
       - "3001:3001"
@@ -25,6 +27,7 @@ services:
       - warehousedb
 
   warehousedb:
+    restart: always
     image: postgres:12-alpine
     ports:
       - "5001:5432"

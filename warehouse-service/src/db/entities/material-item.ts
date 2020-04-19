@@ -1,4 +1,4 @@
-import {Entity, Column, PrimaryGeneratedColumn, ManyToOne, Generated, OneToMany} from "typeorm";
+import {Entity, Column, PrimaryGeneratedColumn, ManyToOne} from "typeorm";
 import { MaterialType } from "./material-type";
 import {Warehouse} from "./warehouse";
 
@@ -14,7 +14,6 @@ export class MaterialItem {
     id: number;
 
     @Column()
-    @Generated("uuid")
     serial: string;
 
     @ManyToOne(type => MaterialType)

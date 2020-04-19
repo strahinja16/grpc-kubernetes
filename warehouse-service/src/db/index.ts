@@ -6,6 +6,8 @@ import {Warehouse} from "./entities/warehouse";
 import {ProductType} from "./entities/product-type";
 import { seedDatabase } from './seeds';
 
+export var dbConnection: Connection;
+
 export const getDbConnection = async (): Promise<Connection> => {
     return createConnection({
         type: "postgres",
@@ -25,7 +27,9 @@ export const getDbConnection = async (): Promise<Connection> => {
         logging: false
     })
         .then((connection) => {
-            console.log('\n🚀  Postgres is now connected to warehouse-service')
+            console.log('\n🚀  Postgres is now connected to warehouse-service');
+            dbConnection = connection;
+
             return connection;
         })
         // .then((connection) => {

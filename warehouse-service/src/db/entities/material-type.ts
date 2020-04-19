@@ -6,7 +6,8 @@ export class MaterialType {
     id: number;
 
     @Column({
-        length: 50
+        length: 50,
+        unique: true,
     })
     name: string;
 }

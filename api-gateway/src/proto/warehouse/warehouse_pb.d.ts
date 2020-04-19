@@ -6,44 +6,423 @@
 
 import * as jspb from "google-protobuf";
 
-export class HelloRequest extends jspb.Message { 
+export class AddMaterialTypeRequest extends jspb.Message { 
     getName(): string;
     setName(value: string): void;
 
 
     serializeBinary(): Uint8Array;
-    toObject(includeInstance?: boolean): HelloRequest.AsObject;
-    static toObject(includeInstance: boolean, msg: HelloRequest): HelloRequest.AsObject;
+    toObject(includeInstance?: boolean): AddMaterialTypeRequest.AsObject;
+    static toObject(includeInstance: boolean, msg: AddMaterialTypeRequest): AddMaterialTypeRequest.AsObject;
     static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
     static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-    static serializeBinaryToWriter(message: HelloRequest, writer: jspb.BinaryWriter): void;
-    static deserializeBinary(bytes: Uint8Array): HelloRequest;
-    static deserializeBinaryFromReader(message: HelloRequest, reader: jspb.BinaryReader): HelloRequest;
+    static serializeBinaryToWriter(message: AddMaterialTypeRequest, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): AddMaterialTypeRequest;
+    static deserializeBinaryFromReader(message: AddMaterialTypeRequest, reader: jspb.BinaryReader): AddMaterialTypeRequest;
 }
 
-export namespace HelloRequest {
+export namespace AddMaterialTypeRequest {
     export type AsObject = {
         name: string,
     }
 }
 
-export class HelloResponse extends jspb.Message { 
-    getMessage(): string;
-    setMessage(value: string): void;
+export class AddMaterialTypeResponse extends jspb.Message { 
+    getId(): number;
+    setId(value: number): void;
+
+    getName(): string;
+    setName(value: string): void;
 
 
     serializeBinary(): Uint8Array;
-    toObject(includeInstance?: boolean): HelloResponse.AsObject;
-    static toObject(includeInstance: boolean, msg: HelloResponse): HelloResponse.AsObject;
+    toObject(includeInstance?: boolean): AddMaterialTypeResponse.AsObject;
+    static toObject(includeInstance: boolean, msg: AddMaterialTypeResponse): AddMaterialTypeResponse.AsObject;
     static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
     static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-    static serializeBinaryToWriter(message: HelloResponse, writer: jspb.BinaryWriter): void;
-    static deserializeBinary(bytes: Uint8Array): HelloResponse;
-    static deserializeBinaryFromReader(message: HelloResponse, reader: jspb.BinaryReader): HelloResponse;
+    static serializeBinaryToWriter(message: AddMaterialTypeResponse, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): AddMaterialTypeResponse;
+    static deserializeBinaryFromReader(message: AddMaterialTypeResponse, reader: jspb.BinaryReader): AddMaterialTypeResponse;
 }
 
-export namespace HelloResponse {
+export namespace AddMaterialTypeResponse {
     export type AsObject = {
-        message: string,
+        id: number,
+        name: string,
     }
+}
+
+export class AddMaterialItemsRequest extends jspb.Message { 
+    clearMaterialitemsList(): void;
+    getMaterialitemsList(): Array<MaterialItem>;
+    setMaterialitemsList(value: Array<MaterialItem>): void;
+    addMaterialitems(value?: MaterialItem, index?: number): MaterialItem;
+
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): AddMaterialItemsRequest.AsObject;
+    static toObject(includeInstance: boolean, msg: AddMaterialItemsRequest): AddMaterialItemsRequest.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: AddMaterialItemsRequest, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): AddMaterialItemsRequest;
+    static deserializeBinaryFromReader(message: AddMaterialItemsRequest, reader: jspb.BinaryReader): AddMaterialItemsRequest;
+}
+
+export namespace AddMaterialItemsRequest {
+    export type AsObject = {
+        materialitemsList: Array<MaterialItem.AsObject>,
+    }
+}
+
+export class AddMaterialItemsResponse extends jspb.Message { 
+    clearMaterialitemsList(): void;
+    getMaterialitemsList(): Array<MaterialItem>;
+    setMaterialitemsList(value: Array<MaterialItem>): void;
+    addMaterialitems(value?: MaterialItem, index?: number): MaterialItem;
+
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): AddMaterialItemsResponse.AsObject;
+    static toObject(includeInstance: boolean, msg: AddMaterialItemsResponse): AddMaterialItemsResponse.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: AddMaterialItemsResponse, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): AddMaterialItemsResponse;
+    static deserializeBinaryFromReader(message: AddMaterialItemsResponse, reader: jspb.BinaryReader): AddMaterialItemsResponse;
+}
+
+export namespace AddMaterialItemsResponse {
+    export type AsObject = {
+        materialitemsList: Array<MaterialItem.AsObject>,
+    }
+}
+
+export class AddWarehouseRequest extends jspb.Message { 
+
+    hasWarehouse(): boolean;
+    clearWarehouse(): void;
+    getWarehouse(): Warehouse | undefined;
+    setWarehouse(value?: Warehouse): void;
+
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): AddWarehouseRequest.AsObject;
+    static toObject(includeInstance: boolean, msg: AddWarehouseRequest): AddWarehouseRequest.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: AddWarehouseRequest, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): AddWarehouseRequest;
+    static deserializeBinaryFromReader(message: AddWarehouseRequest, reader: jspb.BinaryReader): AddWarehouseRequest;
+}
+
+export namespace AddWarehouseRequest {
+    export type AsObject = {
+        warehouse?: Warehouse.AsObject,
+    }
+}
+
+export class AddWarehouseResponse extends jspb.Message { 
+
+    hasWarehouse(): boolean;
+    clearWarehouse(): void;
+    getWarehouse(): Warehouse | undefined;
+    setWarehouse(value?: Warehouse): void;
+
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): AddWarehouseResponse.AsObject;
+    static toObject(includeInstance: boolean, msg: AddWarehouseResponse): AddWarehouseResponse.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: AddWarehouseResponse, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): AddWarehouseResponse;
+    static deserializeBinaryFromReader(message: AddWarehouseResponse, reader: jspb.BinaryReader): AddWarehouseResponse;
+}
+
+export namespace AddWarehouseResponse {
+    export type AsObject = {
+        warehouse?: Warehouse.AsObject,
+    }
+}
+
+export class AddProductTypeAndMaterialSpecificationsRequest extends jspb.Message { 
+
+    hasProducttype(): boolean;
+    clearProducttype(): void;
+    getProducttype(): ProductType | undefined;
+    setProducttype(value?: ProductType): void;
+
+    clearMaterialspecsList(): void;
+    getMaterialspecsList(): Array<MaterialSpecification>;
+    setMaterialspecsList(value: Array<MaterialSpecification>): void;
+    addMaterialspecs(value?: MaterialSpecification, index?: number): MaterialSpecification;
+
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): AddProductTypeAndMaterialSpecificationsRequest.AsObject;
+    static toObject(includeInstance: boolean, msg: AddProductTypeAndMaterialSpecificationsRequest): AddProductTypeAndMaterialSpecificationsRequest.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: AddProductTypeAndMaterialSpecificationsRequest, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): AddProductTypeAndMaterialSpecificationsRequest;
+    static deserializeBinaryFromReader(message: AddProductTypeAndMaterialSpecificationsRequest, reader: jspb.BinaryReader): AddProductTypeAndMaterialSpecificationsRequest;
+}
+
+export namespace AddProductTypeAndMaterialSpecificationsRequest {
+    export type AsObject = {
+        producttype?: ProductType.AsObject,
+        materialspecsList: Array<MaterialSpecification.AsObject>,
+    }
+}
+
+export class AddProductTypeAndMaterialSpecificationsResponse extends jspb.Message { 
+
+    hasProducttype(): boolean;
+    clearProducttype(): void;
+    getProducttype(): ProductType | undefined;
+    setProducttype(value?: ProductType): void;
+
+    clearMaterialspecsList(): void;
+    getMaterialspecsList(): Array<MaterialSpecification>;
+    setMaterialspecsList(value: Array<MaterialSpecification>): void;
+    addMaterialspecs(value?: MaterialSpecification, index?: number): MaterialSpecification;
+
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): AddProductTypeAndMaterialSpecificationsResponse.AsObject;
+    static toObject(includeInstance: boolean, msg: AddProductTypeAndMaterialSpecificationsResponse): AddProductTypeAndMaterialSpecificationsResponse.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: AddProductTypeAndMaterialSpecificationsResponse, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): AddProductTypeAndMaterialSpecificationsResponse;
+    static deserializeBinaryFromReader(message: AddProductTypeAndMaterialSpecificationsResponse, reader: jspb.BinaryReader): AddProductTypeAndMaterialSpecificationsResponse;
+}
+
+export namespace AddProductTypeAndMaterialSpecificationsResponse {
+    export type AsObject = {
+        producttype?: ProductType.AsObject,
+        materialspecsList: Array<MaterialSpecification.AsObject>,
+    }
+}
+
+export class SetOrderForMaterialItemsRequest extends jspb.Message { 
+    getOrderserial(): string;
+    setOrderserial(value: string): void;
+
+    clearMaterialitemidsList(): void;
+    getMaterialitemidsList(): Array<number>;
+    setMaterialitemidsList(value: Array<number>): void;
+    addMaterialitemids(value: number, index?: number): number;
+
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): SetOrderForMaterialItemsRequest.AsObject;
+    static toObject(includeInstance: boolean, msg: SetOrderForMaterialItemsRequest): SetOrderForMaterialItemsRequest.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: SetOrderForMaterialItemsRequest, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): SetOrderForMaterialItemsRequest;
+    static deserializeBinaryFromReader(message: SetOrderForMaterialItemsRequest, reader: jspb.BinaryReader): SetOrderForMaterialItemsRequest;
+}
+
+export namespace SetOrderForMaterialItemsRequest {
+    export type AsObject = {
+        orderserial: string,
+        materialitemidsList: Array<number>,
+    }
+}
+
+export class SetOrderForMaterialItemsResponse extends jspb.Message { 
+    clearMaterialitemsList(): void;
+    getMaterialitemsList(): Array<MaterialItem>;
+    setMaterialitemsList(value: Array<MaterialItem>): void;
+    addMaterialitems(value?: MaterialItem, index?: number): MaterialItem;
+
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): SetOrderForMaterialItemsResponse.AsObject;
+    static toObject(includeInstance: boolean, msg: SetOrderForMaterialItemsResponse): SetOrderForMaterialItemsResponse.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: SetOrderForMaterialItemsResponse, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): SetOrderForMaterialItemsResponse;
+    static deserializeBinaryFromReader(message: SetOrderForMaterialItemsResponse, reader: jspb.BinaryReader): SetOrderForMaterialItemsResponse;
+}
+
+export namespace SetOrderForMaterialItemsResponse {
+    export type AsObject = {
+        materialitemsList: Array<MaterialItem.AsObject>,
+    }
+}
+
+export class Warehouse extends jspb.Message { 
+    getId(): number;
+    setId(value: number): void;
+
+    getName(): string;
+    setName(value: string): void;
+
+    getCapacity(): number;
+    setCapacity(value: number): void;
+
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): Warehouse.AsObject;
+    static toObject(includeInstance: boolean, msg: Warehouse): Warehouse.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: Warehouse, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): Warehouse;
+    static deserializeBinaryFromReader(message: Warehouse, reader: jspb.BinaryReader): Warehouse;
+}
+
+export namespace Warehouse {
+    export type AsObject = {
+        id: number,
+        name: string,
+        capacity: number,
+    }
+}
+
+export class MaterialType extends jspb.Message { 
+    getId(): number;
+    setId(value: number): void;
+
+    getName(): string;
+    setName(value: string): void;
+
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): MaterialType.AsObject;
+    static toObject(includeInstance: boolean, msg: MaterialType): MaterialType.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: MaterialType, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): MaterialType;
+    static deserializeBinaryFromReader(message: MaterialType, reader: jspb.BinaryReader): MaterialType;
+}
+
+export namespace MaterialType {
+    export type AsObject = {
+        id: number,
+        name: string,
+    }
+}
+
+export class ProductType extends jspb.Message { 
+    getId(): number;
+    setId(value: number): void;
+
+    getName(): string;
+    setName(value: string): void;
+
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): ProductType.AsObject;
+    static toObject(includeInstance: boolean, msg: ProductType): ProductType.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: ProductType, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): ProductType;
+    static deserializeBinaryFromReader(message: ProductType, reader: jspb.BinaryReader): ProductType;
+}
+
+export namespace ProductType {
+    export type AsObject = {
+        id: number,
+        name: string,
+    }
+}
+
+export class MaterialSpecification extends jspb.Message { 
+    getId(): number;
+    setId(value: number): void;
+
+    getQuantity(): number;
+    setQuantity(value: number): void;
+
+
+    hasProducttype(): boolean;
+    clearProducttype(): void;
+    getProducttype(): ProductType | undefined;
+    setProducttype(value?: ProductType): void;
+
+
+    hasMaterialtype(): boolean;
+    clearMaterialtype(): void;
+    getMaterialtype(): MaterialType | undefined;
+    setMaterialtype(value?: MaterialType): void;
+
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): MaterialSpecification.AsObject;
+    static toObject(includeInstance: boolean, msg: MaterialSpecification): MaterialSpecification.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: MaterialSpecification, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): MaterialSpecification;
+    static deserializeBinaryFromReader(message: MaterialSpecification, reader: jspb.BinaryReader): MaterialSpecification;
+}
+
+export namespace MaterialSpecification {
+    export type AsObject = {
+        id: number,
+        quantity: number,
+        producttype?: ProductType.AsObject,
+        materialtype?: MaterialType.AsObject,
+    }
+}
+
+export class MaterialItem extends jspb.Message { 
+    getId(): number;
+    setId(value: number): void;
+
+    getSerial(): string;
+    setSerial(value: string): void;
+
+
+    hasMaterialtype(): boolean;
+    clearMaterialtype(): void;
+    getMaterialtype(): MaterialType | undefined;
+    setMaterialtype(value?: MaterialType): void;
+
+
+    hasWarehouse(): boolean;
+    clearWarehouse(): void;
+    getWarehouse(): Warehouse | undefined;
+    setWarehouse(value?: Warehouse): void;
+
+    getOrderserial(): string;
+    setOrderserial(value: string): void;
+
+    getMaterialstate(): MaterialState;
+    setMaterialstate(value: MaterialState): void;
+
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): MaterialItem.AsObject;
+    static toObject(includeInstance: boolean, msg: MaterialItem): MaterialItem.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: MaterialItem, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): MaterialItem;
+    static deserializeBinaryFromReader(message: MaterialItem, reader: jspb.BinaryReader): MaterialItem;
+}
+
+export namespace MaterialItem {
+    export type AsObject = {
+        id: number,
+        serial: string,
+        materialtype?: MaterialType.AsObject,
+        warehouse?: Warehouse.AsObject,
+        orderserial: string,
+        materialstate: MaterialState,
+    }
+}
+
+export enum MaterialState {
+    AVAILABLE = 0,
+    TAKEN = 1,
+    USEDUP = 2,
 }
