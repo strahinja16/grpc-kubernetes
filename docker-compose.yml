@@ -1,0 +1,34 @@
+version: '3'
+
+services:
+  api-gateway:
+    build: ./api-gateway
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./api-gateway:/usr/src/app
+      - /usr/src/app/node_modules
+      - ./proto:/usr/src/app/src/proto
+    depends_on:
+      - warehouse-service
+
+  warehouse-service:
+    build: ./warehouse-service
+    ports:
+      - "3001:3001"
+      - "50051:50051"
+    volumes:
+      - ./warehouse-service:/usr/src/app
+      - /usr/src/app/node_modules
+      - ./proto:/usr/src/app/src/proto
+    depends_on:
+      - warehousedb
+
+  warehousedb:
+    image: postgres:12-alpine
+    ports:
+      - "5001:5432"
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=warehousedb

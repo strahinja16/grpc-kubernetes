@@ -1,0 +1,42 @@
+{
+  "name": "warehouse-service",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start:dev": "npm run build:dev",
+    "build:dev": "nodemon 'src/server.ts' --exec 'ts-node' src/server.ts -e ts",
+    "build:proto": "./scripts/protoc.sh",
+    "postinstall": "npm run build:proto"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "google-protobuf": "^3.11.4",
+    "grpc": "^1.24.2",
+    "http": "0.0.1-security",
+    "ncp": "^2.0.0",
+    "pg": "^8.0.2",
+    "reflect-metadata": "^0.1.13",
+    "rxjs": "^6.5.5",
+    "typeorm": "^0.2.24"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.6",
+    "@types/dotenv": "^8.2.0",
+    "@types/es6-shim": "^0.31.39",
+    "@types/express": "^4.17.6",
+    "@types/google-protobuf": "^3.7.2",
+    "@types/node": "^13.13.0",
+    "@types/pg": "^7.14.3",
+    "grpc-tools": "^1.8.1",
+    "grpc_tools_node_protoc_ts": "^2.5.11",
+    "nodemon": "^2.0.3",
+    "ts-node": "^8.8.2",
+    "typescript": "^3.8.3"
+  }
+}
