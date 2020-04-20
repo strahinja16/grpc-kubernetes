@@ -28,11 +28,11 @@ export namespace AddMaterialTypeRequest {
 }
 
 export class AddMaterialTypeResponse extends jspb.Message { 
-    getId(): number;
-    setId(value: number): void;
 
-    getName(): string;
-    setName(value: string): void;
+    hasMaterialtype(): boolean;
+    clearMaterialtype(): void;
+    getMaterialtype(): MaterialType | undefined;
+    setMaterialtype(value?: MaterialType): void;
 
 
     serializeBinary(): Uint8Array;
@@ -47,16 +47,15 @@ export class AddMaterialTypeResponse extends jspb.Message {
 
 export namespace AddMaterialTypeResponse {
     export type AsObject = {
-        id: number,
-        name: string,
+        materialtype?: MaterialType.AsObject,
     }
 }
 
 export class AddMaterialItemsRequest extends jspb.Message { 
     clearMaterialitemsList(): void;
-    getMaterialitemsList(): Array<MaterialItem>;
-    setMaterialitemsList(value: Array<MaterialItem>): void;
-    addMaterialitems(value?: MaterialItem, index?: number): MaterialItem;
+    getMaterialitemsList(): Array<AddMaterialItemDto>;
+    setMaterialitemsList(value: Array<AddMaterialItemDto>): void;
+    addMaterialitems(value?: AddMaterialItemDto, index?: number): AddMaterialItemDto;
 
 
     serializeBinary(): Uint8Array;
@@ -71,7 +70,7 @@ export class AddMaterialItemsRequest extends jspb.Message {
 
 export namespace AddMaterialItemsRequest {
     export type AsObject = {
-        materialitemsList: Array<MaterialItem.AsObject>,
+        materialitemsList: Array<AddMaterialItemDto.AsObject>,
     }
 }
 
@@ -102,8 +101,8 @@ export class AddWarehouseRequest extends jspb.Message {
 
     hasWarehouse(): boolean;
     clearWarehouse(): void;
-    getWarehouse(): Warehouse | undefined;
-    setWarehouse(value?: Warehouse): void;
+    getWarehouse(): AddWarehouseDto | undefined;
+    setWarehouse(value?: AddWarehouseDto): void;
 
 
     serializeBinary(): Uint8Array;
@@ -118,7 +117,7 @@ export class AddWarehouseRequest extends jspb.Message {
 
 export namespace AddWarehouseRequest {
     export type AsObject = {
-        warehouse?: Warehouse.AsObject,
+        warehouse?: AddWarehouseDto.AsObject,
     }
 }
 
@@ -150,13 +149,13 @@ export class AddProductTypeAndMaterialSpecificationsRequest extends jspb.Message
 
     hasProducttype(): boolean;
     clearProducttype(): void;
-    getProducttype(): ProductType | undefined;
-    setProducttype(value?: ProductType): void;
+    getProducttype(): AddProductTypeDto | undefined;
+    setProducttype(value?: AddProductTypeDto): void;
 
     clearMaterialspecsList(): void;
-    getMaterialspecsList(): Array<MaterialSpecification>;
-    setMaterialspecsList(value: Array<MaterialSpecification>): void;
-    addMaterialspecs(value?: MaterialSpecification, index?: number): MaterialSpecification;
+    getMaterialspecsList(): Array<AddMaterialSpecificationDto>;
+    setMaterialspecsList(value: Array<AddMaterialSpecificationDto>): void;
+    addMaterialspecs(value?: AddMaterialSpecificationDto, index?: number): AddMaterialSpecificationDto;
 
 
     serializeBinary(): Uint8Array;
@@ -171,8 +170,8 @@ export class AddProductTypeAndMaterialSpecificationsRequest extends jspb.Message
 
 export namespace AddProductTypeAndMaterialSpecificationsRequest {
     export type AsObject = {
-        producttype?: ProductType.AsObject,
-        materialspecsList: Array<MaterialSpecification.AsObject>,
+        producttype?: AddProductTypeDto.AsObject,
+        materialspecsList: Array<AddMaterialSpecificationDto.AsObject>,
     }
 }
 
@@ -256,6 +255,195 @@ export namespace SetOrderForMaterialItemsResponse {
     }
 }
 
+export class GetMaterialQuantitiesByNameAndStateRequest extends jspb.Message { 
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): GetMaterialQuantitiesByNameAndStateRequest.AsObject;
+    static toObject(includeInstance: boolean, msg: GetMaterialQuantitiesByNameAndStateRequest): GetMaterialQuantitiesByNameAndStateRequest.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: GetMaterialQuantitiesByNameAndStateRequest, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): GetMaterialQuantitiesByNameAndStateRequest;
+    static deserializeBinaryFromReader(message: GetMaterialQuantitiesByNameAndStateRequest, reader: jspb.BinaryReader): GetMaterialQuantitiesByNameAndStateRequest;
+}
+
+export namespace GetMaterialQuantitiesByNameAndStateRequest {
+    export type AsObject = {
+    }
+}
+
+export class GetMaterialQuantitiesByNameAndStateResponse extends jspb.Message { 
+    clearMaterialquantitiesList(): void;
+    getMaterialquantitiesList(): Array<MaterialQuantityByNameAndState>;
+    setMaterialquantitiesList(value: Array<MaterialQuantityByNameAndState>): void;
+    addMaterialquantities(value?: MaterialQuantityByNameAndState, index?: number): MaterialQuantityByNameAndState;
+
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): GetMaterialQuantitiesByNameAndStateResponse.AsObject;
+    static toObject(includeInstance: boolean, msg: GetMaterialQuantitiesByNameAndStateResponse): GetMaterialQuantitiesByNameAndStateResponse.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: GetMaterialQuantitiesByNameAndStateResponse, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): GetMaterialQuantitiesByNameAndStateResponse;
+    static deserializeBinaryFromReader(message: GetMaterialQuantitiesByNameAndStateResponse, reader: jspb.BinaryReader): GetMaterialQuantitiesByNameAndStateResponse;
+}
+
+export namespace GetMaterialQuantitiesByNameAndStateResponse {
+    export type AsObject = {
+        materialquantitiesList: Array<MaterialQuantityByNameAndState.AsObject>,
+    }
+}
+
+export class AddMaterialItemDto extends jspb.Message { 
+    getId(): number;
+    setId(value: number): void;
+
+    getSerial(): string;
+    setSerial(value: string): void;
+
+    getMaterialtypeid(): number;
+    setMaterialtypeid(value: number): void;
+
+    getWarehouseid(): number;
+    setWarehouseid(value: number): void;
+
+    getOrderserial(): string;
+    setOrderserial(value: string): void;
+
+    getMaterialstate(): MaterialState;
+    setMaterialstate(value: MaterialState): void;
+
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): AddMaterialItemDto.AsObject;
+    static toObject(includeInstance: boolean, msg: AddMaterialItemDto): AddMaterialItemDto.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: AddMaterialItemDto, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): AddMaterialItemDto;
+    static deserializeBinaryFromReader(message: AddMaterialItemDto, reader: jspb.BinaryReader): AddMaterialItemDto;
+}
+
+export namespace AddMaterialItemDto {
+    export type AsObject = {
+        id: number,
+        serial: string,
+        materialtypeid: number,
+        warehouseid: number,
+        orderserial: string,
+        materialstate: MaterialState,
+    }
+}
+
+export class AddWarehouseDto extends jspb.Message { 
+    getName(): string;
+    setName(value: string): void;
+
+    getCapacity(): number;
+    setCapacity(value: number): void;
+
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): AddWarehouseDto.AsObject;
+    static toObject(includeInstance: boolean, msg: AddWarehouseDto): AddWarehouseDto.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: AddWarehouseDto, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): AddWarehouseDto;
+    static deserializeBinaryFromReader(message: AddWarehouseDto, reader: jspb.BinaryReader): AddWarehouseDto;
+}
+
+export namespace AddWarehouseDto {
+    export type AsObject = {
+        name: string,
+        capacity: number,
+    }
+}
+
+export class AddProductTypeDto extends jspb.Message { 
+    getName(): string;
+    setName(value: string): void;
+
+    getPrice(): number;
+    setPrice(value: number): void;
+
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): AddProductTypeDto.AsObject;
+    static toObject(includeInstance: boolean, msg: AddProductTypeDto): AddProductTypeDto.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: AddProductTypeDto, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): AddProductTypeDto;
+    static deserializeBinaryFromReader(message: AddProductTypeDto, reader: jspb.BinaryReader): AddProductTypeDto;
+}
+
+export namespace AddProductTypeDto {
+    export type AsObject = {
+        name: string,
+        price: number,
+    }
+}
+
+export class AddMaterialSpecificationDto extends jspb.Message { 
+    getQuantity(): number;
+    setQuantity(value: number): void;
+
+    getMaterialtypeid(): number;
+    setMaterialtypeid(value: number): void;
+
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): AddMaterialSpecificationDto.AsObject;
+    static toObject(includeInstance: boolean, msg: AddMaterialSpecificationDto): AddMaterialSpecificationDto.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: AddMaterialSpecificationDto, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): AddMaterialSpecificationDto;
+    static deserializeBinaryFromReader(message: AddMaterialSpecificationDto, reader: jspb.BinaryReader): AddMaterialSpecificationDto;
+}
+
+export namespace AddMaterialSpecificationDto {
+    export type AsObject = {
+        quantity: number,
+        materialtypeid: number,
+    }
+}
+
+export class MaterialQuantityByNameAndState extends jspb.Message { 
+    getMaterialname(): string;
+    setMaterialname(value: string): void;
+
+    getQuantity(): number;
+    setQuantity(value: number): void;
+
+    getMaterialstate(): MaterialState;
+    setMaterialstate(value: MaterialState): void;
+
+    getWarehouseid(): number;
+    setWarehouseid(value: number): void;
+
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): MaterialQuantityByNameAndState.AsObject;
+    static toObject(includeInstance: boolean, msg: MaterialQuantityByNameAndState): MaterialQuantityByNameAndState.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: MaterialQuantityByNameAndState, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): MaterialQuantityByNameAndState;
+    static deserializeBinaryFromReader(message: MaterialQuantityByNameAndState, reader: jspb.BinaryReader): MaterialQuantityByNameAndState;
+}
+
+export namespace MaterialQuantityByNameAndState {
+    export type AsObject = {
+        materialname: string,
+        quantity: number,
+        materialstate: MaterialState,
+        warehouseid: number,
+    }
+}
+
 export class Warehouse extends jspb.Message { 
     getId(): number;
     setId(value: number): void;
@@ -317,6 +505,9 @@ export class ProductType extends jspb.Message {
     getName(): string;
     setName(value: string): void;
 
+    getPrice(): number;
+    setPrice(value: number): void;
+
 
     serializeBinary(): Uint8Array;
     toObject(includeInstance?: boolean): ProductType.AsObject;
@@ -332,6 +523,7 @@ export namespace ProductType {
     export type AsObject = {
         id: number,
         name: string,
+        price: number,
     }
 }
 
@@ -342,17 +534,11 @@ export class MaterialSpecification extends jspb.Message {
     getQuantity(): number;
     setQuantity(value: number): void;
 
+    getProducttypeid(): number;
+    setProducttypeid(value: number): void;
 
-    hasProducttype(): boolean;
-    clearProducttype(): void;
-    getProducttype(): ProductType | undefined;
-    setProducttype(value?: ProductType): void;
-
-
-    hasMaterialtype(): boolean;
-    clearMaterialtype(): void;
-    getMaterialtype(): MaterialType | undefined;
-    setMaterialtype(value?: MaterialType): void;
+    getMaterialtypeid(): number;
+    setMaterialtypeid(value: number): void;
 
 
     serializeBinary(): Uint8Array;
@@ -369,8 +555,8 @@ export namespace MaterialSpecification {
     export type AsObject = {
         id: number,
         quantity: number,
-        producttype?: ProductType.AsObject,
-        materialtype?: MaterialType.AsObject,
+        producttypeid: number,
+        materialtypeid: number,
     }
 }
 
@@ -381,17 +567,11 @@ export class MaterialItem extends jspb.Message {
     getSerial(): string;
     setSerial(value: string): void;
 
+    getMaterialtypeid(): number;
+    setMaterialtypeid(value: number): void;
 
-    hasMaterialtype(): boolean;
-    clearMaterialtype(): void;
-    getMaterialtype(): MaterialType | undefined;
-    setMaterialtype(value?: MaterialType): void;
-
-
-    hasWarehouse(): boolean;
-    clearWarehouse(): void;
-    getWarehouse(): Warehouse | undefined;
-    setWarehouse(value?: Warehouse): void;
+    getWarehouseid(): number;
+    setWarehouseid(value: number): void;
 
     getOrderserial(): string;
     setOrderserial(value: string): void;
@@ -414,8 +594,8 @@ export namespace MaterialItem {
     export type AsObject = {
         id: number,
         serial: string,
-        materialtype?: MaterialType.AsObject,
-        warehouse?: Warehouse.AsObject,
+        materialtypeid: number,
+        warehouseid: number,
         orderserial: string,
         materialstate: MaterialState,
     }

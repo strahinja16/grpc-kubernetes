@@ -92,6 +92,28 @@ function deserialize_warehouse_AddWarehouseResponse(buffer_arg) {
   return warehouse_pb.AddWarehouseResponse.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
+function serialize_warehouse_GetMaterialQuantitiesByNameAndStateRequest(arg) {
+  if (!(arg instanceof warehouse_pb.GetMaterialQuantitiesByNameAndStateRequest)) {
+    throw new Error('Expected argument of type warehouse.GetMaterialQuantitiesByNameAndStateRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_warehouse_GetMaterialQuantitiesByNameAndStateRequest(buffer_arg) {
+  return warehouse_pb.GetMaterialQuantitiesByNameAndStateRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_warehouse_GetMaterialQuantitiesByNameAndStateResponse(arg) {
+  if (!(arg instanceof warehouse_pb.GetMaterialQuantitiesByNameAndStateResponse)) {
+    throw new Error('Expected argument of type warehouse.GetMaterialQuantitiesByNameAndStateResponse');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_warehouse_GetMaterialQuantitiesByNameAndStateResponse(buffer_arg) {
+  return warehouse_pb.GetMaterialQuantitiesByNameAndStateResponse.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
 function serialize_warehouse_SetOrderForMaterialItemsRequest(arg) {
   if (!(arg instanceof warehouse_pb.SetOrderForMaterialItemsRequest)) {
     throw new Error('Expected argument of type warehouse.SetOrderForMaterialItemsRequest');
@@ -170,6 +192,17 @@ var WarehouseAndMaterialsService = exports.WarehouseAndMaterialsService = {
     requestDeserialize: deserialize_warehouse_SetOrderForMaterialItemsRequest,
     responseSerialize: serialize_warehouse_SetOrderForMaterialItemsResponse,
     responseDeserialize: deserialize_warehouse_SetOrderForMaterialItemsResponse,
+  },
+  getMaterialQuantitiesByNameAndState: {
+    path: '/warehouse.WarehouseAndMaterials/getMaterialQuantitiesByNameAndState',
+    requestStream: false,
+    responseStream: false,
+    requestType: warehouse_pb.GetMaterialQuantitiesByNameAndStateRequest,
+    responseType: warehouse_pb.GetMaterialQuantitiesByNameAndStateResponse,
+    requestSerialize: serialize_warehouse_GetMaterialQuantitiesByNameAndStateRequest,
+    requestDeserialize: deserialize_warehouse_GetMaterialQuantitiesByNameAndStateRequest,
+    responseSerialize: serialize_warehouse_GetMaterialQuantitiesByNameAndStateResponse,
+    responseDeserialize: deserialize_warehouse_GetMaterialQuantitiesByNameAndStateResponse,
   },
 };
 

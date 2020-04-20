@@ -1,4 +1,4 @@
-import {IPersonnelCredentials} from "./user-credentials";
+import {IPersonnelCredentials} from "../shared/user-credentials";
 
 export interface IWarehouse {
     id: number;
@@ -8,9 +8,13 @@ export interface IWarehouse {
 
 export interface InputAddWarehouse {
     personnelCredentials: IPersonnelCredentials;
-    warehouse: IWarehouse;
+    warehouse: IAddWarehouseDto;
 }
 
+export interface IAddWarehouseDto {
+    name: string;
+    capacity: number;
+}
 
 export const typeDef = `
   type Warehouse {
@@ -19,19 +23,13 @@ export const typeDef = `
     capacity: Int!
   }
   
-  input InputWarehouseDto {
-    name: String!
-    capacity: Int!
-  }
-  
-  input InputWarehouse {
-    id: Int!
+  input InputAddWarehouseDto {
     name: String!
     capacity: Int!
   }
 
   input InputAddWarehouse {
     personnelCredentials: PersonnelCredentials!
-    warehouse: InputWarehouseDto!
+    warehouse: InputAddWarehouseDto!
   }   
 `;

@@ -11,15 +11,22 @@ var jspb = require('google-protobuf');
 var goog = jspb;
 var global = Function('return this')();
 
+goog.exportSymbol('proto.warehouse.AddMaterialItemDto', null, global);
 goog.exportSymbol('proto.warehouse.AddMaterialItemsRequest', null, global);
 goog.exportSymbol('proto.warehouse.AddMaterialItemsResponse', null, global);
+goog.exportSymbol('proto.warehouse.AddMaterialSpecificationDto', null, global);
 goog.exportSymbol('proto.warehouse.AddMaterialTypeRequest', null, global);
 goog.exportSymbol('proto.warehouse.AddMaterialTypeResponse', null, global);
 goog.exportSymbol('proto.warehouse.AddProductTypeAndMaterialSpecificationsRequest', null, global);
 goog.exportSymbol('proto.warehouse.AddProductTypeAndMaterialSpecificationsResponse', null, global);
+goog.exportSymbol('proto.warehouse.AddProductTypeDto', null, global);
+goog.exportSymbol('proto.warehouse.AddWarehouseDto', null, global);
 goog.exportSymbol('proto.warehouse.AddWarehouseRequest', null, global);
 goog.exportSymbol('proto.warehouse.AddWarehouseResponse', null, global);
+goog.exportSymbol('proto.warehouse.GetMaterialQuantitiesByNameAndStateRequest', null, global);
+goog.exportSymbol('proto.warehouse.GetMaterialQuantitiesByNameAndStateResponse', null, global);
 goog.exportSymbol('proto.warehouse.MaterialItem', null, global);
+goog.exportSymbol('proto.warehouse.MaterialQuantityByNameAndState', null, global);
 goog.exportSymbol('proto.warehouse.MaterialSpecification', null, global);
 goog.exportSymbol('proto.warehouse.MaterialState', null, global);
 goog.exportSymbol('proto.warehouse.MaterialType', null, global);
@@ -216,8 +223,7 @@ proto.warehouse.AddMaterialTypeResponse.prototype.toObject = function(opt_includ
  */
 proto.warehouse.AddMaterialTypeResponse.toObject = function(includeInstance, msg) {
   var f, obj = {
-    id: jspb.Message.getFieldWithDefault(msg, 1, 0),
-    name: jspb.Message.getFieldWithDefault(msg, 2, "")
+    materialtype: (f = msg.getMaterialtype()) && proto.warehouse.MaterialType.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -255,12 +261,9 @@ proto.warehouse.AddMaterialTypeResponse.deserializeBinaryFromReader = function(m
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = /** @type {number} */ (reader.readInt32());
-      msg.setId(value);
-      break;
-    case 2:
-      var value = /** @type {string} */ (reader.readString());
-      msg.setName(value);
+      var value = new proto.warehouse.MaterialType;
+      reader.readMessage(value,proto.warehouse.MaterialType.deserializeBinaryFromReader);
+      msg.setMaterialtype(value);
       break;
     default:
       reader.skipField();
@@ -291,50 +294,44 @@ proto.warehouse.AddMaterialTypeResponse.prototype.serializeBinary = function() {
  */
 proto.warehouse.AddMaterialTypeResponse.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getId();
-  if (f !== 0) {
-    writer.writeInt32(
+  f = message.getMaterialtype();
+  if (f != null) {
+    writer.writeMessage(
       1,
-      f
-    );
-  }
-  f = message.getName();
-  if (f.length > 0) {
-    writer.writeString(
-      2,
-      f
+      f,
+      proto.warehouse.MaterialType.serializeBinaryToWriter
     );
   }
 };
 
 
 /**
- * optional int32 id = 1;
- * @return {number}
+ * optional MaterialType materialType = 1;
+ * @return {?proto.warehouse.MaterialType}
  */
-proto.warehouse.AddMaterialTypeResponse.prototype.getId = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 1, 0));
+proto.warehouse.AddMaterialTypeResponse.prototype.getMaterialtype = function() {
+  return /** @type{?proto.warehouse.MaterialType} */ (
+    jspb.Message.getWrapperField(this, proto.warehouse.MaterialType, 1));
 };
 
 
-/** @param {number} value */
-proto.warehouse.AddMaterialTypeResponse.prototype.setId = function(value) {
-  jspb.Message.setProto3IntField(this, 1, value);
+/** @param {?proto.warehouse.MaterialType|undefined} value */
+proto.warehouse.AddMaterialTypeResponse.prototype.setMaterialtype = function(value) {
+  jspb.Message.setWrapperField(this, 1, value);
+};
+
+
+proto.warehouse.AddMaterialTypeResponse.prototype.clearMaterialtype = function() {
+  this.setMaterialtype(undefined);
 };
 
 
 /**
- * optional string name = 2;
- * @return {string}
+ * Returns whether this field is set.
+ * @return {boolean}
  */
-proto.warehouse.AddMaterialTypeResponse.prototype.getName = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
-};
-
-
-/** @param {string} value */
-proto.warehouse.AddMaterialTypeResponse.prototype.setName = function(value) {
-  jspb.Message.setProto3StringField(this, 2, value);
+proto.warehouse.AddMaterialTypeResponse.prototype.hasMaterialtype = function() {
+  return jspb.Message.getField(this, 1) != null;
 };
 
 
@@ -393,7 +390,7 @@ proto.warehouse.AddMaterialItemsRequest.prototype.toObject = function(opt_includ
 proto.warehouse.AddMaterialItemsRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
     materialitemsList: jspb.Message.toObjectList(msg.getMaterialitemsList(),
-    proto.warehouse.MaterialItem.toObject, includeInstance)
+    proto.warehouse.AddMaterialItemDto.toObject, includeInstance)
   };
 
   if (includeInstance) {
@@ -431,8 +428,8 @@ proto.warehouse.AddMaterialItemsRequest.deserializeBinaryFromReader = function(m
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = new proto.warehouse.MaterialItem;
-      reader.readMessage(value,proto.warehouse.MaterialItem.deserializeBinaryFromReader);
+      var value = new proto.warehouse.AddMaterialItemDto;
+      reader.readMessage(value,proto.warehouse.AddMaterialItemDto.deserializeBinaryFromReader);
       msg.addMaterialitems(value);
       break;
     default:
@@ -469,35 +466,35 @@ proto.warehouse.AddMaterialItemsRequest.serializeBinaryToWriter = function(messa
     writer.writeRepeatedMessage(
       1,
       f,
-      proto.warehouse.MaterialItem.serializeBinaryToWriter
+      proto.warehouse.AddMaterialItemDto.serializeBinaryToWriter
     );
   }
 };
 
 
 /**
- * repeated MaterialItem materialItems = 1;
- * @return {!Array<!proto.warehouse.MaterialItem>}
+ * repeated AddMaterialItemDto materialItems = 1;
+ * @return {!Array<!proto.warehouse.AddMaterialItemDto>}
  */
 proto.warehouse.AddMaterialItemsRequest.prototype.getMaterialitemsList = function() {
-  return /** @type{!Array<!proto.warehouse.MaterialItem>} */ (
-    jspb.Message.getRepeatedWrapperField(this, proto.warehouse.MaterialItem, 1));
+  return /** @type{!Array<!proto.warehouse.AddMaterialItemDto>} */ (
+    jspb.Message.getRepeatedWrapperField(this, proto.warehouse.AddMaterialItemDto, 1));
 };
 
 
-/** @param {!Array<!proto.warehouse.MaterialItem>} value */
+/** @param {!Array<!proto.warehouse.AddMaterialItemDto>} value */
 proto.warehouse.AddMaterialItemsRequest.prototype.setMaterialitemsList = function(value) {
   jspb.Message.setRepeatedWrapperField(this, 1, value);
 };
 
 
 /**
- * @param {!proto.warehouse.MaterialItem=} opt_value
+ * @param {!proto.warehouse.AddMaterialItemDto=} opt_value
  * @param {number=} opt_index
- * @return {!proto.warehouse.MaterialItem}
+ * @return {!proto.warehouse.AddMaterialItemDto}
  */
 proto.warehouse.AddMaterialItemsRequest.prototype.addMaterialitems = function(opt_value, opt_index) {
-  return jspb.Message.addToRepeatedWrapperField(this, 1, opt_value, proto.warehouse.MaterialItem, opt_index);
+  return jspb.Message.addToRepeatedWrapperField(this, 1, opt_value, proto.warehouse.AddMaterialItemDto, opt_index);
 };
 
 
@@ -721,7 +718,7 @@ proto.warehouse.AddWarehouseRequest.prototype.toObject = function(opt_includeIns
  */
 proto.warehouse.AddWarehouseRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-    warehouse: (f = msg.getWarehouse()) && proto.warehouse.Warehouse.toObject(includeInstance, f)
+    warehouse: (f = msg.getWarehouse()) && proto.warehouse.AddWarehouseDto.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -759,8 +756,8 @@ proto.warehouse.AddWarehouseRequest.deserializeBinaryFromReader = function(msg, 
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = new proto.warehouse.Warehouse;
-      reader.readMessage(value,proto.warehouse.Warehouse.deserializeBinaryFromReader);
+      var value = new proto.warehouse.AddWarehouseDto;
+      reader.readMessage(value,proto.warehouse.AddWarehouseDto.deserializeBinaryFromReader);
       msg.setWarehouse(value);
       break;
     default:
@@ -797,23 +794,23 @@ proto.warehouse.AddWarehouseRequest.serializeBinaryToWriter = function(message, 
     writer.writeMessage(
       1,
       f,
-      proto.warehouse.Warehouse.serializeBinaryToWriter
+      proto.warehouse.AddWarehouseDto.serializeBinaryToWriter
     );
   }
 };
 
 
 /**
- * optional Warehouse warehouse = 1;
- * @return {?proto.warehouse.Warehouse}
+ * optional AddWarehouseDto warehouse = 1;
+ * @return {?proto.warehouse.AddWarehouseDto}
  */
 proto.warehouse.AddWarehouseRequest.prototype.getWarehouse = function() {
-  return /** @type{?proto.warehouse.Warehouse} */ (
-    jspb.Message.getWrapperField(this, proto.warehouse.Warehouse, 1));
+  return /** @type{?proto.warehouse.AddWarehouseDto} */ (
+    jspb.Message.getWrapperField(this, proto.warehouse.AddWarehouseDto, 1));
 };
 
 
-/** @param {?proto.warehouse.Warehouse|undefined} value */
+/** @param {?proto.warehouse.AddWarehouseDto|undefined} value */
 proto.warehouse.AddWarehouseRequest.prototype.setWarehouse = function(value) {
   jspb.Message.setWrapperField(this, 1, value);
 };
@@ -1046,9 +1043,9 @@ proto.warehouse.AddProductTypeAndMaterialSpecificationsRequest.prototype.toObjec
  */
 proto.warehouse.AddProductTypeAndMaterialSpecificationsRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-    producttype: (f = msg.getProducttype()) && proto.warehouse.ProductType.toObject(includeInstance, f),
+    producttype: (f = msg.getProducttype()) && proto.warehouse.AddProductTypeDto.toObject(includeInstance, f),
     materialspecsList: jspb.Message.toObjectList(msg.getMaterialspecsList(),
-    proto.warehouse.MaterialSpecification.toObject, includeInstance)
+    proto.warehouse.AddMaterialSpecificationDto.toObject, includeInstance)
   };
 
   if (includeInstance) {
@@ -1086,13 +1083,13 @@ proto.warehouse.AddProductTypeAndMaterialSpecificationsRequest.deserializeBinary
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = new proto.warehouse.ProductType;
-      reader.readMessage(value,proto.warehouse.ProductType.deserializeBinaryFromReader);
+      var value = new proto.warehouse.AddProductTypeDto;
+      reader.readMessage(value,proto.warehouse.AddProductTypeDto.deserializeBinaryFromReader);
       msg.setProducttype(value);
       break;
     case 2:
-      var value = new proto.warehouse.MaterialSpecification;
-      reader.readMessage(value,proto.warehouse.MaterialSpecification.deserializeBinaryFromReader);
+      var value = new proto.warehouse.AddMaterialSpecificationDto;
+      reader.readMessage(value,proto.warehouse.AddMaterialSpecificationDto.deserializeBinaryFromReader);
       msg.addMaterialspecs(value);
       break;
     default:
@@ -1129,7 +1126,7 @@ proto.warehouse.AddProductTypeAndMaterialSpecificationsRequest.serializeBinaryTo
     writer.writeMessage(
       1,
       f,
-      proto.warehouse.ProductType.serializeBinaryToWriter
+      proto.warehouse.AddProductTypeDto.serializeBinaryToWriter
     );
   }
   f = message.getMaterialspecsList();
@@ -1137,23 +1134,23 @@ proto.warehouse.AddProductTypeAndMaterialSpecificationsRequest.serializeBinaryTo
     writer.writeRepeatedMessage(
       2,
       f,
-      proto.warehouse.MaterialSpecification.serializeBinaryToWriter
+      proto.warehouse.AddMaterialSpecificationDto.serializeBinaryToWriter
     );
   }
 };
 
 
 /**
- * optional ProductType productType = 1;
- * @return {?proto.warehouse.ProductType}
+ * optional AddProductTypeDto productType = 1;
+ * @return {?proto.warehouse.AddProductTypeDto}
  */
 proto.warehouse.AddProductTypeAndMaterialSpecificationsRequest.prototype.getProducttype = function() {
-  return /** @type{?proto.warehouse.ProductType} */ (
-    jspb.Message.getWrapperField(this, proto.warehouse.ProductType, 1));
+  return /** @type{?proto.warehouse.AddProductTypeDto} */ (
+    jspb.Message.getWrapperField(this, proto.warehouse.AddProductTypeDto, 1));
 };
 
 
-/** @param {?proto.warehouse.ProductType|undefined} value */
+/** @param {?proto.warehouse.AddProductTypeDto|undefined} value */
 proto.warehouse.AddProductTypeAndMaterialSpecificationsRequest.prototype.setProducttype = function(value) {
   jspb.Message.setWrapperField(this, 1, value);
 };
@@ -1174,28 +1171,28 @@ proto.warehouse.AddProductTypeAndMaterialSpecificationsRequest.prototype.hasProd
 
 
 /**
- * repeated MaterialSpecification materialSpecs = 2;
- * @return {!Array<!proto.warehouse.MaterialSpecification>}
+ * repeated AddMaterialSpecificationDto materialSpecs = 2;
+ * @return {!Array<!proto.warehouse.AddMaterialSpecificationDto>}
  */
 proto.warehouse.AddProductTypeAndMaterialSpecificationsRequest.prototype.getMaterialspecsList = function() {
-  return /** @type{!Array<!proto.warehouse.MaterialSpecification>} */ (
-    jspb.Message.getRepeatedWrapperField(this, proto.warehouse.MaterialSpecification, 2));
+  return /** @type{!Array<!proto.warehouse.AddMaterialSpecificationDto>} */ (
+    jspb.Message.getRepeatedWrapperField(this, proto.warehouse.AddMaterialSpecificationDto, 2));
 };
 
 
-/** @param {!Array<!proto.warehouse.MaterialSpecification>} value */
+/** @param {!Array<!proto.warehouse.AddMaterialSpecificationDto>} value */
 proto.warehouse.AddProductTypeAndMaterialSpecificationsRequest.prototype.setMaterialspecsList = function(value) {
   jspb.Message.setRepeatedWrapperField(this, 2, value);
 };
 
 
 /**
- * @param {!proto.warehouse.MaterialSpecification=} opt_value
+ * @param {!proto.warehouse.AddMaterialSpecificationDto=} opt_value
  * @param {number=} opt_index
- * @return {!proto.warehouse.MaterialSpecification}
+ * @return {!proto.warehouse.AddMaterialSpecificationDto}
  */
 proto.warehouse.AddProductTypeAndMaterialSpecificationsRequest.prototype.addMaterialspecs = function(opt_value, opt_index) {
-  return jspb.Message.addToRepeatedWrapperField(this, 2, opt_value, proto.warehouse.MaterialSpecification, opt_index);
+  return jspb.Message.addToRepeatedWrapperField(this, 2, opt_value, proto.warehouse.AddMaterialSpecificationDto, opt_index);
 };
 
 
@@ -1785,6 +1782,1297 @@ proto.warehouse.SetOrderForMaterialItemsResponse.prototype.clearMaterialitemsLis
  * @extends {jspb.Message}
  * @constructor
  */
+proto.warehouse.GetMaterialQuantitiesByNameAndStateRequest = function(opt_data) {
+  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
+};
+goog.inherits(proto.warehouse.GetMaterialQuantitiesByNameAndStateRequest, jspb.Message);
+if (goog.DEBUG && !COMPILED) {
+  proto.warehouse.GetMaterialQuantitiesByNameAndStateRequest.displayName = 'proto.warehouse.GetMaterialQuantitiesByNameAndStateRequest';
+}
+
+
+if (jspb.Message.GENERATE_TO_OBJECT) {
+/**
+ * Creates an object representation of this proto suitable for use in Soy templates.
+ * Field names that are reserved in JavaScript and will be renamed to pb_name.
+ * To access a reserved field use, foo.pb_<name>, eg, foo.pb_default.
+ * For the list of reserved names please see:
+ *     com.google.apps.jspb.JsClassTemplate.JS_RESERVED_WORDS.
+ * @param {boolean=} opt_includeInstance Whether to include the JSPB instance
+ *     for transitional soy proto support: http://goto/soy-param-migration
+ * @return {!Object}
+ */
+proto.warehouse.GetMaterialQuantitiesByNameAndStateRequest.prototype.toObject = function(opt_includeInstance) {
+  return proto.warehouse.GetMaterialQuantitiesByNameAndStateRequest.toObject(opt_includeInstance, this);
+};
+
+
+/**
+ * Static version of the {@see toObject} method.
+ * @param {boolean|undefined} includeInstance Whether to include the JSPB
+ *     instance for transitional soy proto support:
+ *     http://goto/soy-param-migration
+ * @param {!proto.warehouse.GetMaterialQuantitiesByNameAndStateRequest} msg The msg instance to transform.
+ * @return {!Object}
+ * @suppress {unusedLocalVariables} f is only used for nested messages
+ */
+proto.warehouse.GetMaterialQuantitiesByNameAndStateRequest.toObject = function(includeInstance, msg) {
+  var f, obj = {
+
+  };
+
+  if (includeInstance) {
+    obj.$jspbMessageInstance = msg;
+  }
+  return obj;
+};
+}
+
+
+/**
+ * Deserializes binary data (in protobuf wire format).
+ * @param {jspb.ByteSource} bytes The bytes to deserialize.
+ * @return {!proto.warehouse.GetMaterialQuantitiesByNameAndStateRequest}
+ */
+proto.warehouse.GetMaterialQuantitiesByNameAndStateRequest.deserializeBinary = function(bytes) {
+  var reader = new jspb.BinaryReader(bytes);
+  var msg = new proto.warehouse.GetMaterialQuantitiesByNameAndStateRequest;
+  return proto.warehouse.GetMaterialQuantitiesByNameAndStateRequest.deserializeBinaryFromReader(msg, reader);
+};
+
+
+/**
+ * Deserializes binary data (in protobuf wire format) from the
+ * given reader into the given message object.
+ * @param {!proto.warehouse.GetMaterialQuantitiesByNameAndStateRequest} msg The message object to deserialize into.
+ * @param {!jspb.BinaryReader} reader The BinaryReader to use.
+ * @return {!proto.warehouse.GetMaterialQuantitiesByNameAndStateRequest}
+ */
+proto.warehouse.GetMaterialQuantitiesByNameAndStateRequest.deserializeBinaryFromReader = function(msg, reader) {
+  while (reader.nextField()) {
+    if (reader.isEndGroup()) {
+      break;
+    }
+    var field = reader.getFieldNumber();
+    switch (field) {
+    default:
+      reader.skipField();
+      break;
+    }
+  }
+  return msg;
+};
+
+
+/**
+ * Serializes the message to binary data (in protobuf wire format).
+ * @return {!Uint8Array}
+ */
+proto.warehouse.GetMaterialQuantitiesByNameAndStateRequest.prototype.serializeBinary = function() {
+  var writer = new jspb.BinaryWriter();
+  proto.warehouse.GetMaterialQuantitiesByNameAndStateRequest.serializeBinaryToWriter(this, writer);
+  return writer.getResultBuffer();
+};
+
+
+/**
+ * Serializes the given message to binary data (in protobuf wire
+ * format), writing to the given BinaryWriter.
+ * @param {!proto.warehouse.GetMaterialQuantitiesByNameAndStateRequest} message
+ * @param {!jspb.BinaryWriter} writer
+ * @suppress {unusedLocalVariables} f is only used for nested messages
+ */
+proto.warehouse.GetMaterialQuantitiesByNameAndStateRequest.serializeBinaryToWriter = function(message, writer) {
+  var f = undefined;
+};
+
+
+
+/**
+ * Generated by JsPbCodeGenerator.
+ * @param {Array=} opt_data Optional initial data array, typically from a
+ * server response, or constructed directly in Javascript. The array is used
+ * in place and becomes part of the constructed object. It is not cloned.
+ * If no data is provided, the constructed object will be empty, but still
+ * valid.
+ * @extends {jspb.Message}
+ * @constructor
+ */
+proto.warehouse.GetMaterialQuantitiesByNameAndStateResponse = function(opt_data) {
+  jspb.Message.initialize(this, opt_data, 0, -1, proto.warehouse.GetMaterialQuantitiesByNameAndStateResponse.repeatedFields_, null);
+};
+goog.inherits(proto.warehouse.GetMaterialQuantitiesByNameAndStateResponse, jspb.Message);
+if (goog.DEBUG && !COMPILED) {
+  proto.warehouse.GetMaterialQuantitiesByNameAndStateResponse.displayName = 'proto.warehouse.GetMaterialQuantitiesByNameAndStateResponse';
+}
+/**
+ * List of repeated fields within this message type.
+ * @private {!Array<number>}
+ * @const
+ */
+proto.warehouse.GetMaterialQuantitiesByNameAndStateResponse.repeatedFields_ = [1];
+
+
+
+if (jspb.Message.GENERATE_TO_OBJECT) {
+/**
+ * Creates an object representation of this proto suitable for use in Soy templates.
+ * Field names that are reserved in JavaScript and will be renamed to pb_name.
+ * To access a reserved field use, foo.pb_<name>, eg, foo.pb_default.
+ * For the list of reserved names please see:
+ *     com.google.apps.jspb.JsClassTemplate.JS_RESERVED_WORDS.
+ * @param {boolean=} opt_includeInstance Whether to include the JSPB instance
+ *     for transitional soy proto support: http://goto/soy-param-migration
+ * @return {!Object}
+ */
+proto.warehouse.GetMaterialQuantitiesByNameAndStateResponse.prototype.toObject = function(opt_includeInstance) {
+  return proto.warehouse.GetMaterialQuantitiesByNameAndStateResponse.toObject(opt_includeInstance, this);
+};
+
+
+/**
+ * Static version of the {@see toObject} method.
+ * @param {boolean|undefined} includeInstance Whether to include the JSPB
+ *     instance for transitional soy proto support:
+ *     http://goto/soy-param-migration
+ * @param {!proto.warehouse.GetMaterialQuantitiesByNameAndStateResponse} msg The msg instance to transform.
+ * @return {!Object}
+ * @suppress {unusedLocalVariables} f is only used for nested messages
+ */
+proto.warehouse.GetMaterialQuantitiesByNameAndStateResponse.toObject = function(includeInstance, msg) {
+  var f, obj = {
+    materialquantitiesList: jspb.Message.toObjectList(msg.getMaterialquantitiesList(),
+    proto.warehouse.MaterialQuantityByNameAndState.toObject, includeInstance)
+  };
+
+  if (includeInstance) {
+    obj.$jspbMessageInstance = msg;
+  }
+  return obj;
+};
+}
+
+
+/**
+ * Deserializes binary data (in protobuf wire format).
+ * @param {jspb.ByteSource} bytes The bytes to deserialize.
+ * @return {!proto.warehouse.GetMaterialQuantitiesByNameAndStateResponse}
+ */
+proto.warehouse.GetMaterialQuantitiesByNameAndStateResponse.deserializeBinary = function(bytes) {
+  var reader = new jspb.BinaryReader(bytes);
+  var msg = new proto.warehouse.GetMaterialQuantitiesByNameAndStateResponse;
+  return proto.warehouse.GetMaterialQuantitiesByNameAndStateResponse.deserializeBinaryFromReader(msg, reader);
+};
+
+
+/**
+ * Deserializes binary data (in protobuf wire format) from the
+ * given reader into the given message object.
+ * @param {!proto.warehouse.GetMaterialQuantitiesByNameAndStateResponse} msg The message object to deserialize into.
+ * @param {!jspb.BinaryReader} reader The BinaryReader to use.
+ * @return {!proto.warehouse.GetMaterialQuantitiesByNameAndStateResponse}
+ */
+proto.warehouse.GetMaterialQuantitiesByNameAndStateResponse.deserializeBinaryFromReader = function(msg, reader) {
+  while (reader.nextField()) {
+    if (reader.isEndGroup()) {
+      break;
+    }
+    var field = reader.getFieldNumber();
+    switch (field) {
+    case 1:
+      var value = new proto.warehouse.MaterialQuantityByNameAndState;
+      reader.readMessage(value,proto.warehouse.MaterialQuantityByNameAndState.deserializeBinaryFromReader);
+      msg.addMaterialquantities(value);
+      break;
+    default:
+      reader.skipField();
+      break;
+    }
+  }
+  return msg;
+};
+
+
+/**
+ * Serializes the message to binary data (in protobuf wire format).
+ * @return {!Uint8Array}
+ */
+proto.warehouse.GetMaterialQuantitiesByNameAndStateResponse.prototype.serializeBinary = function() {
+  var writer = new jspb.BinaryWriter();
+  proto.warehouse.GetMaterialQuantitiesByNameAndStateResponse.serializeBinaryToWriter(this, writer);
+  return writer.getResultBuffer();
+};
+
+
+/**
+ * Serializes the given message to binary data (in protobuf wire
+ * format), writing to the given BinaryWriter.
+ * @param {!proto.warehouse.GetMaterialQuantitiesByNameAndStateResponse} message
+ * @param {!jspb.BinaryWriter} writer
+ * @suppress {unusedLocalVariables} f is only used for nested messages
+ */
+proto.warehouse.GetMaterialQuantitiesByNameAndStateResponse.serializeBinaryToWriter = function(message, writer) {
+  var f = undefined;
+  f = message.getMaterialquantitiesList();
+  if (f.length > 0) {
+    writer.writeRepeatedMessage(
+      1,
+      f,
+      proto.warehouse.MaterialQuantityByNameAndState.serializeBinaryToWriter
+    );
+  }
+};
+
+
+/**
+ * repeated MaterialQuantityByNameAndState materialQuantities = 1;
+ * @return {!Array<!proto.warehouse.MaterialQuantityByNameAndState>}
+ */
+proto.warehouse.GetMaterialQuantitiesByNameAndStateResponse.prototype.getMaterialquantitiesList = function() {
+  return /** @type{!Array<!proto.warehouse.MaterialQuantityByNameAndState>} */ (
+    jspb.Message.getRepeatedWrapperField(this, proto.warehouse.MaterialQuantityByNameAndState, 1));
+};
+
+
+/** @param {!Array<!proto.warehouse.MaterialQuantityByNameAndState>} value */
+proto.warehouse.GetMaterialQuantitiesByNameAndStateResponse.prototype.setMaterialquantitiesList = function(value) {
+  jspb.Message.setRepeatedWrapperField(this, 1, value);
+};
+
+
+/**
+ * @param {!proto.warehouse.MaterialQuantityByNameAndState=} opt_value
+ * @param {number=} opt_index
+ * @return {!proto.warehouse.MaterialQuantityByNameAndState}
+ */
+proto.warehouse.GetMaterialQuantitiesByNameAndStateResponse.prototype.addMaterialquantities = function(opt_value, opt_index) {
+  return jspb.Message.addToRepeatedWrapperField(this, 1, opt_value, proto.warehouse.MaterialQuantityByNameAndState, opt_index);
+};
+
+
+proto.warehouse.GetMaterialQuantitiesByNameAndStateResponse.prototype.clearMaterialquantitiesList = function() {
+  this.setMaterialquantitiesList([]);
+};
+
+
+
+/**
+ * Generated by JsPbCodeGenerator.
+ * @param {Array=} opt_data Optional initial data array, typically from a
+ * server response, or constructed directly in Javascript. The array is used
+ * in place and becomes part of the constructed object. It is not cloned.
+ * If no data is provided, the constructed object will be empty, but still
+ * valid.
+ * @extends {jspb.Message}
+ * @constructor
+ */
+proto.warehouse.AddMaterialItemDto = function(opt_data) {
+  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
+};
+goog.inherits(proto.warehouse.AddMaterialItemDto, jspb.Message);
+if (goog.DEBUG && !COMPILED) {
+  proto.warehouse.AddMaterialItemDto.displayName = 'proto.warehouse.AddMaterialItemDto';
+}
+
+
+if (jspb.Message.GENERATE_TO_OBJECT) {
+/**
+ * Creates an object representation of this proto suitable for use in Soy templates.
+ * Field names that are reserved in JavaScript and will be renamed to pb_name.
+ * To access a reserved field use, foo.pb_<name>, eg, foo.pb_default.
+ * For the list of reserved names please see:
+ *     com.google.apps.jspb.JsClassTemplate.JS_RESERVED_WORDS.
+ * @param {boolean=} opt_includeInstance Whether to include the JSPB instance
+ *     for transitional soy proto support: http://goto/soy-param-migration
+ * @return {!Object}
+ */
+proto.warehouse.AddMaterialItemDto.prototype.toObject = function(opt_includeInstance) {
+  return proto.warehouse.AddMaterialItemDto.toObject(opt_includeInstance, this);
+};
+
+
+/**
+ * Static version of the {@see toObject} method.
+ * @param {boolean|undefined} includeInstance Whether to include the JSPB
+ *     instance for transitional soy proto support:
+ *     http://goto/soy-param-migration
+ * @param {!proto.warehouse.AddMaterialItemDto} msg The msg instance to transform.
+ * @return {!Object}
+ * @suppress {unusedLocalVariables} f is only used for nested messages
+ */
+proto.warehouse.AddMaterialItemDto.toObject = function(includeInstance, msg) {
+  var f, obj = {
+    id: jspb.Message.getFieldWithDefault(msg, 1, 0),
+    serial: jspb.Message.getFieldWithDefault(msg, 2, ""),
+    materialtypeid: jspb.Message.getFieldWithDefault(msg, 3, 0),
+    warehouseid: jspb.Message.getFieldWithDefault(msg, 4, 0),
+    orderserial: jspb.Message.getFieldWithDefault(msg, 5, ""),
+    materialstate: jspb.Message.getFieldWithDefault(msg, 6, 0)
+  };
+
+  if (includeInstance) {
+    obj.$jspbMessageInstance = msg;
+  }
+  return obj;
+};
+}
+
+
+/**
+ * Deserializes binary data (in protobuf wire format).
+ * @param {jspb.ByteSource} bytes The bytes to deserialize.
+ * @return {!proto.warehouse.AddMaterialItemDto}
+ */
+proto.warehouse.AddMaterialItemDto.deserializeBinary = function(bytes) {
+  var reader = new jspb.BinaryReader(bytes);
+  var msg = new proto.warehouse.AddMaterialItemDto;
+  return proto.warehouse.AddMaterialItemDto.deserializeBinaryFromReader(msg, reader);
+};
+
+
+/**
+ * Deserializes binary data (in protobuf wire format) from the
+ * given reader into the given message object.
+ * @param {!proto.warehouse.AddMaterialItemDto} msg The message object to deserialize into.
+ * @param {!jspb.BinaryReader} reader The BinaryReader to use.
+ * @return {!proto.warehouse.AddMaterialItemDto}
+ */
+proto.warehouse.AddMaterialItemDto.deserializeBinaryFromReader = function(msg, reader) {
+  while (reader.nextField()) {
+    if (reader.isEndGroup()) {
+      break;
+    }
+    var field = reader.getFieldNumber();
+    switch (field) {
+    case 1:
+      var value = /** @type {number} */ (reader.readInt32());
+      msg.setId(value);
+      break;
+    case 2:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setSerial(value);
+      break;
+    case 3:
+      var value = /** @type {number} */ (reader.readInt32());
+      msg.setMaterialtypeid(value);
+      break;
+    case 4:
+      var value = /** @type {number} */ (reader.readInt32());
+      msg.setWarehouseid(value);
+      break;
+    case 5:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setOrderserial(value);
+      break;
+    case 6:
+      var value = /** @type {!proto.warehouse.MaterialState} */ (reader.readEnum());
+      msg.setMaterialstate(value);
+      break;
+    default:
+      reader.skipField();
+      break;
+    }
+  }
+  return msg;
+};
+
+
+/**
+ * Serializes the message to binary data (in protobuf wire format).
+ * @return {!Uint8Array}
+ */
+proto.warehouse.AddMaterialItemDto.prototype.serializeBinary = function() {
+  var writer = new jspb.BinaryWriter();
+  proto.warehouse.AddMaterialItemDto.serializeBinaryToWriter(this, writer);
+  return writer.getResultBuffer();
+};
+
+
+/**
+ * Serializes the given message to binary data (in protobuf wire
+ * format), writing to the given BinaryWriter.
+ * @param {!proto.warehouse.AddMaterialItemDto} message
+ * @param {!jspb.BinaryWriter} writer
+ * @suppress {unusedLocalVariables} f is only used for nested messages
+ */
+proto.warehouse.AddMaterialItemDto.serializeBinaryToWriter = function(message, writer) {
+  var f = undefined;
+  f = message.getId();
+  if (f !== 0) {
+    writer.writeInt32(
+      1,
+      f
+    );
+  }
+  f = message.getSerial();
+  if (f.length > 0) {
+    writer.writeString(
+      2,
+      f
+    );
+  }
+  f = message.getMaterialtypeid();
+  if (f !== 0) {
+    writer.writeInt32(
+      3,
+      f
+    );
+  }
+  f = message.getWarehouseid();
+  if (f !== 0) {
+    writer.writeInt32(
+      4,
+      f
+    );
+  }
+  f = message.getOrderserial();
+  if (f.length > 0) {
+    writer.writeString(
+      5,
+      f
+    );
+  }
+  f = message.getMaterialstate();
+  if (f !== 0.0) {
+    writer.writeEnum(
+      6,
+      f
+    );
+  }
+};
+
+
+/**
+ * optional int32 id = 1;
+ * @return {number}
+ */
+proto.warehouse.AddMaterialItemDto.prototype.getId = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 1, 0));
+};
+
+
+/** @param {number} value */
+proto.warehouse.AddMaterialItemDto.prototype.setId = function(value) {
+  jspb.Message.setProto3IntField(this, 1, value);
+};
+
+
+/**
+ * optional string serial = 2;
+ * @return {string}
+ */
+proto.warehouse.AddMaterialItemDto.prototype.getSerial = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
+};
+
+
+/** @param {string} value */
+proto.warehouse.AddMaterialItemDto.prototype.setSerial = function(value) {
+  jspb.Message.setProto3StringField(this, 2, value);
+};
+
+
+/**
+ * optional int32 materialTypeId = 3;
+ * @return {number}
+ */
+proto.warehouse.AddMaterialItemDto.prototype.getMaterialtypeid = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 3, 0));
+};
+
+
+/** @param {number} value */
+proto.warehouse.AddMaterialItemDto.prototype.setMaterialtypeid = function(value) {
+  jspb.Message.setProto3IntField(this, 3, value);
+};
+
+
+/**
+ * optional int32 warehouseId = 4;
+ * @return {number}
+ */
+proto.warehouse.AddMaterialItemDto.prototype.getWarehouseid = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 4, 0));
+};
+
+
+/** @param {number} value */
+proto.warehouse.AddMaterialItemDto.prototype.setWarehouseid = function(value) {
+  jspb.Message.setProto3IntField(this, 4, value);
+};
+
+
+/**
+ * optional string orderSerial = 5;
+ * @return {string}
+ */
+proto.warehouse.AddMaterialItemDto.prototype.getOrderserial = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 5, ""));
+};
+
+
+/** @param {string} value */
+proto.warehouse.AddMaterialItemDto.prototype.setOrderserial = function(value) {
+  jspb.Message.setProto3StringField(this, 5, value);
+};
+
+
+/**
+ * optional MaterialState materialState = 6;
+ * @return {!proto.warehouse.MaterialState}
+ */
+proto.warehouse.AddMaterialItemDto.prototype.getMaterialstate = function() {
+  return /** @type {!proto.warehouse.MaterialState} */ (jspb.Message.getFieldWithDefault(this, 6, 0));
+};
+
+
+/** @param {!proto.warehouse.MaterialState} value */
+proto.warehouse.AddMaterialItemDto.prototype.setMaterialstate = function(value) {
+  jspb.Message.setProto3EnumField(this, 6, value);
+};
+
+
+
+/**
+ * Generated by JsPbCodeGenerator.
+ * @param {Array=} opt_data Optional initial data array, typically from a
+ * server response, or constructed directly in Javascript. The array is used
+ * in place and becomes part of the constructed object. It is not cloned.
+ * If no data is provided, the constructed object will be empty, but still
+ * valid.
+ * @extends {jspb.Message}
+ * @constructor
+ */
+proto.warehouse.AddWarehouseDto = function(opt_data) {
+  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
+};
+goog.inherits(proto.warehouse.AddWarehouseDto, jspb.Message);
+if (goog.DEBUG && !COMPILED) {
+  proto.warehouse.AddWarehouseDto.displayName = 'proto.warehouse.AddWarehouseDto';
+}
+
+
+if (jspb.Message.GENERATE_TO_OBJECT) {
+/**
+ * Creates an object representation of this proto suitable for use in Soy templates.
+ * Field names that are reserved in JavaScript and will be renamed to pb_name.
+ * To access a reserved field use, foo.pb_<name>, eg, foo.pb_default.
+ * For the list of reserved names please see:
+ *     com.google.apps.jspb.JsClassTemplate.JS_RESERVED_WORDS.
+ * @param {boolean=} opt_includeInstance Whether to include the JSPB instance
+ *     for transitional soy proto support: http://goto/soy-param-migration
+ * @return {!Object}
+ */
+proto.warehouse.AddWarehouseDto.prototype.toObject = function(opt_includeInstance) {
+  return proto.warehouse.AddWarehouseDto.toObject(opt_includeInstance, this);
+};
+
+
+/**
+ * Static version of the {@see toObject} method.
+ * @param {boolean|undefined} includeInstance Whether to include the JSPB
+ *     instance for transitional soy proto support:
+ *     http://goto/soy-param-migration
+ * @param {!proto.warehouse.AddWarehouseDto} msg The msg instance to transform.
+ * @return {!Object}
+ * @suppress {unusedLocalVariables} f is only used for nested messages
+ */
+proto.warehouse.AddWarehouseDto.toObject = function(includeInstance, msg) {
+  var f, obj = {
+    name: jspb.Message.getFieldWithDefault(msg, 1, ""),
+    capacity: jspb.Message.getFieldWithDefault(msg, 2, 0)
+  };
+
+  if (includeInstance) {
+    obj.$jspbMessageInstance = msg;
+  }
+  return obj;
+};
+}
+
+
+/**
+ * Deserializes binary data (in protobuf wire format).
+ * @param {jspb.ByteSource} bytes The bytes to deserialize.
+ * @return {!proto.warehouse.AddWarehouseDto}
+ */
+proto.warehouse.AddWarehouseDto.deserializeBinary = function(bytes) {
+  var reader = new jspb.BinaryReader(bytes);
+  var msg = new proto.warehouse.AddWarehouseDto;
+  return proto.warehouse.AddWarehouseDto.deserializeBinaryFromReader(msg, reader);
+};
+
+
+/**
+ * Deserializes binary data (in protobuf wire format) from the
+ * given reader into the given message object.
+ * @param {!proto.warehouse.AddWarehouseDto} msg The message object to deserialize into.
+ * @param {!jspb.BinaryReader} reader The BinaryReader to use.
+ * @return {!proto.warehouse.AddWarehouseDto}
+ */
+proto.warehouse.AddWarehouseDto.deserializeBinaryFromReader = function(msg, reader) {
+  while (reader.nextField()) {
+    if (reader.isEndGroup()) {
+      break;
+    }
+    var field = reader.getFieldNumber();
+    switch (field) {
+    case 1:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setName(value);
+      break;
+    case 2:
+      var value = /** @type {number} */ (reader.readInt32());
+      msg.setCapacity(value);
+      break;
+    default:
+      reader.skipField();
+      break;
+    }
+  }
+  return msg;
+};
+
+
+/**
+ * Serializes the message to binary data (in protobuf wire format).
+ * @return {!Uint8Array}
+ */
+proto.warehouse.AddWarehouseDto.prototype.serializeBinary = function() {
+  var writer = new jspb.BinaryWriter();
+  proto.warehouse.AddWarehouseDto.serializeBinaryToWriter(this, writer);
+  return writer.getResultBuffer();
+};
+
+
+/**
+ * Serializes the given message to binary data (in protobuf wire
+ * format), writing to the given BinaryWriter.
+ * @param {!proto.warehouse.AddWarehouseDto} message
+ * @param {!jspb.BinaryWriter} writer
+ * @suppress {unusedLocalVariables} f is only used for nested messages
+ */
+proto.warehouse.AddWarehouseDto.serializeBinaryToWriter = function(message, writer) {
+  var f = undefined;
+  f = message.getName();
+  if (f.length > 0) {
+    writer.writeString(
+      1,
+      f
+    );
+  }
+  f = message.getCapacity();
+  if (f !== 0) {
+    writer.writeInt32(
+      2,
+      f
+    );
+  }
+};
+
+
+/**
+ * optional string name = 1;
+ * @return {string}
+ */
+proto.warehouse.AddWarehouseDto.prototype.getName = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
+};
+
+
+/** @param {string} value */
+proto.warehouse.AddWarehouseDto.prototype.setName = function(value) {
+  jspb.Message.setProto3StringField(this, 1, value);
+};
+
+
+/**
+ * optional int32 capacity = 2;
+ * @return {number}
+ */
+proto.warehouse.AddWarehouseDto.prototype.getCapacity = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 2, 0));
+};
+
+
+/** @param {number} value */
+proto.warehouse.AddWarehouseDto.prototype.setCapacity = function(value) {
+  jspb.Message.setProto3IntField(this, 2, value);
+};
+
+
+
+/**
+ * Generated by JsPbCodeGenerator.
+ * @param {Array=} opt_data Optional initial data array, typically from a
+ * server response, or constructed directly in Javascript. The array is used
+ * in place and becomes part of the constructed object. It is not cloned.
+ * If no data is provided, the constructed object will be empty, but still
+ * valid.
+ * @extends {jspb.Message}
+ * @constructor
+ */
+proto.warehouse.AddProductTypeDto = function(opt_data) {
+  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
+};
+goog.inherits(proto.warehouse.AddProductTypeDto, jspb.Message);
+if (goog.DEBUG && !COMPILED) {
+  proto.warehouse.AddProductTypeDto.displayName = 'proto.warehouse.AddProductTypeDto';
+}
+
+
+if (jspb.Message.GENERATE_TO_OBJECT) {
+/**
+ * Creates an object representation of this proto suitable for use in Soy templates.
+ * Field names that are reserved in JavaScript and will be renamed to pb_name.
+ * To access a reserved field use, foo.pb_<name>, eg, foo.pb_default.
+ * For the list of reserved names please see:
+ *     com.google.apps.jspb.JsClassTemplate.JS_RESERVED_WORDS.
+ * @param {boolean=} opt_includeInstance Whether to include the JSPB instance
+ *     for transitional soy proto support: http://goto/soy-param-migration
+ * @return {!Object}
+ */
+proto.warehouse.AddProductTypeDto.prototype.toObject = function(opt_includeInstance) {
+  return proto.warehouse.AddProductTypeDto.toObject(opt_includeInstance, this);
+};
+
+
+/**
+ * Static version of the {@see toObject} method.
+ * @param {boolean|undefined} includeInstance Whether to include the JSPB
+ *     instance for transitional soy proto support:
+ *     http://goto/soy-param-migration
+ * @param {!proto.warehouse.AddProductTypeDto} msg The msg instance to transform.
+ * @return {!Object}
+ * @suppress {unusedLocalVariables} f is only used for nested messages
+ */
+proto.warehouse.AddProductTypeDto.toObject = function(includeInstance, msg) {
+  var f, obj = {
+    name: jspb.Message.getFieldWithDefault(msg, 1, ""),
+    price: jspb.Message.getFieldWithDefault(msg, 2, 0)
+  };
+
+  if (includeInstance) {
+    obj.$jspbMessageInstance = msg;
+  }
+  return obj;
+};
+}
+
+
+/**
+ * Deserializes binary data (in protobuf wire format).
+ * @param {jspb.ByteSource} bytes The bytes to deserialize.
+ * @return {!proto.warehouse.AddProductTypeDto}
+ */
+proto.warehouse.AddProductTypeDto.deserializeBinary = function(bytes) {
+  var reader = new jspb.BinaryReader(bytes);
+  var msg = new proto.warehouse.AddProductTypeDto;
+  return proto.warehouse.AddProductTypeDto.deserializeBinaryFromReader(msg, reader);
+};
+
+
+/**
+ * Deserializes binary data (in protobuf wire format) from the
+ * given reader into the given message object.
+ * @param {!proto.warehouse.AddProductTypeDto} msg The message object to deserialize into.
+ * @param {!jspb.BinaryReader} reader The BinaryReader to use.
+ * @return {!proto.warehouse.AddProductTypeDto}
+ */
+proto.warehouse.AddProductTypeDto.deserializeBinaryFromReader = function(msg, reader) {
+  while (reader.nextField()) {
+    if (reader.isEndGroup()) {
+      break;
+    }
+    var field = reader.getFieldNumber();
+    switch (field) {
+    case 1:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setName(value);
+      break;
+    case 2:
+      var value = /** @type {number} */ (reader.readInt32());
+      msg.setPrice(value);
+      break;
+    default:
+      reader.skipField();
+      break;
+    }
+  }
+  return msg;
+};
+
+
+/**
+ * Serializes the message to binary data (in protobuf wire format).
+ * @return {!Uint8Array}
+ */
+proto.warehouse.AddProductTypeDto.prototype.serializeBinary = function() {
+  var writer = new jspb.BinaryWriter();
+  proto.warehouse.AddProductTypeDto.serializeBinaryToWriter(this, writer);
+  return writer.getResultBuffer();
+};
+
+
+/**
+ * Serializes the given message to binary data (in protobuf wire
+ * format), writing to the given BinaryWriter.
+ * @param {!proto.warehouse.AddProductTypeDto} message
+ * @param {!jspb.BinaryWriter} writer
+ * @suppress {unusedLocalVariables} f is only used for nested messages
+ */
+proto.warehouse.AddProductTypeDto.serializeBinaryToWriter = function(message, writer) {
+  var f = undefined;
+  f = message.getName();
+  if (f.length > 0) {
+    writer.writeString(
+      1,
+      f
+    );
+  }
+  f = message.getPrice();
+  if (f !== 0) {
+    writer.writeInt32(
+      2,
+      f
+    );
+  }
+};
+
+
+/**
+ * optional string name = 1;
+ * @return {string}
+ */
+proto.warehouse.AddProductTypeDto.prototype.getName = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
+};
+
+
+/** @param {string} value */
+proto.warehouse.AddProductTypeDto.prototype.setName = function(value) {
+  jspb.Message.setProto3StringField(this, 1, value);
+};
+
+
+/**
+ * optional int32 price = 2;
+ * @return {number}
+ */
+proto.warehouse.AddProductTypeDto.prototype.getPrice = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 2, 0));
+};
+
+
+/** @param {number} value */
+proto.warehouse.AddProductTypeDto.prototype.setPrice = function(value) {
+  jspb.Message.setProto3IntField(this, 2, value);
+};
+
+
+
+/**
+ * Generated by JsPbCodeGenerator.
+ * @param {Array=} opt_data Optional initial data array, typically from a
+ * server response, or constructed directly in Javascript. The array is used
+ * in place and becomes part of the constructed object. It is not cloned.
+ * If no data is provided, the constructed object will be empty, but still
+ * valid.
+ * @extends {jspb.Message}
+ * @constructor
+ */
+proto.warehouse.AddMaterialSpecificationDto = function(opt_data) {
+  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
+};
+goog.inherits(proto.warehouse.AddMaterialSpecificationDto, jspb.Message);
+if (goog.DEBUG && !COMPILED) {
+  proto.warehouse.AddMaterialSpecificationDto.displayName = 'proto.warehouse.AddMaterialSpecificationDto';
+}
+
+
+if (jspb.Message.GENERATE_TO_OBJECT) {
+/**
+ * Creates an object representation of this proto suitable for use in Soy templates.
+ * Field names that are reserved in JavaScript and will be renamed to pb_name.
+ * To access a reserved field use, foo.pb_<name>, eg, foo.pb_default.
+ * For the list of reserved names please see:
+ *     com.google.apps.jspb.JsClassTemplate.JS_RESERVED_WORDS.
+ * @param {boolean=} opt_includeInstance Whether to include the JSPB instance
+ *     for transitional soy proto support: http://goto/soy-param-migration
+ * @return {!Object}
+ */
+proto.warehouse.AddMaterialSpecificationDto.prototype.toObject = function(opt_includeInstance) {
+  return proto.warehouse.AddMaterialSpecificationDto.toObject(opt_includeInstance, this);
+};
+
+
+/**
+ * Static version of the {@see toObject} method.
+ * @param {boolean|undefined} includeInstance Whether to include the JSPB
+ *     instance for transitional soy proto support:
+ *     http://goto/soy-param-migration
+ * @param {!proto.warehouse.AddMaterialSpecificationDto} msg The msg instance to transform.
+ * @return {!Object}
+ * @suppress {unusedLocalVariables} f is only used for nested messages
+ */
+proto.warehouse.AddMaterialSpecificationDto.toObject = function(includeInstance, msg) {
+  var f, obj = {
+    quantity: jspb.Message.getFieldWithDefault(msg, 1, 0),
+    materialtypeid: jspb.Message.getFieldWithDefault(msg, 3, 0)
+  };
+
+  if (includeInstance) {
+    obj.$jspbMessageInstance = msg;
+  }
+  return obj;
+};
+}
+
+
+/**
+ * Deserializes binary data (in protobuf wire format).
+ * @param {jspb.ByteSource} bytes The bytes to deserialize.
+ * @return {!proto.warehouse.AddMaterialSpecificationDto}
+ */
+proto.warehouse.AddMaterialSpecificationDto.deserializeBinary = function(bytes) {
+  var reader = new jspb.BinaryReader(bytes);
+  var msg = new proto.warehouse.AddMaterialSpecificationDto;
+  return proto.warehouse.AddMaterialSpecificationDto.deserializeBinaryFromReader(msg, reader);
+};
+
+
+/**
+ * Deserializes binary data (in protobuf wire format) from the
+ * given reader into the given message object.
+ * @param {!proto.warehouse.AddMaterialSpecificationDto} msg The message object to deserialize into.
+ * @param {!jspb.BinaryReader} reader The BinaryReader to use.
+ * @return {!proto.warehouse.AddMaterialSpecificationDto}
+ */
+proto.warehouse.AddMaterialSpecificationDto.deserializeBinaryFromReader = function(msg, reader) {
+  while (reader.nextField()) {
+    if (reader.isEndGroup()) {
+      break;
+    }
+    var field = reader.getFieldNumber();
+    switch (field) {
+    case 1:
+      var value = /** @type {number} */ (reader.readInt32());
+      msg.setQuantity(value);
+      break;
+    case 3:
+      var value = /** @type {number} */ (reader.readInt32());
+      msg.setMaterialtypeid(value);
+      break;
+    default:
+      reader.skipField();
+      break;
+    }
+  }
+  return msg;
+};
+
+
+/**
+ * Serializes the message to binary data (in protobuf wire format).
+ * @return {!Uint8Array}
+ */
+proto.warehouse.AddMaterialSpecificationDto.prototype.serializeBinary = function() {
+  var writer = new jspb.BinaryWriter();
+  proto.warehouse.AddMaterialSpecificationDto.serializeBinaryToWriter(this, writer);
+  return writer.getResultBuffer();
+};
+
+
+/**
+ * Serializes the given message to binary data (in protobuf wire
+ * format), writing to the given BinaryWriter.
+ * @param {!proto.warehouse.AddMaterialSpecificationDto} message
+ * @param {!jspb.BinaryWriter} writer
+ * @suppress {unusedLocalVariables} f is only used for nested messages
+ */
+proto.warehouse.AddMaterialSpecificationDto.serializeBinaryToWriter = function(message, writer) {
+  var f = undefined;
+  f = message.getQuantity();
+  if (f !== 0) {
+    writer.writeInt32(
+      1,
+      f
+    );
+  }
+  f = message.getMaterialtypeid();
+  if (f !== 0) {
+    writer.writeInt32(
+      3,
+      f
+    );
+  }
+};
+
+
+/**
+ * optional int32 quantity = 1;
+ * @return {number}
+ */
+proto.warehouse.AddMaterialSpecificationDto.prototype.getQuantity = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 1, 0));
+};
+
+
+/** @param {number} value */
+proto.warehouse.AddMaterialSpecificationDto.prototype.setQuantity = function(value) {
+  jspb.Message.setProto3IntField(this, 1, value);
+};
+
+
+/**
+ * optional int32 materialTypeId = 3;
+ * @return {number}
+ */
+proto.warehouse.AddMaterialSpecificationDto.prototype.getMaterialtypeid = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 3, 0));
+};
+
+
+/** @param {number} value */
+proto.warehouse.AddMaterialSpecificationDto.prototype.setMaterialtypeid = function(value) {
+  jspb.Message.setProto3IntField(this, 3, value);
+};
+
+
+
+/**
+ * Generated by JsPbCodeGenerator.
+ * @param {Array=} opt_data Optional initial data array, typically from a
+ * server response, or constructed directly in Javascript. The array is used
+ * in place and becomes part of the constructed object. It is not cloned.
+ * If no data is provided, the constructed object will be empty, but still
+ * valid.
+ * @extends {jspb.Message}
+ * @constructor
+ */
+proto.warehouse.MaterialQuantityByNameAndState = function(opt_data) {
+  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
+};
+goog.inherits(proto.warehouse.MaterialQuantityByNameAndState, jspb.Message);
+if (goog.DEBUG && !COMPILED) {
+  proto.warehouse.MaterialQuantityByNameAndState.displayName = 'proto.warehouse.MaterialQuantityByNameAndState';
+}
+
+
+if (jspb.Message.GENERATE_TO_OBJECT) {
+/**
+ * Creates an object representation of this proto suitable for use in Soy templates.
+ * Field names that are reserved in JavaScript and will be renamed to pb_name.
+ * To access a reserved field use, foo.pb_<name>, eg, foo.pb_default.
+ * For the list of reserved names please see:
+ *     com.google.apps.jspb.JsClassTemplate.JS_RESERVED_WORDS.
+ * @param {boolean=} opt_includeInstance Whether to include the JSPB instance
+ *     for transitional soy proto support: http://goto/soy-param-migration
+ * @return {!Object}
+ */
+proto.warehouse.MaterialQuantityByNameAndState.prototype.toObject = function(opt_includeInstance) {
+  return proto.warehouse.MaterialQuantityByNameAndState.toObject(opt_includeInstance, this);
+};
+
+
+/**
+ * Static version of the {@see toObject} method.
+ * @param {boolean|undefined} includeInstance Whether to include the JSPB
+ *     instance for transitional soy proto support:
+ *     http://goto/soy-param-migration
+ * @param {!proto.warehouse.MaterialQuantityByNameAndState} msg The msg instance to transform.
+ * @return {!Object}
+ * @suppress {unusedLocalVariables} f is only used for nested messages
+ */
+proto.warehouse.MaterialQuantityByNameAndState.toObject = function(includeInstance, msg) {
+  var f, obj = {
+    materialname: jspb.Message.getFieldWithDefault(msg, 1, ""),
+    quantity: jspb.Message.getFieldWithDefault(msg, 2, 0),
+    materialstate: jspb.Message.getFieldWithDefault(msg, 3, 0),
+    warehouseid: jspb.Message.getFieldWithDefault(msg, 4, 0)
+  };
+
+  if (includeInstance) {
+    obj.$jspbMessageInstance = msg;
+  }
+  return obj;
+};
+}
+
+
+/**
+ * Deserializes binary data (in protobuf wire format).
+ * @param {jspb.ByteSource} bytes The bytes to deserialize.
+ * @return {!proto.warehouse.MaterialQuantityByNameAndState}
+ */
+proto.warehouse.MaterialQuantityByNameAndState.deserializeBinary = function(bytes) {
+  var reader = new jspb.BinaryReader(bytes);
+  var msg = new proto.warehouse.MaterialQuantityByNameAndState;
+  return proto.warehouse.MaterialQuantityByNameAndState.deserializeBinaryFromReader(msg, reader);
+};
+
+
+/**
+ * Deserializes binary data (in protobuf wire format) from the
+ * given reader into the given message object.
+ * @param {!proto.warehouse.MaterialQuantityByNameAndState} msg The message object to deserialize into.
+ * @param {!jspb.BinaryReader} reader The BinaryReader to use.
+ * @return {!proto.warehouse.MaterialQuantityByNameAndState}
+ */
+proto.warehouse.MaterialQuantityByNameAndState.deserializeBinaryFromReader = function(msg, reader) {
+  while (reader.nextField()) {
+    if (reader.isEndGroup()) {
+      break;
+    }
+    var field = reader.getFieldNumber();
+    switch (field) {
+    case 1:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setMaterialname(value);
+      break;
+    case 2:
+      var value = /** @type {number} */ (reader.readInt32());
+      msg.setQuantity(value);
+      break;
+    case 3:
+      var value = /** @type {!proto.warehouse.MaterialState} */ (reader.readEnum());
+      msg.setMaterialstate(value);
+      break;
+    case 4:
+      var value = /** @type {number} */ (reader.readInt32());
+      msg.setWarehouseid(value);
+      break;
+    default:
+      reader.skipField();
+      break;
+    }
+  }
+  return msg;
+};
+
+
+/**
+ * Serializes the message to binary data (in protobuf wire format).
+ * @return {!Uint8Array}
+ */
+proto.warehouse.MaterialQuantityByNameAndState.prototype.serializeBinary = function() {
+  var writer = new jspb.BinaryWriter();
+  proto.warehouse.MaterialQuantityByNameAndState.serializeBinaryToWriter(this, writer);
+  return writer.getResultBuffer();
+};
+
+
+/**
+ * Serializes the given message to binary data (in protobuf wire
+ * format), writing to the given BinaryWriter.
+ * @param {!proto.warehouse.MaterialQuantityByNameAndState} message
+ * @param {!jspb.BinaryWriter} writer
+ * @suppress {unusedLocalVariables} f is only used for nested messages
+ */
+proto.warehouse.MaterialQuantityByNameAndState.serializeBinaryToWriter = function(message, writer) {
+  var f = undefined;
+  f = message.getMaterialname();
+  if (f.length > 0) {
+    writer.writeString(
+      1,
+      f
+    );
+  }
+  f = message.getQuantity();
+  if (f !== 0) {
+    writer.writeInt32(
+      2,
+      f
+    );
+  }
+  f = message.getMaterialstate();
+  if (f !== 0.0) {
+    writer.writeEnum(
+      3,
+      f
+    );
+  }
+  f = message.getWarehouseid();
+  if (f !== 0) {
+    writer.writeInt32(
+      4,
+      f
+    );
+  }
+};
+
+
+/**
+ * optional string materialName = 1;
+ * @return {string}
+ */
+proto.warehouse.MaterialQuantityByNameAndState.prototype.getMaterialname = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
+};
+
+
+/** @param {string} value */
+proto.warehouse.MaterialQuantityByNameAndState.prototype.setMaterialname = function(value) {
+  jspb.Message.setProto3StringField(this, 1, value);
+};
+
+
+/**
+ * optional int32 quantity = 2;
+ * @return {number}
+ */
+proto.warehouse.MaterialQuantityByNameAndState.prototype.getQuantity = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 2, 0));
+};
+
+
+/** @param {number} value */
+proto.warehouse.MaterialQuantityByNameAndState.prototype.setQuantity = function(value) {
+  jspb.Message.setProto3IntField(this, 2, value);
+};
+
+
+/**
+ * optional MaterialState materialState = 3;
+ * @return {!proto.warehouse.MaterialState}
+ */
+proto.warehouse.MaterialQuantityByNameAndState.prototype.getMaterialstate = function() {
+  return /** @type {!proto.warehouse.MaterialState} */ (jspb.Message.getFieldWithDefault(this, 3, 0));
+};
+
+
+/** @param {!proto.warehouse.MaterialState} value */
+proto.warehouse.MaterialQuantityByNameAndState.prototype.setMaterialstate = function(value) {
+  jspb.Message.setProto3EnumField(this, 3, value);
+};
+
+
+/**
+ * optional int32 warehouseId = 4;
+ * @return {number}
+ */
+proto.warehouse.MaterialQuantityByNameAndState.prototype.getWarehouseid = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 4, 0));
+};
+
+
+/** @param {number} value */
+proto.warehouse.MaterialQuantityByNameAndState.prototype.setWarehouseid = function(value) {
+  jspb.Message.setProto3IntField(this, 4, value);
+};
+
+
+
+/**
+ * Generated by JsPbCodeGenerator.
+ * @param {Array=} opt_data Optional initial data array, typically from a
+ * server response, or constructed directly in Javascript. The array is used
+ * in place and becomes part of the constructed object. It is not cloned.
+ * If no data is provided, the constructed object will be empty, but still
+ * valid.
+ * @extends {jspb.Message}
+ * @constructor
+ */
 proto.warehouse.Warehouse = function(opt_data) {
   jspb.Message.initialize(this, opt_data, 0, -1, null, null);
 };
@@ -2187,7 +3475,8 @@ proto.warehouse.ProductType.prototype.toObject = function(opt_includeInstance) {
 proto.warehouse.ProductType.toObject = function(includeInstance, msg) {
   var f, obj = {
     id: jspb.Message.getFieldWithDefault(msg, 1, 0),
-    name: jspb.Message.getFieldWithDefault(msg, 2, "")
+    name: jspb.Message.getFieldWithDefault(msg, 2, ""),
+    price: jspb.Message.getFieldWithDefault(msg, 3, 0)
   };
 
   if (includeInstance) {
@@ -2232,6 +3521,10 @@ proto.warehouse.ProductType.deserializeBinaryFromReader = function(msg, reader) 
       var value = /** @type {string} */ (reader.readString());
       msg.setName(value);
       break;
+    case 3:
+      var value = /** @type {number} */ (reader.readInt32());
+      msg.setPrice(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -2275,6 +3568,13 @@ proto.warehouse.ProductType.serializeBinaryToWriter = function(message, writer) 
       f
     );
   }
+  f = message.getPrice();
+  if (f !== 0) {
+    writer.writeInt32(
+      3,
+      f
+    );
+  }
 };
 
 
@@ -2305,6 +3605,21 @@ proto.warehouse.ProductType.prototype.getName = function() {
 /** @param {string} value */
 proto.warehouse.ProductType.prototype.setName = function(value) {
   jspb.Message.setProto3StringField(this, 2, value);
+};
+
+
+/**
+ * optional int32 price = 3;
+ * @return {number}
+ */
+proto.warehouse.ProductType.prototype.getPrice = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 3, 0));
+};
+
+
+/** @param {number} value */
+proto.warehouse.ProductType.prototype.setPrice = function(value) {
+  jspb.Message.setProto3IntField(this, 3, value);
 };
 
 
@@ -2357,8 +3672,8 @@ proto.warehouse.MaterialSpecification.toObject = function(includeInstance, msg) 
   var f, obj = {
     id: jspb.Message.getFieldWithDefault(msg, 1, 0),
     quantity: jspb.Message.getFieldWithDefault(msg, 2, 0),
-    producttype: (f = msg.getProducttype()) && proto.warehouse.ProductType.toObject(includeInstance, f),
-    materialtype: (f = msg.getMaterialtype()) && proto.warehouse.MaterialType.toObject(includeInstance, f)
+    producttypeid: jspb.Message.getFieldWithDefault(msg, 3, 0),
+    materialtypeid: jspb.Message.getFieldWithDefault(msg, 4, 0)
   };
 
   if (includeInstance) {
@@ -2404,14 +3719,12 @@ proto.warehouse.MaterialSpecification.deserializeBinaryFromReader = function(msg
       msg.setQuantity(value);
       break;
     case 3:
-      var value = new proto.warehouse.ProductType;
-      reader.readMessage(value,proto.warehouse.ProductType.deserializeBinaryFromReader);
-      msg.setProducttype(value);
+      var value = /** @type {number} */ (reader.readInt32());
+      msg.setProducttypeid(value);
       break;
     case 4:
-      var value = new proto.warehouse.MaterialType;
-      reader.readMessage(value,proto.warehouse.MaterialType.deserializeBinaryFromReader);
-      msg.setMaterialtype(value);
+      var value = /** @type {number} */ (reader.readInt32());
+      msg.setMaterialtypeid(value);
       break;
     default:
       reader.skipField();
@@ -2456,20 +3769,18 @@ proto.warehouse.MaterialSpecification.serializeBinaryToWriter = function(message
       f
     );
   }
-  f = message.getProducttype();
-  if (f != null) {
-    writer.writeMessage(
+  f = message.getProducttypeid();
+  if (f !== 0) {
+    writer.writeInt32(
       3,
-      f,
-      proto.warehouse.ProductType.serializeBinaryToWriter
+      f
     );
   }
-  f = message.getMaterialtype();
-  if (f != null) {
-    writer.writeMessage(
+  f = message.getMaterialtypeid();
+  if (f !== 0) {
+    writer.writeInt32(
       4,
-      f,
-      proto.warehouse.MaterialType.serializeBinaryToWriter
+      f
     );
   }
 };
@@ -2506,62 +3817,32 @@ proto.warehouse.MaterialSpecification.prototype.setQuantity = function(value) {
 
 
 /**
- * optional ProductType productType = 3;
- * @return {?proto.warehouse.ProductType}
+ * optional int32 productTypeId = 3;
+ * @return {number}
  */
-proto.warehouse.MaterialSpecification.prototype.getProducttype = function() {
-  return /** @type{?proto.warehouse.ProductType} */ (
-    jspb.Message.getWrapperField(this, proto.warehouse.ProductType, 3));
+proto.warehouse.MaterialSpecification.prototype.getProducttypeid = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 3, 0));
 };
 
 
-/** @param {?proto.warehouse.ProductType|undefined} value */
-proto.warehouse.MaterialSpecification.prototype.setProducttype = function(value) {
-  jspb.Message.setWrapperField(this, 3, value);
-};
-
-
-proto.warehouse.MaterialSpecification.prototype.clearProducttype = function() {
-  this.setProducttype(undefined);
+/** @param {number} value */
+proto.warehouse.MaterialSpecification.prototype.setProducttypeid = function(value) {
+  jspb.Message.setProto3IntField(this, 3, value);
 };
 
 
 /**
- * Returns whether this field is set.
- * @return {boolean}
+ * optional int32 materialTypeId = 4;
+ * @return {number}
  */
-proto.warehouse.MaterialSpecification.prototype.hasProducttype = function() {
-  return jspb.Message.getField(this, 3) != null;
+proto.warehouse.MaterialSpecification.prototype.getMaterialtypeid = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 4, 0));
 };
 
 
-/**
- * optional MaterialType materialType = 4;
- * @return {?proto.warehouse.MaterialType}
- */
-proto.warehouse.MaterialSpecification.prototype.getMaterialtype = function() {
-  return /** @type{?proto.warehouse.MaterialType} */ (
-    jspb.Message.getWrapperField(this, proto.warehouse.MaterialType, 4));
-};
-
-
-/** @param {?proto.warehouse.MaterialType|undefined} value */
-proto.warehouse.MaterialSpecification.prototype.setMaterialtype = function(value) {
-  jspb.Message.setWrapperField(this, 4, value);
-};
-
-
-proto.warehouse.MaterialSpecification.prototype.clearMaterialtype = function() {
-  this.setMaterialtype(undefined);
-};
-
-
-/**
- * Returns whether this field is set.
- * @return {boolean}
- */
-proto.warehouse.MaterialSpecification.prototype.hasMaterialtype = function() {
-  return jspb.Message.getField(this, 4) != null;
+/** @param {number} value */
+proto.warehouse.MaterialSpecification.prototype.setMaterialtypeid = function(value) {
+  jspb.Message.setProto3IntField(this, 4, value);
 };
 
 
@@ -2614,8 +3895,8 @@ proto.warehouse.MaterialItem.toObject = function(includeInstance, msg) {
   var f, obj = {
     id: jspb.Message.getFieldWithDefault(msg, 1, 0),
     serial: jspb.Message.getFieldWithDefault(msg, 2, ""),
-    materialtype: (f = msg.getMaterialtype()) && proto.warehouse.MaterialType.toObject(includeInstance, f),
-    warehouse: (f = msg.getWarehouse()) && proto.warehouse.Warehouse.toObject(includeInstance, f),
+    materialtypeid: jspb.Message.getFieldWithDefault(msg, 3, 0),
+    warehouseid: jspb.Message.getFieldWithDefault(msg, 4, 0),
     orderserial: jspb.Message.getFieldWithDefault(msg, 5, ""),
     materialstate: jspb.Message.getFieldWithDefault(msg, 6, 0)
   };
@@ -2663,14 +3944,12 @@ proto.warehouse.MaterialItem.deserializeBinaryFromReader = function(msg, reader)
       msg.setSerial(value);
       break;
     case 3:
-      var value = new proto.warehouse.MaterialType;
-      reader.readMessage(value,proto.warehouse.MaterialType.deserializeBinaryFromReader);
-      msg.setMaterialtype(value);
+      var value = /** @type {number} */ (reader.readInt32());
+      msg.setMaterialtypeid(value);
       break;
     case 4:
-      var value = new proto.warehouse.Warehouse;
-      reader.readMessage(value,proto.warehouse.Warehouse.deserializeBinaryFromReader);
-      msg.setWarehouse(value);
+      var value = /** @type {number} */ (reader.readInt32());
+      msg.setWarehouseid(value);
       break;
     case 5:
       var value = /** @type {string} */ (reader.readString());
@@ -2723,20 +4002,18 @@ proto.warehouse.MaterialItem.serializeBinaryToWriter = function(message, writer)
       f
     );
   }
-  f = message.getMaterialtype();
-  if (f != null) {
-    writer.writeMessage(
+  f = message.getMaterialtypeid();
+  if (f !== 0) {
+    writer.writeInt32(
       3,
-      f,
-      proto.warehouse.MaterialType.serializeBinaryToWriter
+      f
     );
   }
-  f = message.getWarehouse();
-  if (f != null) {
-    writer.writeMessage(
+  f = message.getWarehouseid();
+  if (f !== 0) {
+    writer.writeInt32(
       4,
-      f,
-      proto.warehouse.Warehouse.serializeBinaryToWriter
+      f
     );
   }
   f = message.getOrderserial();
@@ -2787,62 +4064,32 @@ proto.warehouse.MaterialItem.prototype.setSerial = function(value) {
 
 
 /**
- * optional MaterialType materialType = 3;
- * @return {?proto.warehouse.MaterialType}
+ * optional int32 materialTypeId = 3;
+ * @return {number}
  */
-proto.warehouse.MaterialItem.prototype.getMaterialtype = function() {
-  return /** @type{?proto.warehouse.MaterialType} */ (
-    jspb.Message.getWrapperField(this, proto.warehouse.MaterialType, 3));
+proto.warehouse.MaterialItem.prototype.getMaterialtypeid = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 3, 0));
 };
 
 
-/** @param {?proto.warehouse.MaterialType|undefined} value */
-proto.warehouse.MaterialItem.prototype.setMaterialtype = function(value) {
-  jspb.Message.setWrapperField(this, 3, value);
-};
-
-
-proto.warehouse.MaterialItem.prototype.clearMaterialtype = function() {
-  this.setMaterialtype(undefined);
+/** @param {number} value */
+proto.warehouse.MaterialItem.prototype.setMaterialtypeid = function(value) {
+  jspb.Message.setProto3IntField(this, 3, value);
 };
 
 
 /**
- * Returns whether this field is set.
- * @return {boolean}
+ * optional int32 warehouseId = 4;
+ * @return {number}
  */
-proto.warehouse.MaterialItem.prototype.hasMaterialtype = function() {
-  return jspb.Message.getField(this, 3) != null;
+proto.warehouse.MaterialItem.prototype.getWarehouseid = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 4, 0));
 };
 
 
-/**
- * optional Warehouse warehouse = 4;
- * @return {?proto.warehouse.Warehouse}
- */
-proto.warehouse.MaterialItem.prototype.getWarehouse = function() {
-  return /** @type{?proto.warehouse.Warehouse} */ (
-    jspb.Message.getWrapperField(this, proto.warehouse.Warehouse, 4));
-};
-
-
-/** @param {?proto.warehouse.Warehouse|undefined} value */
-proto.warehouse.MaterialItem.prototype.setWarehouse = function(value) {
-  jspb.Message.setWrapperField(this, 4, value);
-};
-
-
-proto.warehouse.MaterialItem.prototype.clearWarehouse = function() {
-  this.setWarehouse(undefined);
-};
-
-
-/**
- * Returns whether this field is set.
- * @return {boolean}
- */
-proto.warehouse.MaterialItem.prototype.hasWarehouse = function() {
-  return jspb.Message.getField(this, 4) != null;
+/** @param {number} value */
+proto.warehouse.MaterialItem.prototype.setWarehouseid = function(value) {
+  jspb.Message.setProto3IntField(this, 4, value);
 };
 
 

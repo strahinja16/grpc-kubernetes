@@ -8,33 +8,33 @@ service WarehouseAndMaterials {
     rpc addWarehouse (AddWarehouseRequest) returns (AddWarehouseResponse);
     rpc addProductTypeAndMaterialSpecifications (AddProductTypeAndMaterialSpecificationsRequest) returns (AddProductTypeAndMaterialSpecificationsResponse);
     rpc setOrderForMaterialItems (SetOrderForMaterialItemsRequest) returns (SetOrderForMaterialItemsResponse);
+    rpc getMaterialQuantitiesByNameAndState (GetMaterialQuantitiesByNameAndStateRequest) returns (GetMaterialQuantitiesByNameAndStateResponse);
 }
 
 message AddMaterialTypeRequest {
     string name = 1;
 }
 message AddMaterialTypeResponse {
-    int32 id = 1;
-    string name = 2;
+    MaterialType materialType = 1;
 }
 
 message AddMaterialItemsRequest {
-    repeated MaterialItem materialItems = 1;
+    repeated AddMaterialItemDto materialItems = 1;
 }
 message AddMaterialItemsResponse {
     repeated MaterialItem materialItems = 1;
 }
 
 message AddWarehouseRequest {
-    Warehouse warehouse = 1;
+    AddWarehouseDto warehouse = 1;
 }
 message AddWarehouseResponse {
     Warehouse warehouse = 1;
 }
 
 message AddProductTypeAndMaterialSpecificationsRequest {
-    ProductType productType = 1;
-    repeated MaterialSpecification materialSpecs = 2;
+    AddProductTypeDto productType = 1;
+    repeated AddMaterialSpecificationDto materialSpecs = 2;
 }
 message AddProductTypeAndMaterialSpecificationsResponse {
     ProductType productType = 1;
@@ -49,8 +49,46 @@ message SetOrderForMaterialItemsResponse {
     repeated MaterialItem materialItems = 1;
 }
 
+message GetMaterialQuantitiesByNameAndStateRequest {
+}
+message GetMaterialQuantitiesByNameAndStateResponse {
+    repeated MaterialQuantityByNameAndState materialQuantities = 1;
+}
 
-// entities
+//---------------------------- dtos --------------------------------
+
+message AddMaterialItemDto {
+    int32 id = 1;
+    string serial = 2;
+    int32 materialTypeId = 3;
+    int32 warehouseId = 4;
+    string orderSerial = 5;
+    MaterialState materialState = 6;
+}
+
+message AddWarehouseDto {
+    string name = 1;
+    int32 capacity = 2;
+}
+
+message AddProductTypeDto {
+    string name = 1;
+    int32 price = 2;
+}
+
+message AddMaterialSpecificationDto {
+    int32 quantity = 1;
+    int32 materialTypeId = 3;
+}
+
+message MaterialQuantityByNameAndState {
+    string materialName = 1;
+    int32 quantity = 2;
+    MaterialState materialState = 3;
+    int32 warehouseId = 4;
+}
+
+//--------------------------- entities -----------------------------
 message Warehouse {
     int32 id = 1;
     string name = 2;
@@ -65,20 +103,21 @@ message MaterialType {
 message ProductType {
     int32 id = 1;
     string name = 2;
+    int32 price = 3;
 }
 
 message MaterialSpecification {
     int32 id = 1;
     int32 quantity = 2;
-    ProductType productType = 3;
-    MaterialType materialType = 4;
+    int32 productTypeId = 3;
+    int32 materialTypeId = 4;
 }
 
 message MaterialItem {
     int32 id = 1;
     string serial = 2;
-    MaterialType materialType = 3;
-    Warehouse warehouse = 4;
+    int32 materialTypeId = 3;
+    int32 warehouseId = 4;
     string orderSerial = 5;
     MaterialState materialState = 6;
 }

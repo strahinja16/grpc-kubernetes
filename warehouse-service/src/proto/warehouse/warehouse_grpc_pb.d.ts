@@ -13,6 +13,7 @@ interface IWarehouseAndMaterialsService extends grpc.ServiceDefinition<grpc.Unty
     addWarehouse: IWarehouseAndMaterialsService_IaddWarehouse;
     addProductTypeAndMaterialSpecifications: IWarehouseAndMaterialsService_IaddProductTypeAndMaterialSpecifications;
     setOrderForMaterialItems: IWarehouseAndMaterialsService_IsetOrderForMaterialItems;
+    getMaterialQuantitiesByNameAndState: IWarehouseAndMaterialsService_IgetMaterialQuantitiesByNameAndState;
 }
 
 interface IWarehouseAndMaterialsService_IaddMaterialType extends grpc.MethodDefinition<warehouse_pb.AddMaterialTypeRequest, warehouse_pb.AddMaterialTypeResponse> {
@@ -60,6 +61,15 @@ interface IWarehouseAndMaterialsService_IsetOrderForMaterialItems extends grpc.M
     responseSerialize: grpc.serialize<warehouse_pb.SetOrderForMaterialItemsResponse>;
     responseDeserialize: grpc.deserialize<warehouse_pb.SetOrderForMaterialItemsResponse>;
 }
+interface IWarehouseAndMaterialsService_IgetMaterialQuantitiesByNameAndState extends grpc.MethodDefinition<warehouse_pb.GetMaterialQuantitiesByNameAndStateRequest, warehouse_pb.GetMaterialQuantitiesByNameAndStateResponse> {
+    path: string; // "/warehouse.WarehouseAndMaterials/getMaterialQuantitiesByNameAndState"
+    requestStream: boolean; // false
+    responseStream: boolean; // false
+    requestSerialize: grpc.serialize<warehouse_pb.GetMaterialQuantitiesByNameAndStateRequest>;
+    requestDeserialize: grpc.deserialize<warehouse_pb.GetMaterialQuantitiesByNameAndStateRequest>;
+    responseSerialize: grpc.serialize<warehouse_pb.GetMaterialQuantitiesByNameAndStateResponse>;
+    responseDeserialize: grpc.deserialize<warehouse_pb.GetMaterialQuantitiesByNameAndStateResponse>;
+}
 
 export const WarehouseAndMaterialsService: IWarehouseAndMaterialsService;
 
@@ -69,6 +79,7 @@ export interface IWarehouseAndMaterialsServer {
     addWarehouse: grpc.handleUnaryCall<warehouse_pb.AddWarehouseRequest, warehouse_pb.AddWarehouseResponse>;
     addProductTypeAndMaterialSpecifications: grpc.handleUnaryCall<warehouse_pb.AddProductTypeAndMaterialSpecificationsRequest, warehouse_pb.AddProductTypeAndMaterialSpecificationsResponse>;
     setOrderForMaterialItems: grpc.handleUnaryCall<warehouse_pb.SetOrderForMaterialItemsRequest, warehouse_pb.SetOrderForMaterialItemsResponse>;
+    getMaterialQuantitiesByNameAndState: grpc.handleUnaryCall<warehouse_pb.GetMaterialQuantitiesByNameAndStateRequest, warehouse_pb.GetMaterialQuantitiesByNameAndStateResponse>;
 }
 
 export interface IWarehouseAndMaterialsClient {
@@ -87,6 +98,9 @@ export interface IWarehouseAndMaterialsClient {
     setOrderForMaterialItems(request: warehouse_pb.SetOrderForMaterialItemsRequest, callback: (error: grpc.ServiceError | null, response: warehouse_pb.SetOrderForMaterialItemsResponse) => void): grpc.ClientUnaryCall;
     setOrderForMaterialItems(request: warehouse_pb.SetOrderForMaterialItemsRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: warehouse_pb.SetOrderForMaterialItemsResponse) => void): grpc.ClientUnaryCall;
     setOrderForMaterialItems(request: warehouse_pb.SetOrderForMaterialItemsRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: warehouse_pb.SetOrderForMaterialItemsResponse) => void): grpc.ClientUnaryCall;
+    getMaterialQuantitiesByNameAndState(request: warehouse_pb.GetMaterialQuantitiesByNameAndStateRequest, callback: (error: grpc.ServiceError | null, response: warehouse_pb.GetMaterialQuantitiesByNameAndStateResponse) => void): grpc.ClientUnaryCall;
+    getMaterialQuantitiesByNameAndState(request: warehouse_pb.GetMaterialQuantitiesByNameAndStateRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: warehouse_pb.GetMaterialQuantitiesByNameAndStateResponse) => void): grpc.ClientUnaryCall;
+    getMaterialQuantitiesByNameAndState(request: warehouse_pb.GetMaterialQuantitiesByNameAndStateRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: warehouse_pb.GetMaterialQuantitiesByNameAndStateResponse) => void): grpc.ClientUnaryCall;
 }
 
 export class WarehouseAndMaterialsClient extends grpc.Client implements IWarehouseAndMaterialsClient {
@@ -106,4 +120,7 @@ export class WarehouseAndMaterialsClient extends grpc.Client implements IWarehou
     public setOrderForMaterialItems(request: warehouse_pb.SetOrderForMaterialItemsRequest, callback: (error: grpc.ServiceError | null, response: warehouse_pb.SetOrderForMaterialItemsResponse) => void): grpc.ClientUnaryCall;
     public setOrderForMaterialItems(request: warehouse_pb.SetOrderForMaterialItemsRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: warehouse_pb.SetOrderForMaterialItemsResponse) => void): grpc.ClientUnaryCall;
     public setOrderForMaterialItems(request: warehouse_pb.SetOrderForMaterialItemsRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: warehouse_pb.SetOrderForMaterialItemsResponse) => void): grpc.ClientUnaryCall;
+    public getMaterialQuantitiesByNameAndState(request: warehouse_pb.GetMaterialQuantitiesByNameAndStateRequest, callback: (error: grpc.ServiceError | null, response: warehouse_pb.GetMaterialQuantitiesByNameAndStateResponse) => void): grpc.ClientUnaryCall;
+    public getMaterialQuantitiesByNameAndState(request: warehouse_pb.GetMaterialQuantitiesByNameAndStateRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: warehouse_pb.GetMaterialQuantitiesByNameAndStateResponse) => void): grpc.ClientUnaryCall;
+    public getMaterialQuantitiesByNameAndState(request: warehouse_pb.GetMaterialQuantitiesByNameAndStateRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: warehouse_pb.GetMaterialQuantitiesByNameAndStateResponse) => void): grpc.ClientUnaryCall;
 }

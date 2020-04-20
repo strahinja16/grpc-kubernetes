@@ -4,7 +4,13 @@ import { ApolloError } from 'apollo-server-express';
 
 const resolverMap: IResolvers = {
     Query: {
-        helloWorld: () => {}
+        getMaterialQuantitiesByNameAndState:  async () => {
+            try {
+                return await warehouseGrpcClient.getOrderForMaterialItems();
+            }catch (e) {
+                throw new ApolloError(`api-gateway: GraphQL Error: ${e.toString()}`);
+            }
+        },
     },
     Mutation: {
         addMaterialType:  async (root, { input }) => {
@@ -26,6 +32,22 @@ const resolverMap: IResolvers = {
         addWarehouse:  async (root, { input }) => {
             try {
                 return await warehouseGrpcClient.addWarehouse(input)
+            }catch (e) {
+                throw new ApolloError(`api-gateway: GraphQL Error: ${e.toString()}`);
+            }
+        },
+
+        addProductTypeAndMaterialSpecifications:  async (root, { input }) => {
+            try {
+                return await warehouseGrpcClient.addProductTypeAndMaterialSpecifications(input)
+            }catch (e) {
+                throw new ApolloError(`api-gateway: GraphQL Error: ${e.toString()}`);
+            }
+        },
+
+        setOrderForMaterialItems:  async (root, { input }) => {
+            try {
+                return await warehouseGrpcClient.setOrderForMaterialItems(input)
             }catch (e) {
                 throw new ApolloError(`api-gateway: GraphQL Error: ${e.toString()}`);
             }

@@ -1,7 +1,7 @@
 import {getRepository} from 'typeorm';
 import { v4 as uuid } from 'uuid';
 import {MaterialType} from "../entities/material-type";
-import {MaterialItem} from "../entities/material-item";
+import {MaterialItem, MaterialState} from "../entities/material-item";
 import {Warehouse} from "../entities/warehouse";
 import {ProductType} from "../entities/product-type";
 import {MaterialSpecification} from "../entities/material-specification";
@@ -9,6 +9,13 @@ import {MaterialSpecification} from "../entities/material-specification";
 export interface ProductTypeAndMaterialSpecs {
     productType: ProductType;
     materialSpecs: MaterialSpecification[];
+}
+
+export interface IMaterialQuantityByNameAndState {
+    warehouseId: number;
+    quantity: number;
+    materialName: string;
+    materialState: MaterialState,
 }
 
 class WarehouseRepository {
@@ -69,17 +76,16 @@ class WarehouseRepository {
         }
     };
 
-    checkIfThereAreMaterialsForOrder = async (): Promise<void> => {
+    getMaterialQuantitiesByNameAndState = async (): Promise<IMaterialQuantityByNameAndState[]> => {
         try {
+            const matQuantities = await getRepository(MaterialItem).query(`
+                select COUNT(*) as quantity,mt.Name as "materialName", mi."materialState" ,  mi."warehouseId"
+                from material_item mi
+                inner join material_type mt on mt.id = mi."materialTypeId"
+                group by mt.name, mi."materialState", mi."warehouseId"
+            `);
 
-        }catch (e) {
-            console.log(`warehouse-service: WarehouseRepository.checkIfThereAreMaterialsForOrder error: ${e.toString()}`)
-        }
-    };
-
-    getMaterialQuantitiesByType = async (): Promise<void> => {
-        try {
-
+            return matQuantities as IMaterialQuantityByNameAndState[];
         }catch (e) {
             console.log(`warehouse-service: WarehouseRepository.getMaterialQuantitiesByType error: ${e.toString()}`)
         }

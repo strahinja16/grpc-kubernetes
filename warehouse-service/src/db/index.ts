@@ -32,12 +32,12 @@ export const getDbConnection = async (): Promise<Connection> => {
 
             return connection;
         })
-        // .then((connection) => {
-        //     connection.synchronize();
-        //     seedDatabase(connection);
-        //
-        //     return connection;
-        // })
+        .then((connection) => {
+            // connection.synchronize();
+            // seedDatabase(connection);
+
+            return connection;
+        })
         .catch((err: any) => console.log(err.toString()));
 };
 

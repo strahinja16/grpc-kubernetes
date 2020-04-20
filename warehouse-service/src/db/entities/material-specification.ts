@@ -1,4 +1,4 @@
-import {Entity, Column, PrimaryGeneratedColumn, ManyToOne } from "typeorm";
+import {Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn} from "typeorm";
 import {ProductType} from "./product-type";
 import {MaterialType} from "./material-type";
 
@@ -12,9 +12,17 @@ export class MaterialSpecification {
     })
     quantity: number;
 
+    @Column("int", { nullable: true })
+    productTypeId: number;
+
     @ManyToOne(type => ProductType)
+    @JoinColumn({ name: "productTypeId" })
     productType: ProductType;
 
+    @Column("int", { nullable: true })
+    materialTypeId: number;
+
     @ManyToOne(type => MaterialType)
+    @JoinColumn({ name: "materialTypeId" })
     materialType: MaterialType;
 }

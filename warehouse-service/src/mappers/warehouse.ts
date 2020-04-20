@@ -1,10 +1,9 @@
-import {Warehouse} from "../proto/warehouse/warehouse_pb";
+import {AddWarehouseDto, Warehouse} from "../proto/warehouse/warehouse_pb";
 import {Warehouse as WarehouseEntity} from "../db/entities/warehouse";
 
 class WarehouseMapper {
-    toTs(warehouse: Warehouse): WarehouseEntity {
+    addWarehouseDtoToTs(warehouse: AddWarehouseDto): Partial<WarehouseEntity> {
         return {
-            id: warehouse.getId(),
             name: warehouse.getName(),
             capacity: warehouse.getCapacity(),
         } as WarehouseEntity;

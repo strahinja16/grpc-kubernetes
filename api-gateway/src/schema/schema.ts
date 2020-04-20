@@ -1,12 +1,14 @@
 
 export const typeDef = `
   type Query {
-    helloWorld: String
+    getMaterialQuantitiesByNameAndState: [MaterialQuantityByNameAndState!]!
   }
 
   type Mutation {
     addMaterialType(input: InputAddMaterialType!): MaterialType!
-    addMaterialItems(input: InputAddMaterialItems!): [MaterialItem!]!
     addWarehouse(input: InputAddWarehouse!): Warehouse!
+    setOrderForMaterialItems(input: InputSetOrderForMaterialItems!): [MaterialItem!]!
+    addMaterialItems(input: InputAddMaterialItems!): [MaterialItem!]!
+    addProductTypeAndMaterialSpecifications(input: InputAddProductTypeAndMaterialSpecifications!): ProductTypeAndMaterialSpecifications!
   }
 `;

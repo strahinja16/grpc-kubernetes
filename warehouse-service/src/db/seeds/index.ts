@@ -2,6 +2,7 @@ import {ProductType} from "../entities/product-type";
 import {MaterialType} from "../entities/material-type";
 import {MaterialSpecification} from "../entities/material-specification";
 import { Connection } from 'typeorm';
+import {Warehouse} from "../entities/warehouse";
 
 export const seedDatabase = async (connection: Connection) => {
     try {
@@ -57,6 +58,13 @@ export const seedDatabase = async (connection: Connection) => {
             .insert()
             .into(MaterialSpecification)
             .values(materialSpecs)
+            .execute();
+
+        await connection
+            .createQueryBuilder()
+            .insert()
+            .into(Warehouse)
+            .values({ name: 'warehouse1', capacity: 50 })
             .execute();
 
     } catch (e) {
