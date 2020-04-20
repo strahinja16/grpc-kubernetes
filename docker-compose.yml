@@ -17,7 +17,7 @@ services:
     restart: always
     build: ./warehouse-service
     ports:
-      - "3001:3001"
+      - "3001:3000"
       - "50051:50051"
     volumes:
       - ./warehouse-service:/usr/src/app
@@ -25,6 +25,19 @@ services:
       - ./proto:/usr/src/app/src/proto
     depends_on:
       - warehousedb
+
+  personnel-service:
+    restart: always
+    build: ./personnel-service
+    ports:
+      - "3002:3000"
+      - "50052:50051"
+    volumes:
+      - ./personnel-service:/usr/src/app
+      - /usr/src/app/node_modules
+      - ./proto:/usr/src/app/src/proto
+    depends_on:
+      - personneldb
 
   warehousedb:
     restart: always
@@ -35,3 +48,13 @@ services:
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=root
       - POSTGRES_DB=warehousedb
+
+  personneldb:
+    restart: always
+    image: postgres:12-alpine
+    ports:
+      - "5002:5432"
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=personneldb

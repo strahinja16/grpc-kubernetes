@@ -1,11 +1,11 @@
 export interface IPersonnelCredentials {
-    serial: string;
+    personnelId: number;
     role: string;
 }
 
 export const typeDef = `
   input PersonnelCredentials {
-    serial: String!
-    role: String!
+    personnelId: Int!
+    role: Int!
   }
 `;

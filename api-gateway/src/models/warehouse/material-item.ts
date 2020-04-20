@@ -1,4 +1,4 @@
-import {IPersonnelCredentials} from "../shared/user-credentials";
+import {IPersonnelCredentials} from "../shared/personnel-credentials";
 import {IMaterialType} from "./material-type";
 import { IWarehouse } from "./warehouse";
 

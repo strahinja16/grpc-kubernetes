@@ -2,7 +2,7 @@ import 'dotenv/config';
 import * as grpc from 'grpc';
 
 import { protoInit } from '../proto';
-import WarehouseService from './warehouse';
+import PersonnelService from './personnel';
 
 protoInit();
 
@@ -14,7 +14,7 @@ export const startGrpcServer: StartGrpcServerType = (): void => {
     const server: grpc.Server = new grpc.Server();
 
     // register all the handler here...
-    server.addService(WarehouseService.service, WarehouseService.implementation);
+    server.addService(PersonnelService.service, PersonnelService.implementation);
 
     // define the host/port for server
     server.bindAsync(
@@ -24,7 +24,7 @@ export const startGrpcServer: StartGrpcServerType = (): void => {
             if (err != null) {
                 return console.error(err);
             }
-            console.log(`\n🚀  gRPC listening on ${ port } on warehouse-service`);
+            console.log(`\n🚀  gRPC listening on ${ port } on personnel-service`);
         },
     );
 

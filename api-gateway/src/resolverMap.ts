@@ -1,10 +1,11 @@
 import { IResolvers } from 'graphql-tools';
 import warehouseGrpcClient from './grpc/warehouse';
+import personnelGrpcClient from './grpc/personnel';
 import { ApolloError } from 'apollo-server-express';
 
 const resolverMap: IResolvers = {
     Query: {
-        getMaterialQuantitiesByNameAndState:  async () => {
+        getMaterialQuantitiesByNameAndState: async () => {
             try {
                 return await warehouseGrpcClient.getOrderForMaterialItems();
             }catch (e) {
@@ -13,7 +14,7 @@ const resolverMap: IResolvers = {
         },
     },
     Mutation: {
-        addMaterialType:  async (root, { input }) => {
+        addMaterialType: async (root, { input }) => {
             try {
                 return await warehouseGrpcClient.addMaterialType(input)
             }catch (e) {
@@ -21,7 +22,7 @@ const resolverMap: IResolvers = {
             }
         },
 
-        addMaterialItems:  async (root, { input }) => {
+        addMaterialItems: async (root, { input }) => {
             try {
                 return await warehouseGrpcClient.addMaterialItems(input)
             }catch (e) {
@@ -29,7 +30,7 @@ const resolverMap: IResolvers = {
             }
         },
 
-        addWarehouse:  async (root, { input }) => {
+        addWarehouse: async (root, { input }) => {
             try {
                 return await warehouseGrpcClient.addWarehouse(input)
             }catch (e) {
@@ -37,7 +38,7 @@ const resolverMap: IResolvers = {
             }
         },
 
-        addProductTypeAndMaterialSpecifications:  async (root, { input }) => {
+        addProductTypeAndMaterialSpecifications: async (root, { input }) => {
             try {
                 return await warehouseGrpcClient.addProductTypeAndMaterialSpecifications(input)
             }catch (e) {
@@ -45,9 +46,33 @@ const resolverMap: IResolvers = {
             }
         },
 
-        setOrderForMaterialItems:  async (root, { input }) => {
+        setOrderForMaterialItems: async (root, { input }) => {
             try {
                 return await warehouseGrpcClient.setOrderForMaterialItems(input)
+            }catch (e) {
+                throw new ApolloError(`api-gateway: GraphQL Error: ${e.toString()}`);
+            }
+        },
+
+        signUp: async (root, { input }) => {
+            try {
+                return await personnelGrpcClient.signUp(input)
+            }catch (e) {
+                throw new ApolloError(`api-gateway: GraphQL Error: ${e.toString()}`);
+            }
+        },
+
+        login: async (root, { input }) => {
+            try {
+                return await personnelGrpcClient.login(input)
+            }catch (e) {
+                throw new ApolloError(`api-gateway: GraphQL Error: ${e.toString()}`);
+            }
+        },
+
+        changeRole: async (root, { input }) => {
+            try {
+                return await personnelGrpcClient.changeRole(input)
             }catch (e) {
                 throw new ApolloError(`api-gateway: GraphQL Error: ${e.toString()}`);
             }

@@ -16,7 +16,7 @@ import {
     SetOrderForMaterialItemsResponse,
 } from '../proto/warehouse/warehouse_pb';
 import { WarehouseAndMaterialsService, IWarehouseAndMaterialsServer } from '../proto/warehouse/warehouse_grpc_pb';
-import {warehouseRepository} from "../db/repositories/warehouse";
+import {warehouseRepository} from "../db/repositories";
 import {materialItemMapper} from "../mappers/material-item";
 import { materialTypeMapper } from '../mappers/material-type';
 import {warehouseMapper} from "../mappers/warehouse";

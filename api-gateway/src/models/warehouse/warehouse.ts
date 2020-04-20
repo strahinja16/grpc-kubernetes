@@ -1,4 +1,4 @@
-import {IPersonnelCredentials} from "../shared/user-credentials";
+import {IPersonnelCredentials} from "../shared/personnel-credentials";
 
 export interface IWarehouse {
     id: number;
