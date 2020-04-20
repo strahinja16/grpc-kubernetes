@@ -4,6 +4,7 @@ import depthLimit from 'graphql-depth-limit';
 import { createServer } from 'http';
 import compression from 'compression';
 import cors from 'cors';
+import * as jwt from 'jsonwebtoken';
 
 import schema from './schema';
 import graphqlLoggingPlugin from './plugins/graphql-logging';
@@ -15,7 +16,15 @@ const server = new ApolloServer({
     validationRules: [depthLimit(7)],
     plugins: [
         graphqlLoggingPlugin,
-    ]
+    ],
+    context: ({ req }) => {
+        if (!req.headers.authorization || !req.headers.authorization.includes('Bearer')) {
+            return {};
+        }
+
+        const user = jwt.verify(req.headers.authorization.substring(7), 'APP_KEY');
+        return { user };
+    },
 });
 
 app.use('*', cors());

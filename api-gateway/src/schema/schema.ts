@@ -10,8 +10,8 @@ export const typeDef = `
     setOrderForMaterialItems(input: InputSetOrderForMaterialItems!): [MaterialItem!]!
     addMaterialItems(input: InputAddMaterialItems!): [MaterialItem!]!
     addProductTypeAndMaterialSpecifications(input: InputAddProductTypeAndMaterialSpecifications!): ProductTypeAndMaterialSpecifications!
-    signUp(input: InputSignUp!): Personnel!
-    login(input: InputLogin!): Personnel!
+    signUp(input: InputSignUp!): PersonnelWithJwt!
+    login(input: InputLogin!): PersonnelWithJwt!
     changeRole(input: InputChangeRole!): Personnel!
   }
 `;

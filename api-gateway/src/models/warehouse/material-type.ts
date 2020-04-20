@@ -11,7 +11,6 @@ export const typeDef = `
   }
   
   input InputAddMaterialType {
-    personnelCredentials: PersonnelCredentials!
     name: String!
   }   
 `;

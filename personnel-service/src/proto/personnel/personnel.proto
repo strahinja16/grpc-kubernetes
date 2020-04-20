@@ -13,6 +13,7 @@ message SignUpRequest {
 }
 message SignUpResponse {
     Personnel person = 1;
+    string jwt = 2;
 }
 
 message LoginRequest {
@@ -20,6 +21,7 @@ message LoginRequest {
 }
 message LoginResponse {
     Personnel person = 1;
+    string jwt = 2;
 }
 
 message ChangeRoleRequest {

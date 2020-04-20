@@ -2,7 +2,7 @@ import {Personnel as PersonnelEntity } from "../db/entities/personnel";
 import {Personnel, Role} from "../proto/personnel/personnel_pb";
 
 class PersonnelMapper {
-    toGrpc(person: PersonnelEntity): Personnel {
+    toGrpc(person: Partial<PersonnelEntity>): Personnel {
         const personnel = new Personnel();
         personnel.setEmail(person.email);
         personnel.setId(person.id);

@@ -2,9 +2,15 @@ import {getRepository} from 'typeorm';
 import {v4 as uuid} from 'uuid';
 import {Personnel, Role} from "../entities/personnel";
 import * as passwordHash from "password-hash";
+import * as jwt from 'jsonwebtoken';
+
+export interface IPersonJwt {
+    personnel: Partial<Personnel>;
+    jwt: string;
+}
 
 class PersonnelRepository {
-    signUp = async (personnel: Partial<Personnel>): Promise<Personnel> => {
+    signUp = async (personnel: Partial<Personnel>): Promise<IPersonJwt> => {
         try {
             const personnelRepository = getRepository(Personnel);
             const existingPerson = await personnelRepository.findOne({ email: personnel.email });
@@ -16,13 +22,19 @@ class PersonnelRepository {
             personnel.password = passwordHash.generate(personnel.password);
             personnel.role = Role.operator;
 
-            return await getRepository(Personnel).save(personnel);
+            const savedPersonnel = await getRepository(Personnel).save(personnel);
+            delete savedPersonnel.password;
+
+            return {
+                personnel: savedPersonnel,
+                jwt: jwt.sign(JSON.parse(JSON.stringify(savedPersonnel)), 'APP_KEY'),
+            }
         }catch (e) {
             console.log(`personnel-service: PersonnelRepository.signUp error: ${e.toString()}`)
         }
     };
 
-    login = async (personnel: Partial<Personnel>): Promise<Personnel> => {
+    login = async (personnel: Partial<Personnel>): Promise<IPersonJwt> => {
         try {
             const personnelRepository = getRepository(Personnel);
             const existingPerson = await personnelRepository.findOne({ email: personnel.email });
@@ -34,7 +46,12 @@ class PersonnelRepository {
                 throw new Error('Wrong password.');
             }
 
-            return existingPerson;
+            delete existingPerson.password;
+
+            return {
+                personnel: existingPerson,
+                jwt: jwt.sign(JSON.parse(JSON.stringify(existingPerson)), 'APP_KEY'),
+            }
         }catch (e) {
             console.log(`personnel-service: PersonnelRepository.login error: ${e.toString()}`)
         }

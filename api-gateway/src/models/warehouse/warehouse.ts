@@ -1,4 +1,3 @@
-import {IPersonnelCredentials} from "../shared/personnel-credentials";
 
 export interface IWarehouse {
     id: number;
@@ -7,7 +6,6 @@ export interface IWarehouse {
 }
 
 export interface InputAddWarehouse {
-    personnelCredentials: IPersonnelCredentials;
     warehouse: IAddWarehouseDto;
 }
 
@@ -29,7 +27,6 @@ export const typeDef = `
   }
 
   input InputAddWarehouse {
-    personnelCredentials: PersonnelCredentials!
     warehouse: InputAddWarehouseDto!
   }   
 `;

@@ -1,4 +1,3 @@
-import {IPersonnelCredentials} from "../shared/personnel-credentials";
 import {IAddMaterialSpecificationDto, IMaterialSpecification} from "./material-specification";
 
 export interface IProductType {
@@ -8,7 +7,6 @@ export interface IProductType {
 }
 
 export interface InputAddProductTypeAndMaterialSpecifications {
-    personnelCredentials: IPersonnelCredentials;
     productType: IAddProductTypeDto;
     materialSpecs: IAddMaterialSpecificationDto[];
 }
@@ -38,7 +36,6 @@ export const typeDef = `
   input InputAddProductTypeAndMaterialSpecifications {
     productType: InputAddProductTypeDto!
     materialSpecs: [InputAddMaterialSpecificationDto!]!
-    personnelCredentials: PersonnelCredentials!
   }
   
   input InputAddProductTypeDto {

@@ -24,10 +24,11 @@ class PersonnelServer implements IPersonnelManagementServer {
         callback: grpc.sendUnaryData<SignUpResponse>
     ): Promise<void> => {
         try {
-            const person = await personnelRepository.signUp(call.request.getSignupdto().toObject());
+            const personWithJwt = await personnelRepository.signUp(call.request.getSignupdto().toObject());
 
             const response = new SignUpResponse();
-            response.setPerson(personnelMapper.toGrpc(person));
+            response.setPerson(personnelMapper.toGrpc(personWithJwt.personnel));
+            response.setJwt(personWithJwt.jwt);
 
             callback(null, response);
         } catch (e) {
@@ -46,10 +47,11 @@ class PersonnelServer implements IPersonnelManagementServer {
         callback: grpc.sendUnaryData<LoginResponse>
     ): Promise<void> => {
         try {
-            const person = await personnelRepository.login(call.request.getLogindto().toObject());
+            const personWithJwt = await personnelRepository.login(call.request.getLogindto().toObject());
 
             const response = new LoginResponse();
-            response.setPerson(personnelMapper.toGrpc(person));
+            response.setPerson(personnelMapper.toGrpc(personWithJwt.personnel));
+            response.setJwt(personWithJwt.jwt);
 
             callback(null, response);
         } catch (e) {

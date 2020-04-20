@@ -227,7 +227,8 @@ proto.personnel.SignUpResponse.prototype.toObject = function(opt_includeInstance
  */
 proto.personnel.SignUpResponse.toObject = function(includeInstance, msg) {
   var f, obj = {
-    person: (f = msg.getPerson()) && proto.personnel.Personnel.toObject(includeInstance, f)
+    person: (f = msg.getPerson()) && proto.personnel.Personnel.toObject(includeInstance, f),
+    jwt: jspb.Message.getFieldWithDefault(msg, 2, "")
   };
 
   if (includeInstance) {
@@ -269,6 +270,10 @@ proto.personnel.SignUpResponse.deserializeBinaryFromReader = function(msg, reade
       reader.readMessage(value,proto.personnel.Personnel.deserializeBinaryFromReader);
       msg.setPerson(value);
       break;
+    case 2:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setJwt(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -306,6 +311,13 @@ proto.personnel.SignUpResponse.serializeBinaryToWriter = function(message, write
       proto.personnel.Personnel.serializeBinaryToWriter
     );
   }
+  f = message.getJwt();
+  if (f.length > 0) {
+    writer.writeString(
+      2,
+      f
+    );
+  }
 };
 
 
@@ -336,6 +348,21 @@ proto.personnel.SignUpResponse.prototype.clearPerson = function() {
  */
 proto.personnel.SignUpResponse.prototype.hasPerson = function() {
   return jspb.Message.getField(this, 1) != null;
+};
+
+
+/**
+ * optional string jwt = 2;
+ * @return {string}
+ */
+proto.personnel.SignUpResponse.prototype.getJwt = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
+};
+
+
+/** @param {string} value */
+proto.personnel.SignUpResponse.prototype.setJwt = function(value) {
+  jspb.Message.setProto3StringField(this, 2, value);
 };
 
 
@@ -545,7 +572,8 @@ proto.personnel.LoginResponse.prototype.toObject = function(opt_includeInstance)
  */
 proto.personnel.LoginResponse.toObject = function(includeInstance, msg) {
   var f, obj = {
-    person: (f = msg.getPerson()) && proto.personnel.Personnel.toObject(includeInstance, f)
+    person: (f = msg.getPerson()) && proto.personnel.Personnel.toObject(includeInstance, f),
+    jwt: jspb.Message.getFieldWithDefault(msg, 2, "")
   };
 
   if (includeInstance) {
@@ -587,6 +615,10 @@ proto.personnel.LoginResponse.deserializeBinaryFromReader = function(msg, reader
       reader.readMessage(value,proto.personnel.Personnel.deserializeBinaryFromReader);
       msg.setPerson(value);
       break;
+    case 2:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setJwt(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -624,6 +656,13 @@ proto.personnel.LoginResponse.serializeBinaryToWriter = function(message, writer
       proto.personnel.Personnel.serializeBinaryToWriter
     );
   }
+  f = message.getJwt();
+  if (f.length > 0) {
+    writer.writeString(
+      2,
+      f
+    );
+  }
 };
 
 
@@ -654,6 +693,21 @@ proto.personnel.LoginResponse.prototype.clearPerson = function() {
  */
 proto.personnel.LoginResponse.prototype.hasPerson = function() {
   return jspb.Message.getField(this, 1) != null;
+};
+
+
+/**
+ * optional string jwt = 2;
+ * @return {string}
+ */
+proto.personnel.LoginResponse.prototype.getJwt = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
+};
+
+
+/** @param {string} value */
+proto.personnel.LoginResponse.prototype.setJwt = function(value) {
+  jspb.Message.setProto3StringField(this, 2, value);
 };
 
 

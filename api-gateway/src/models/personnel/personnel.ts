@@ -30,6 +30,12 @@ export interface IPersonnel {
     role: RoleEnum;
 }
 
+export interface IPersonnelWithJwt {
+    personnel: IPersonnel;
+    jwt: string;
+}
+
+
 export const typeDef = `
     type Personnel {
         id: Int!
@@ -40,10 +46,14 @@ export const typeDef = `
         serial: String!
     }
     
+    type PersonnelWithJwt {
+        personnel: Personnel!
+        jwt: String!
+    }
+    
     input InputChangeRole {
         personnelId: Int!
         role: Int!
-        personnelCredentials: PersonnelCredentials!
     } 
     
     input InputSignUp {

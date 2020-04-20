@@ -1,6 +1,3 @@
-import {IPersonnelCredentials} from "../shared/personnel-credentials";
-import {IMaterialType} from "./material-type";
-import { IWarehouse } from "./warehouse";
 
 export enum MaterialStateEnum {
     available,
@@ -24,7 +21,6 @@ export interface IAddMaterialItemDto {
 }
 
 export interface InputAddMaterialItems {
-    personnelCredentials: IPersonnelCredentials;
     materialItems: IMaterialItem[];
 }
 
@@ -46,11 +42,9 @@ export const typeDef = `
     input InputSetOrderForMaterialItems {
         materialItemIds: [Int!]!
         orderSerial: String!
-        personnelCredentials: PersonnelCredentials!
     }   
     
     input InputAddMaterialItems {
-       personnelCredentials: PersonnelCredentials!
        materialItems: [InputMaterialItemDto!]!
     }
     

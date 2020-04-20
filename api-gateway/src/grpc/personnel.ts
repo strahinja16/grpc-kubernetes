@@ -1,6 +1,6 @@
 import * as grpc from 'grpc';
 import {IPersonnelManagementClient, PersonnelManagementClient} from "../proto/personnel/personnel_grpc_pb";
-import {IChangeRoleDto, ILoginDto, IPersonnel, ISignUpDto} from "../models/personnel/personnel";
+import {IChangeRoleDto, ILoginDto, IPersonnel, IPersonnelWithJwt, ISignUpDto} from "../models/personnel/personnel";
 import {
     ChangeRoleRequest,
     ChangeRoleResponse,
@@ -21,7 +21,7 @@ class PersonnelGrpcClient  {
         this.personnelClient = new PersonnelManagementClient('personnel-service:50051', grpc.credentials.createInsecure());
     }
 
-    signUp(input: ISignUpDto): Promise<IPersonnel> {
+    signUp(input: ISignUpDto): Promise<IPersonnelWithJwt> {
         return new Promise((resolve ,reject) => {
             const request = new SignUpRequest();
             const signUpDto = new SignUpDto();
@@ -40,12 +40,15 @@ class PersonnelGrpcClient  {
                         reject(`api-gateway: PersonnelService.signUp ${error.toString()}`);
                     }
 
-                    resolve(personnelMapper.toGql(response.getPerson()!));
+                    resolve({
+                        personnel: personnelMapper.toGql(response.getPerson()!),
+                        jwt: response.getJwt(),
+                    });
                 });
         });
     }
 
-    login(input: ILoginDto): Promise<IPersonnel> {
+    login(input: ILoginDto): Promise<IPersonnelWithJwt> {
         return new Promise((resolve ,reject) => {
             const request = new LoginRequest();
             const loginDto = new LoginDto();
@@ -62,7 +65,10 @@ class PersonnelGrpcClient  {
                         reject(`api-gateway: PersonnelService.login ${error.toString()}`);
                     }
 
-                    resolve(personnelMapper.toGql(response.getPerson()!));
+                    resolve({
+                        personnel: personnelMapper.toGql(response.getPerson()!),
+                        jwt: response.getJwt(),
+                    });
                 });
         });
     }

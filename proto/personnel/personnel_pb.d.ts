@@ -37,6 +37,9 @@ export class SignUpResponse extends jspb.Message {
     getPerson(): Personnel | undefined;
     setPerson(value?: Personnel): void;
 
+    getJwt(): string;
+    setJwt(value: string): void;
+
 
     serializeBinary(): Uint8Array;
     toObject(includeInstance?: boolean): SignUpResponse.AsObject;
@@ -51,6 +54,7 @@ export class SignUpResponse extends jspb.Message {
 export namespace SignUpResponse {
     export type AsObject = {
         person?: Personnel.AsObject,
+        jwt: string,
     }
 }
 
@@ -85,6 +89,9 @@ export class LoginResponse extends jspb.Message {
     getPerson(): Personnel | undefined;
     setPerson(value?: Personnel): void;
 
+    getJwt(): string;
+    setJwt(value: string): void;
+
 
     serializeBinary(): Uint8Array;
     toObject(includeInstance?: boolean): LoginResponse.AsObject;
@@ -99,6 +106,7 @@ export class LoginResponse extends jspb.Message {
 export namespace LoginResponse {
     export type AsObject = {
         person?: Personnel.AsObject,
+        jwt: string,
     }
 }
 
