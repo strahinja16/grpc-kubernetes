@@ -39,6 +39,19 @@ services:
     depends_on:
       - personneldb
 
+  execution-service:
+    restart: always
+    build: ./execution-service
+    ports:
+      - "3003:3000"
+      - "50053:50051"
+    volumes:
+      - ./execution-service:/usr/src/app
+      - /usr/src/app/node_modules
+      - ./proto:/usr/src/app/src/proto
+    depends_on:
+      - executiondb
+
   warehousedb:
     restart: always
     image: postgres:12-alpine
@@ -58,3 +71,13 @@ services:
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=root
       - POSTGRES_DB=personneldb
+
+  executiondb:
+    restart: always
+    image: postgres:12-alpine
+    ports:
+      - "5003:5432"
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=executiondb

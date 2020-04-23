@@ -1,0 +1,63 @@
+syntax = "proto3";
+
+package personnel;
+
+service PersonnelManagement {
+    rpc signUp (SignUpRequest) returns (SignUpResponse);
+    rpc login (LoginRequest) returns (LoginResponse);
+    rpc changeRole (ChangeRoleRequest) returns (ChangeRoleResponse);
+}
+
+message SignUpRequest {
+    SignUpDto signUpDto = 1;
+}
+message SignUpResponse {
+    Personnel person = 1;
+    string jwt = 2;
+}
+
+message LoginRequest {
+    LoginDto loginDto = 1;
+}
+message LoginResponse {
+    Personnel person = 1;
+    string jwt = 2;
+}
+
+message ChangeRoleRequest {
+    Role role = 1;
+    int32 personnelId = 2;
+}
+message ChangeRoleResponse {
+    Personnel person = 1;
+}
+
+//---------------------------- dtos --------------------------------
+
+message SignUpDto {
+    string name = 1;
+    string lastName = 2;
+    string email = 3;
+    string password = 4;
+}
+
+message LoginDto {
+    string email = 1;
+    string password = 2;
+}
+
+//--------------------------- entities -----------------------------
+message Personnel {
+    int32 id = 1;
+    string serial = 2;
+    string name = 3;
+    string lastname = 4;
+    string email = 5;
+    Role role = 6;
+}
+
+enum Role {
+    operator = 0;
+    manager = 1;
+    admin = 2;
+}

@@ -14,5 +14,5 @@ startGrpcServer();
 
 const httpServer = createServer(app);
 httpServer.listen(
-    { port: 3001 },
+    { port: 3000 },
     (): void => console.log('\n🚀  Express is now running on warehouse-service'));

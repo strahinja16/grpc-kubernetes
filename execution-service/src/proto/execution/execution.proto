@@ -1,0 +1,78 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+package execution;
+
+service Execution {
+    rpc getOrders (GetOrdersRequest) returns (GetOrdersResponse);
+    rpc placeOrder (PlaceOrderRequest) returns (PlaceOrderResponse);
+    rpc changeOrderState (ChangeOrderStateRequest) returns (ChangeOrderStateResponse);
+    rpc finishOrder (FinishOrderRequest) returns (FinishOrderResponse);
+}
+
+message GetOrdersRequest {
+    OrderTimespan timespan = 1;
+    State state = 2;
+}
+message GetOrdersResponse {
+    repeated Order orders = 1;
+}
+
+message PlaceOrderRequest {
+    OrderDto order = 1;
+}
+message PlaceOrderResponse {
+    Order order = 1;
+}
+
+message ChangeOrderStateRequest {
+    int32 orderId = 1;
+    State state = 2;
+}
+message ChangeOrderStateResponse {
+    Order order = 1;
+}
+
+message FinishOrderRequest {
+    int32 orderId = 1;
+}
+message FinishOrderResponse {
+    Order order = 1;
+}
+
+//---------------------------- dtos --------------------------------
+
+message OrderDto {
+    google.protobuf.Timestamp endDate = 1;
+    string personnelId = 2;
+    repeated OrderSpecificationDto orderSpecs = 3;
+}
+
+message OrderSpecificationDto {
+    int32 productTypeId = 1;
+    int32 quantity = 2;
+}
+
+//--------------------------- entities -----------------------------
+message Order {
+    int32 id = 1;
+    string serial = 2;
+    google.protobuf.Timestamp startDate = 3;
+    google.protobuf.Timestamp endDate = 4;
+    State state = 5;
+    string personnelId = 6;
+}
+
+enum OrderTimespan {
+    currentWeek = 0;
+    lastWeek = 1;
+    allUpcoming = 2;
+}
+
+enum State {
+    active = 0;
+    paused = 1;
+    finished = 2;
+    any = 3;
+}
