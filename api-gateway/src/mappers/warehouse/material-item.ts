@@ -1,5 +1,5 @@
 import {AddMaterialItemDto, MaterialItem, MaterialState} from "../../proto/warehouse_pb";
-import {IAddMaterialItemDto, IMaterialItem, MaterialStateEnum} from "../../models/warehouse/material-item";
+import {IAddMaterialItemDto, IMaterialItem, MaterialStateEnum} from "../../graphql/models/warehouse/material-item";
 
 class MaterialItemMapper {
     toGql(materialItem: MaterialItem): IMaterialItem {

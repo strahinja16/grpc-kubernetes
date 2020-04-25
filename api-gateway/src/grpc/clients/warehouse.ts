@@ -10,21 +10,21 @@ import {
     AddWarehouseResponse,
     GetMaterialQuantitiesByNameAndStateRequest,
     GetMaterialQuantitiesByNameAndStateResponse,
-} from '../proto/warehouse_pb';
-import { WarehouseAndMaterialsClient, IWarehouseAndMaterialsClient } from '../proto/warehouse_grpc_pb';
-import {IMaterialType} from "../models/warehouse/material-type";
+} from '../../proto/warehouse_pb';
+import { WarehouseAndMaterialsClient, IWarehouseAndMaterialsClient } from '../../proto/warehouse_grpc_pb';
+import {IMaterialType} from "../../graphql/models/warehouse/material-type";
 import {
     InputAddMaterialItems,
     IMaterialItem as IMaterialItem,
     MaterialStateEnum
-} from "../models/warehouse/material-item";
-import {InputAddWarehouse, IWarehouse} from "../models/warehouse/warehouse";
+} from "../../graphql/models/warehouse/material-item";
+import {InputAddWarehouse, IWarehouse} from "../../graphql/models/warehouse/warehouse";
 import {
     InputAddProductTypeAndMaterialSpecifications,
     ProductTypeAndMaterialSpecifications
-} from "../models/warehouse/product-type";
-import { warehouseMappers } from "../mappers/warehouse";
-import {IMaterialQuantityByNameAndState} from "../models/warehouse/custom";
+} from "../../graphql/models/warehouse/product-type";
+import { warehouseMappers } from "../../mappers/warehouse";
+import {IMaterialQuantityByNameAndState} from "../../graphql/models/warehouse/custom";
 
 const {
     materialItemMapper,
@@ -50,7 +50,8 @@ class WarehouseGrpcClient  {
                 request,
                 (error: (grpc.ServiceError | null), response: AddMaterialTypeResponse) => {
                     if (error != null) {
-                        reject(`api-gateway: WarehouseService.addMaterialType ${error.toString()}`);
+                        reject(error.details);
+                        return;
                     }
 
                     resolve(materialTypeMapper.toGql(response.getMaterialtype()!));
@@ -67,7 +68,8 @@ class WarehouseGrpcClient  {
                 request,
                 (error: (grpc.ServiceError | null), response: AddMaterialItemsResponse) => {
                     if (error != null) {
-                        reject(`api-gateway: WarehouseService.addMaterialItems ${error.toString()}`);
+                        reject(error.details);
+                        return;
                     }
 
                     const savedMaterialItems = response.getMaterialitemsList().map(mi => materialItemMapper.toGql(mi));
@@ -85,10 +87,11 @@ class WarehouseGrpcClient  {
                 request,
                 (error: (grpc.ServiceError | null), response: AddWarehouseResponse) => {
                     if (error != null) {
-                        reject(`api-gateway: WarehouseService.addWarehouse ${error.toString()}`);
+                        reject(error.details);
+                        return;
                     }
-                    const savedWarehouse = warehouseMapper.toGql(response.getWarehouse()!);
-                    resolve(savedWarehouse);
+
+                    resolve(warehouseMapper.toGql(response.getWarehouse()!));
                 });
         });
     }
@@ -104,7 +107,8 @@ class WarehouseGrpcClient  {
                 request,
                 (error: (grpc.ServiceError | null), response: AddProductTypeAndMaterialSpecificationsResponse) => {
                     if (error != null) {
-                        reject(`api-gateway: WarehouseService.addProductTypeAndMaterialSpecifications ${error.toString()}`);
+                        reject(error.details);
+                        return;
                     }
 
                     resolve({
@@ -124,7 +128,8 @@ class WarehouseGrpcClient  {
                 request,
                 (error: (grpc.ServiceError | null), response: GetMaterialQuantitiesByNameAndStateResponse) => {
                     if (error != null) {
-                        reject(`api-gateway: WarehouseService.getOrderForMaterialItems ${error.toString()}`);
+                        reject(error.details);
+                        return;
                     }
 
                     resolve(
@@ -141,4 +146,4 @@ class WarehouseGrpcClient  {
     }
 }
 
-export default new WarehouseGrpcClient();
+export const warehouseGrpcClient = new WarehouseGrpcClient();

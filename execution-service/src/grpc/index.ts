@@ -2,7 +2,7 @@ import 'dotenv/config';
 import * as grpc from 'grpc';
 
 import { protoInit } from '../proto';
-import ExecutionService from './execution';
+import ExecutionService from './servers/execution';
 
 protoInit();
 

@@ -1,5 +1,5 @@
 import {MaterialType} from "../../proto/warehouse_pb";
-import {IMaterialType} from "../../models/warehouse/material-type";
+import {IMaterialType} from "../../graphql/models/warehouse/material-type";
 
 class MaterialTypeMapper {
     toGql(materialType: MaterialType): IMaterialType {

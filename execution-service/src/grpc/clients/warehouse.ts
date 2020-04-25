@@ -20,7 +20,8 @@ class WarehouseGrpcClient  {
                 input,
                 (error: (grpc.ServiceError | null), response: CheckOrderSpecsAndSetMaterialsResponse) => {
                     if (error != null) {
-                        reject(`api-gateway: WarehouseService.checkOrderSpecsAndSetMaterials ${error.toString()}`);
+                        reject(error.details);
+                        return;
                     }
 
                     resolve(response.getCheckpassed());
@@ -34,7 +35,8 @@ class WarehouseGrpcClient  {
                 input,
                 (error: (grpc.ServiceError | null), response: ChangeMaterialItemsStateResponse) => {
                     if (error != null) {
-                        reject(`api-gateway: WarehouseService.changeMaterialItemsState ${error.toString()}`);
+                        reject(error.details);
+                        return;
                     }
 
                     resolve(response.getStatechangecompleted());

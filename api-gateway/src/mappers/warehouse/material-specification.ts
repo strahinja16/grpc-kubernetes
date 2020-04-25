@@ -1,5 +1,5 @@
 import {AddMaterialSpecificationDto, MaterialSpecification} from "../../proto/warehouse_pb";
-import {IAddMaterialSpecificationDto, IMaterialSpecification} from "../../models/warehouse/material-specification";
+import {IAddMaterialSpecificationDto, IMaterialSpecification} from "../../graphql/models/warehouse/material-specification";
 
 class MaterialSpecificationMapper {
     toGql(materialSpecification: MaterialSpecification): IMaterialSpecification {

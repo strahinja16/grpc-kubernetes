@@ -8,7 +8,9 @@ import {
     AddProductTypeAndMaterialSpecificationsRequest,
     AddProductTypeAndMaterialSpecificationsResponse,
     AddWarehouseRequest,
-    AddWarehouseResponse, ChangeMaterialItemsStateRequest, ChangeMaterialItemsStateResponse,
+    AddWarehouseResponse,
+    ChangeMaterialItemsStateRequest,
+    ChangeMaterialItemsStateResponse,
     CheckOrderSpecsAndSetMaterialsRequest,
     CheckOrderSpecsAndSetMaterialsResponse,
     GetMaterialQuantitiesByNameAndStateRequest,
@@ -46,9 +48,9 @@ class WarehouseServer implements IWarehouseAndMaterialsServer {
             response.setStatechangecompleted(stateChanged);
 
             callback(null, response);
-        } catch (e) {
-            console.log(`warehouse-service: WarehouseServer.changeMaterialItemsState error: ${e.toString()}`);
-            callback(e.toString(), null);
+        } catch (error) {
+            console.log(`[Warehouse.changeMaterialItemsState] ${error.message}`);
+            callback(error, null);
         }
     };
 
@@ -70,9 +72,9 @@ class WarehouseServer implements IWarehouseAndMaterialsServer {
             response.setMaterialtype(materialTypeMapper.toGrpc(savedMaterialType));
 
             callback(null, response);
-        } catch (e) {
-            console.log(`warehouse-service: WarehouseServer.addMaterialType error: ${e.toString()}`);
-            callback(e.toString(), null);
+        } catch (error) {
+            console.log(`[Warehouse.addMaterialType] ${error.message}`);
+            callback(error, null);
         }
     };
 
@@ -93,9 +95,9 @@ class WarehouseServer implements IWarehouseAndMaterialsServer {
             response.setMaterialitemsList(savedMaterialItems.map(mi => materialItemMapper.toGrpc(mi)));
 
             callback(null, response);
-        } catch (e) {
-            console.log(`warehouse-service: WarehouseServer.addMaterialItems error: ${e.toString()}`);
-            callback(e.toString(), null);
+        } catch (error) {
+            console.log(`[Warehouse.addMaterialItems] ${error.message}`);
+            callback(error, null);
         }
     };
 
@@ -116,9 +118,9 @@ class WarehouseServer implements IWarehouseAndMaterialsServer {
             response.setWarehouse(warehouseMapper.toGrpc(savedWarehouse));
 
             callback(null, response);
-        } catch (e) {
-            console.log(`warehouse-service: WarehouseServer.addWarehouse error: ${e.toString()}`);
-            callback(e.toString(), null);
+        } catch (error) {
+            console.log(`[Warehouse.addWarehouse] ${error.message}`);
+            callback(error, null);
         }
     };
 
@@ -143,9 +145,9 @@ class WarehouseServer implements IWarehouseAndMaterialsServer {
             response.setMaterialspecsList(materialSpecs.map(ms => materialSpecificationMapper.toGrpc(ms)));
 
             callback(null, response);
-        } catch (e) {
-            console.log(`warehouse-service: WarehouseServer.addProductTypeAndMaterialSpecifications error: ${e.toString()}`);
-            callback(e.toString(), null);
+        } catch (error) {
+            console.log(`[Warehouse.addProductTypeAndMaterialSpecifications] ${error.message}`);
+            callback(error, null);
         }
     };
 
@@ -167,9 +169,9 @@ class WarehouseServer implements IWarehouseAndMaterialsServer {
             response.setCheckpassed(checkPassed);
 
             callback(null, response);
-        } catch (e) {
-            console.log(`warehouse-service: WarehouseServer.checkOrderSpecsAndSetMaterials error: ${e.toString()}`);
-            callback(e.toString(), null);
+        } catch (error) {
+            console.log(`[Warehouse.checkOrderSpecsAndSetMaterials] ${error.message}`);
+            callback(error, null);
         }
     };
 
@@ -197,9 +199,9 @@ class WarehouseServer implements IWarehouseAndMaterialsServer {
             }));
 
             callback(null, response);
-        } catch (e) {
-            console.log(`warehouse-service: WarehouseServer.getMaterialQuantitiesByNameAndState error: ${e.toString()}`);
-            callback(e.toString(), null);
+        } catch (error) {
+            console.log(`[Warehouse.getMaterialQuantitiesByNameAndState] ${error.message}`);
+            callback(error, null);
         }
     };
 }

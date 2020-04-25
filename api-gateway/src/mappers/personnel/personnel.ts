@@ -1,5 +1,5 @@
 
-import {IPersonnel, RoleEnum} from "../../models/personnel/personnel";
+import {IPersonnel, RoleEnum} from "../../graphql/models/personnel/personnel";
 import { Personnel } from "../../proto/personnel_pb";
 
 class PersonnelMapper {

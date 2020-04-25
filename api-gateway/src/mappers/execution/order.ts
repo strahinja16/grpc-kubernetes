@@ -1,5 +1,5 @@
 
-import {IOrder, StateEnum} from "../../models/execution/order";
+import {IOrder, StateEnum} from "../../graphql/models/execution/order";
 import {Order} from "../../proto/execution_pb";
 
 class OrderMapper {

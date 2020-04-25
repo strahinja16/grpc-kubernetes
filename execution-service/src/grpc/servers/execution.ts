@@ -1,5 +1,5 @@
 import * as grpc from 'grpc';
-import {ExecutionService, IExecutionServer} from "../proto/execution_grpc_pb";
+import {ExecutionService, IExecutionServer} from "../../proto/execution_grpc_pb";
 import {
     ChangeOrderStateRequest,
     ChangeOrderStateResponse,
@@ -10,17 +10,17 @@ import {
     PlaceOrderRequest,
     PlaceOrderResponse,
     State
-} from "../proto/execution_pb";
-import {executionRepository, OrderTimespanEnum} from "../db/repositories";
-import {State as StateEnum} from "../db/entities/order";
-import {orderMapper} from '../mappers/order';
-import warehouseGrpcClient from './clients/warehouse';
+} from "../../proto/execution_pb";
+import {executionRepository, OrderTimespanEnum} from "../../db/repositories";
+import {State as StateEnum} from "../../db/entities/order";
+import {orderMapper} from '../../mappers/order';
+import warehouseGrpcClient from '../clients/warehouse';
 import {v4 as uuid} from 'uuid';
 import {
     ChangeMaterialItemsStateRequest,
     CheckOrderSpecsAndSetMaterialsRequest,
     MaterialState
-} from "../proto/warehouse_pb";
+} from "../../proto/warehouse_pb";
 
 class ExecutionServer implements IExecutionServer {
 
@@ -46,9 +46,9 @@ class ExecutionServer implements IExecutionServer {
             response.setOrdersList(orders.map(o => orderMapper.toGrpc(o)));
 
             callback(null, response);
-        } catch (e) {
-            console.log(`execution-service: ExecutionService.getOrders error: ${e.toString()}`);
-            callback(e.toString(), null);
+        } catch (error) {
+            console.log(`[Execution.getOrders] ${error.message}`);
+            callback(error, null);
         }
     };
 
@@ -68,7 +68,6 @@ class ExecutionServer implements IExecutionServer {
 
             const checkPassed = await warehouseGrpcClient.checkOrderSpecsAndSetMaterials(checkOrderSpecsRequest);
             if (!checkPassed) {
-                console.log(`execution-service: ExecutionService.placeOrder error: material check didn't pass`);
                 callback(new Error('Insufficient materials for order'), null);
                 return;
             }
@@ -80,9 +79,9 @@ class ExecutionServer implements IExecutionServer {
             response.setOrder(orderMapper.toGrpc(savedOrder));
 
             callback(null, response);
-        } catch (e) {
-            console.log(`execution-service: ExecutionService.placeOrder error: ${e.toString()}`);
-            callback(e.toString(), null);
+        } catch (error) {
+            console.log(`[Execution.placeOrder] ${error.message}`);
+            callback(error, null);
         }
     };
 
@@ -104,9 +103,9 @@ class ExecutionServer implements IExecutionServer {
             response.setOrder(orderMapper.toGrpc(changedOrder));
 
             callback(null, response);
-        } catch (e) {
-            console.log(`execution-service: ExecutionService.changeOrderState error: ${e.toString()}`);
-            callback(e.toString(), null);
+        } catch (error) {
+            console.log(`[Execution.changeOrderState] ${error.message}`);
+            callback(error, null);
         }
     };
 
@@ -129,8 +128,7 @@ class ExecutionServer implements IExecutionServer {
 
             const materialStateChanged = await warehouseGrpcClient.changeMaterialItemsState(changeMaterialStateRequest);
             if (!materialStateChanged) {
-                console.log(`execution-service: ExecutionService.finishOrder error: MaterialStateChanged failed`);
-                callback(new Error('Finish order - MaterialStateChange failed'), null);
+                callback(new Error('Material stateChange failed'), null);
                 return;
             }
 
@@ -139,9 +137,9 @@ class ExecutionServer implements IExecutionServer {
             response.setOrder(orderMapper.toGrpc(finishedOrder));
 
             callback(null, response);
-        } catch (e) {
-            console.log(`execution-service: ExecutionService.finishOrder error: ${e.toString()}`);
-            callback(e.toString(), null);
+        } catch (error) {
+            console.log(`[Execution.finishOrder] ${error.message}`);
+            callback(error, null);
         }
     };
 }

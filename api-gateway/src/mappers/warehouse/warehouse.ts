@@ -1,5 +1,5 @@
 import {AddWarehouseDto, Warehouse} from "../../proto/warehouse_pb";
-import {IAddWarehouseDto, IWarehouse} from "../../models/warehouse/warehouse";
+import {IAddWarehouseDto, IWarehouse} from "../../graphql/models/warehouse/warehouse";
 
 class WarehouseMapper {
     toGql(warehouse: Warehouse): IWarehouse {

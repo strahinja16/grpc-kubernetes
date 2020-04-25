@@ -17,115 +17,98 @@ export enum OrderTimespanEnum {
 }
 
 class ExecutionRepository {
-
     async getOrders(timespan: OrderTimespanEnum, states: StateEnum[]) {
-        try {
-            if (timespan === OrderTimespanEnum.currentWeek) {
-                return this.getOrdersBeginningInTheWeek(moment().startOf('week').toDate(), states);
-            }
-            if (timespan === OrderTimespanEnum.lastWeek) {
-                return this.getOrdersBeginningInTheWeek(
-                    moment().startOf('week').subtract(1, 'week').toDate(),
-                    states
-                );
-            }
-
-            return this.getUpcomingOrders();
-        }catch (e) {
-            console.log(`execution-service: ExecutionRepository.getOrders error: ${e.toString()}`)
+        if (timespan === OrderTimespanEnum.currentWeek) {
+            return this.getOrdersBeginningInTheWeek(moment().startOf('week').toDate(), states);
         }
+        if (timespan === OrderTimespanEnum.lastWeek) {
+            return this.getOrdersBeginningInTheWeek(
+                moment().startOf('week').subtract(1, 'week').toDate(),
+                states
+            );
+        }
+
+        return this.getUpcomingOrders();
     }
 
     async placeOrder(order: Order, orderSpecs: OrderSpecification[]): Promise<Order> {
-        try {
-            await getManager().transaction("SERIALIZABLE", async (entityManager: EntityManager) => {
-                order.startDate = new Date();
-                order.state = StateEnum.started;
+        await getManager().transaction("SERIALIZABLE", async (entityManager: EntityManager) => {
+            order.startDate = new Date();
+            order.state = StateEnum.started;
 
-                const savedOrder = await entityManager.save(order);
+            const savedOrder = await entityManager.save(order);
 
-                const orderResponse = new OrderResponse();
-                orderResponse.startDate = savedOrder.startDate;
-                orderResponse.orderId = savedOrder.id;
-                orderResponse.state = StateEnum.started;
+            const orderResponse = new OrderResponse();
+            orderResponse.startDate = savedOrder.startDate;
+            orderResponse.orderId = savedOrder.id;
+            orderResponse.state = StateEnum.started;
 
-                await entityManager.save(orderResponse);
+            await entityManager.save(orderResponse);
 
-                orderSpecs.forEach(os => os.orderId = savedOrder.id);
-                await entityManager.save(orderSpecs);
-            });
+            orderSpecs.forEach(os => os.orderId = savedOrder.id);
+            await entityManager.save(orderSpecs);
+        });
 
-            return await getRepository(Order).findOne({ serial: order.serial });
-        }catch (e) {
-            console.log(`execution-service: ExecutionRepository.placeOrder error: ${e.toString()}`)
-        }
+        return await getRepository(Order).findOne({ serial: order.serial });
     }
 
     async changeOrderState(orderId: number, nextState: StateEnum): Promise<Order> {
-        try {
-            await getManager().transaction("SERIALIZABLE", async (entityManager: EntityManager) => {
-                const order = await getRepository(Order).findOne({ id: orderId });
-                if (!order) {
-                    throw new Error('Order not found.');
-                }
-                if (order.state === nextState) {
-                    throw new Error(`Cannot change order state ${order.state} to ${nextState}.`);
-                }
+        await getManager().transaction("SERIALIZABLE", async (entityManager: EntityManager) => {
+            const order = await getRepository(Order).findOne({ id: orderId });
+            if (!order) {
+                throw new Error('Order not found.');
+            }
+            if (order.state === nextState) {
+                throw new Error(`Cannot change order state ${order.state} to ${nextState}.`);
+            }
 
-                const oldState = order.state;
-                order.state = nextState;
-                const savedOrder = await entityManager.save(order);
+            const oldState = order.state;
+            order.state = nextState;
+            const savedOrder = await entityManager.save(order);
 
-                const currentResponse = await entityManager.findOne(OrderResponse, {
-                    orderId: orderId, endDate: null, state: oldState,
-                });
-                if (!currentResponse) {
-                    throw new Error('Current order response not found.');
-                }
-                currentResponse.endDate = new Date();
-                await entityManager.save(currentResponse);
-
-                const orderResponse = new OrderResponse();
-                orderResponse.startDate = new Date();
-                orderResponse.order = savedOrder;
-                orderResponse.state = nextState;
-                await entityManager.save(orderResponse);
+            const currentResponse = await entityManager.findOne(OrderResponse, {
+                orderId: orderId, endDate: null, state: oldState,
             });
+            if (!currentResponse) {
+                throw new Error('Current order response not found.');
+            }
+            currentResponse.endDate = new Date();
+            await entityManager.save(currentResponse);
 
-            return await getRepository(Order).findOne({ id: orderId });
-        }catch (e) {
-            console.log(`execution-service: ExecutionRepository.changeOrderState error: ${e.toString()}`)
-        }
+            const orderResponse = new OrderResponse();
+            orderResponse.startDate = new Date();
+            orderResponse.order = savedOrder;
+            orderResponse.state = nextState;
+            await entityManager.save(orderResponse);
+        });
+
+        return await getRepository(Order).findOne({ id: orderId });
     }
 
     async finishOrder(orderId: number) {
-        try {
-            await getManager().transaction("SERIALIZABLE", async (entityManager: EntityManager) => {
-                const finishedOrder = await this.changeOrderState(orderId, StateEnum.finished);
-                const orderSpecs = await entityManager.find(OrderSpecification, { orderId: finishedOrder.id });
-                if (!orderSpecs) {
-                    throw new Error('Order specs not found.');
-                }
+        await getManager().transaction("SERIALIZABLE", async (entityManager: EntityManager) => {
+            const finishedOrder = await this.changeOrderState(orderId, StateEnum.finished);
+            const orderSpecs = await entityManager.find(OrderSpecification, { orderId: finishedOrder.id });
+            if (!orderSpecs) {
+                throw new Error('Order specs not found.');
+            }
 
-                const products: Product[] = [];
-                orderSpecs.forEach(os => {
-                    Array.from(Array(os.quantity).keys()).forEach(_ => {
-                        const product = new Product();
-                        product.productTypeId = os.productTypeId;
-                        product.orderId = finishedOrder.id;
-                        product.serial = uuid();
+            const products: Product[] = [];
+            orderSpecs.forEach(os => {
+                Array.from(Array(os.quantity).keys()).forEach(_ => {
+                    const product = new Product();
+                    product.productTypeId = os.productTypeId;
+                    product.orderId = finishedOrder.id;
+                    product.serial = uuid();
 
-                        products.push(product);
-                    });
+                    products.push(product);
                 });
-
-                await entityManager.save(products);
             });
 
-            return await getRepository(Order).findOne({ id: orderId });
-        }catch (e) {
-            console.log(`execution-service: ExecutionRepository.changeOrderState error: ${e.toString()}`)
-        }
+            await entityManager.save(products);
+        });
+
+        return await getRepository(Order).findOne({ id: orderId });
     }
 
     private getOrdersBeginningInTheWeek = async (weekStart: Date, states: StateEnum[]): Promise<Order[]> => {

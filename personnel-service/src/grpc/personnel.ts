@@ -31,9 +31,9 @@ class PersonnelServer implements IPersonnelManagementServer {
             response.setJwt(personWithJwt.jwt);
 
             callback(null, response);
-        } catch (e) {
-            console.log(`personnel-service: PersonnelManagementServer.signUp error: ${e.toString()}`);
-            callback(e.toString(), null);
+        } catch (error) {
+            console.log(`[Personnel.signUp] ${error.message}`);
+            callback(error, null);
         }
     };
 
@@ -54,9 +54,9 @@ class PersonnelServer implements IPersonnelManagementServer {
             response.setJwt(personWithJwt.jwt);
 
             callback(null, response);
-        } catch (e) {
-            console.log(`personnel-service: PersonnelManagementServer.login error: ${e.toString()}`);
-            callback(e.toString(), null);
+        } catch (error) {
+            console.log(`[Personnel.login] ${error.message}`);
+            callback(error, null);
         }
     };
 
@@ -79,9 +79,9 @@ class PersonnelServer implements IPersonnelManagementServer {
             response.setPerson(personnelMapper.toGrpc(person));
 
             callback(null, response);
-        } catch (e) {
-            console.log(`personnel-service: PersonnelManagementServer.changeRole error: ${e.toString()}`);
-            callback(e.toString(), null);
+        } catch (error) {
+            console.log(`[Personnel.changeRole] ${error.message}`);
+            callback(error, null);
         }
     };
 }

@@ -1,25 +1,28 @@
 import * as grpc from 'grpc';
-import {ExecutionClient, IExecutionClient} from "../proto/execution_grpc_pb";
+import {ExecutionClient, IExecutionClient} from "../../proto/execution_grpc_pb";
 import {
     ChangeOrderStateRequest,
     ChangeOrderStateResponse,
     FinishOrderRequest,
     FinishOrderResponse,
     GetOrdersRequest,
-    GetOrdersResponse, OrderDto, OrderSpecificationDto, OrderTimespan,
+    GetOrdersResponse,
+    OrderDto,
+    OrderSpecificationDto,
+    OrderTimespan,
     PlaceOrderRequest,
     PlaceOrderResponse, State
-} from "../proto/execution_pb";
+} from "../../proto/execution_pb";
 import {
     IChangeOrderStateDto,
     IFinishOrderDto,
     IGetOrdersDto,
     IOrder,
     IPlaceOrderDto,
-} from "../models/execution/order";
+} from "../../graphql/models/execution/order";
 import {Timestamp} from "google-protobuf/google/protobuf/timestamp_pb";
-import {IOrderSpecificationDto} from "../models/execution/order-specification";
-import {orderMapper} from "../mappers/execution/order";
+import {IOrderSpecificationDto} from "../../graphql/models/execution/order-specification";
+import {orderMapper} from "../../mappers/execution/order";
 
 class ExecutionGrpcClient  {
     executionClient: IExecutionClient;
@@ -38,7 +41,8 @@ class ExecutionGrpcClient  {
                 request,
                 (error: (grpc.ServiceError | null), response: GetOrdersResponse) => {
                     if (error != null) {
-                        reject(`api-gateway: ExecutionService.getOrders ${error.toString()}`);
+                        reject(error.details);
+                        return;
                     }
 
                     resolve(response.getOrdersList().map(o => orderMapper.toGql(o)));
@@ -68,7 +72,8 @@ class ExecutionGrpcClient  {
                 request,
                 (error: (grpc.ServiceError | null), response: PlaceOrderResponse) => {
                     if (error != null) {
-                        reject(`api-gateway: ExecutionService.placeOrder ${error.toString()}`);
+                        reject(error.details);
+                        return;
                     }
 
                     resolve(orderMapper.toGql(response.getOrder()!));
@@ -86,7 +91,8 @@ class ExecutionGrpcClient  {
                 request,
                 (error: (grpc.ServiceError | null), response: ChangeOrderStateResponse) => {
                     if (error != null) {
-                        reject(`api-gateway: ExecutionService.changeOrderState ${error.toString()}`);
+                        reject(error.details);
+                        return;
                     }
 
                     resolve(orderMapper.toGql(response.getOrder()!));
@@ -104,7 +110,8 @@ class ExecutionGrpcClient  {
                 request,
                 (error: (grpc.ServiceError | null), response: FinishOrderResponse) => {
                     if (error != null) {
-                        reject(`api-gateway: ExecutionService.finishOrder ${error.toString()}`);
+                        reject(error.details);
+                        return;
                     }
 
                     resolve(orderMapper.toGql(response.getOrder()!));
@@ -113,4 +120,4 @@ class ExecutionGrpcClient  {
     }
 }
 
-export default new ExecutionGrpcClient();
+export const executionGrpcClient = new ExecutionGrpcClient();

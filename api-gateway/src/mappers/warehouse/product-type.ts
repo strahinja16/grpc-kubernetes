@@ -1,5 +1,5 @@
 import {AddProductTypeDto, ProductType} from "../../proto/warehouse_pb";
-import {IAddProductTypeDto, IProductType} from "../../models/warehouse/product-type";
+import {IAddProductTypeDto, IProductType} from "../../graphql/models/warehouse/product-type";
 
 class ProductTypeMapper {
     toGql(productType: ProductType): IProductType {
