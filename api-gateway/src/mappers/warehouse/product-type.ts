@@ -1,4 +1,4 @@
-import {AddProductTypeDto, ProductType} from "../../proto/warehouse/warehouse_pb";
+import {AddProductTypeDto, ProductType} from "../../proto/warehouse_pb";
 import {IAddProductTypeDto, IProductType} from "../../models/warehouse/product-type";
 
 class ProductTypeMapper {

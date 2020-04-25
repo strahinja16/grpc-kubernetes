@@ -27,7 +27,7 @@ const resolverMap: IResolvers = {
     Query: {
         getMaterialQuantitiesByNameAndState: async (root, args, { user }) => {
             try {
-                authorizeManager(user);
+                // authorizeManager(user);
 
                 return await warehouseGrpcClient.getOrderForMaterialItems();
             }catch (e) {
@@ -38,7 +38,7 @@ const resolverMap: IResolvers = {
     Mutation: {
         addMaterialType: async (root, { input }, { user }) => {
             try {
-                authorizeManager(user);
+                // authorizeManager(user);
 
                 return await warehouseGrpcClient.addMaterialType(input)
             }catch (e) {
@@ -48,7 +48,7 @@ const resolverMap: IResolvers = {
 
         addMaterialItems: async (root, { input }, { user }) => {
             try {
-                authorizeManager(user);
+                // authorizeManager(user);
 
                 return await warehouseGrpcClient.addMaterialItems(input)
             }catch (e) {
@@ -58,7 +58,7 @@ const resolverMap: IResolvers = {
 
         addWarehouse: async (root, { input }, { user }) => {
             try {
-                authorizeManager(user);
+                // authorizeManager(user);
 
                 return await warehouseGrpcClient.addWarehouse(input)
             }catch (e) {
@@ -68,19 +68,9 @@ const resolverMap: IResolvers = {
 
         addProductTypeAndMaterialSpecifications: async (root, { input }, { user }) => {
             try {
-                authorizeManager(user);
+                // authorizeManager(user);
 
                 return await warehouseGrpcClient.addProductTypeAndMaterialSpecifications(input)
-            }catch (e) {
-                throw new Error(`api-gateway: GraphQL Error: ${e.toString()}`);
-            }
-        },
-
-        setOrderForMaterialItems: async (root, { input }, { user }) => {
-            try {
-                authenticate(user);
-
-                return await warehouseGrpcClient.setOrderForMaterialItems(input)
             }catch (e) {
                 throw new Error(`api-gateway: GraphQL Error: ${e.toString()}`);
             }
@@ -104,7 +94,7 @@ const resolverMap: IResolvers = {
 
         changeRole: async (root, { input }, { user }) => {
             try {
-                authorizeAdmin(user);
+                // authorizeAdmin(user);
 
                 return await personnelGrpcClient.changeRole(input)
             }catch (e) {
@@ -114,7 +104,7 @@ const resolverMap: IResolvers = {
 
         getOrders: async (root, { input }, { user }) => {
             try {
-                authenticate(user);
+                // authenticate(user);
 
                 return await executionGrpcClient.getOrders(input)
             }catch (e) {
@@ -124,7 +114,7 @@ const resolverMap: IResolvers = {
 
         placeOrder: async (root, { input }, { user }) => {
             try {
-                authenticate(user);
+                // authenticate(user);
 
                 return await executionGrpcClient.placeOrder(input)
             }catch (e) {
@@ -134,7 +124,7 @@ const resolverMap: IResolvers = {
 
         changeOrderState: async (root, { input }, { user }) => {
             try {
-                authenticate(user);
+                // authenticate(user);
 
                 return await executionGrpcClient.changeOrderState(input)
             }catch (e) {
@@ -144,7 +134,7 @@ const resolverMap: IResolvers = {
 
         finishOrder: async (root, { input }, { user }) => {
             try {
-                authenticate(user);
+                // authenticate(user);
 
                 return await executionGrpcClient.finishOrder(input)
             }catch (e) {

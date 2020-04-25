@@ -1,9 +1,5 @@
 import {
-    getConnectionManager,
     getRepository,
-    Transaction,
-    TransactionManager,
-    getConnection,
     getManager,
     EntityManager
 } from 'typeorm';
@@ -13,7 +9,6 @@ import moment from 'moment';
 import {OrderSpecification} from "../entities/order-specification";
 import {OrderResponse} from "../entities/order-response";
 import {Product} from "../entities/product";
-import {getDbConnection} from "../index";
 
 export enum OrderTimespanEnum {
     currentWeek = 0,
@@ -43,10 +38,8 @@ class ExecutionRepository {
 
     async placeOrder(order: Order, orderSpecs: OrderSpecification[]): Promise<Order> {
         try {
-            const serial = uuid();
             await getManager().transaction("SERIALIZABLE", async (entityManager: EntityManager) => {
                 order.startDate = new Date();
-                order.serial = serial;
                 order.state = StateEnum.started;
 
                 const savedOrder = await entityManager.save(order);
@@ -62,7 +55,7 @@ class ExecutionRepository {
                 await entityManager.save(orderSpecs);
             });
 
-            return await getRepository(Order).findOne({ serial });
+            return await getRepository(Order).findOne({ serial: order.serial });
         }catch (e) {
             console.log(`execution-service: ExecutionRepository.placeOrder error: ${e.toString()}`)
         }

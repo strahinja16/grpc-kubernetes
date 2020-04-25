@@ -1,4 +1,4 @@
-import {AddMaterialItemDto, MaterialItem, MaterialState} from "../proto/warehouse/warehouse_pb";
+import {AddMaterialItemDto, MaterialItem, MaterialState} from "../proto/warehouse_pb";
 import {MaterialItem as MaterialItemEntity, MaterialState as MaterialStateEnum } from "../db/entities/material-item";
 
 class MaterialItemMapper {

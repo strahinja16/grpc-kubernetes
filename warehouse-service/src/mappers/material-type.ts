@@ -1,4 +1,4 @@
-import {MaterialType} from "../proto/warehouse/warehouse_pb";
+import {MaterialType} from "../proto/warehouse_pb";
 import {MaterialType as MaterialTypeEntity} from "../db/entities/material-type";
 
 class MaterialTypeMapper {

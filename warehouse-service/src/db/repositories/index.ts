@@ -1,10 +1,11 @@
 import {getRepository} from 'typeorm';
-import { v4 as uuid } from 'uuid';
+import {v4 as uuid} from 'uuid';
 import {MaterialType} from "../entities/material-type";
 import {MaterialItem, MaterialState} from "../entities/material-item";
 import {Warehouse} from "../entities/warehouse";
 import {ProductType} from "../entities/product-type";
 import {MaterialSpecification} from "../entities/material-specification";
+import {IOrderSpec} from "../../mappers/order-specification";
 
 export interface ProductTypeAndMaterialSpecs {
     productType: ProductType;
@@ -62,15 +63,54 @@ class WarehouseRepository {
         }
     };
 
-    setOrderForMaterialItems = async (orderSerial: string, materialItemIds: number[]): Promise<MaterialItem[]> => {
+    checkOrderSpecsAndSetMaterials = async (orderSerial: string, orderSpecs: IOrderSpec[]): Promise<boolean> => {
         try {
-            const materialItemRepository = getRepository(MaterialItem);
+            const matSpecs = await getRepository(MaterialSpecification).createQueryBuilder('ms')
+                .where("ms.productTypeId in (:...ids)", { ids: orderSpecs.map(os => os.productTypeId) })
+                .getMany();
+            const matReq: { [materialTypeId: number] : number } = {};
 
-            const materialItems: MaterialItem[] = await materialItemRepository.findByIds(materialItemIds);
+            matSpecs.forEach(ms => {
+                if (!matReq[ms.materialTypeId])
+                    matReq[ms.materialTypeId] = 0;
+            });
 
-            materialItems.forEach(mi => mi.orderSerial = orderSerial);
+            orderSpecs.forEach(os => {
+                const matSpecsForProduct = matSpecs.filter(ms => ms.productTypeId === os.productTypeId);
 
-            return await materialItemRepository.save(materialItems);
+                matSpecsForProduct.forEach(msp => {
+                    matReq[msp.materialTypeId] += msp.quantity * os.quantity;
+                })
+            });
+
+            const materialItems = await getRepository(MaterialItem).createQueryBuilder('mi')
+                .where('mi.materialType in (:...matTypes) and mi.materialState = :matState')
+                .setParameters({
+                    matTypes: Object.keys(matReq),
+                    matState: MaterialState.available,
+                })
+                .getMany();
+
+            const materialsAreAvailable = Object.keys(matReq).every(materialTypeId => {
+               const availableMaterials = materialItems.reduce((sum, mi) => {
+                 return sum + (mi.materialTypeId === +materialTypeId ? 1 : 0)
+               }, 0);
+
+               return availableMaterials >= matReq[+materialTypeId];
+            });
+
+            if (!materialsAreAvailable) {
+                return;
+            }
+
+            materialItems.forEach(mi => {
+                mi.orderSerial = orderSerial;
+                mi.materialState = MaterialState.taken;
+            });
+
+            await getRepository(MaterialItem).save(materialItems);
+
+            return true;
         }catch (e) {
             console.log(`warehouse-service: WarehouseRepository.setOrderForMaterialItems error: ${e.toString()}`)
         }

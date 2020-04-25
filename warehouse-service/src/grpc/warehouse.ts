@@ -9,19 +9,21 @@ import {
     AddProductTypeAndMaterialSpecificationsResponse,
     AddWarehouseRequest,
     AddWarehouseResponse,
+    CheckOrderSpecsAndSetMaterialsRequest,
+    CheckOrderSpecsAndSetMaterialsResponse,
     GetMaterialQuantitiesByNameAndStateRequest,
     GetMaterialQuantitiesByNameAndStateResponse,
-    MaterialQuantityByNameAndState, MaterialState,
-    SetOrderForMaterialItemsRequest,
-    SetOrderForMaterialItemsResponse,
-} from '../proto/warehouse/warehouse_pb';
-import { WarehouseAndMaterialsService, IWarehouseAndMaterialsServer } from '../proto/warehouse/warehouse_grpc_pb';
+    MaterialQuantityByNameAndState,
+    MaterialState,
+} from '../proto/warehouse_pb';
+import { WarehouseAndMaterialsService, IWarehouseAndMaterialsServer } from '../proto/warehouse_grpc_pb';
 import {warehouseRepository} from "../db/repositories";
 import {materialItemMapper} from "../mappers/material-item";
 import { materialTypeMapper } from '../mappers/material-type';
 import {warehouseMapper} from "../mappers/warehouse";
 import {productTypeMapper} from "../mappers/product-type";
 import {materialSpecificationMapper} from "../mappers/material-specification";
+import {orderSpecMapper} from "../mappers/order-specification";
 
 class WarehouseServer implements IWarehouseAndMaterialsServer {
 
@@ -123,20 +125,21 @@ class WarehouseServer implements IWarehouseAndMaterialsServer {
     };
 
     /**
-     * Sets order serial for MaterialItems
+     * Checks order specs and sets order serial for materials consumed
      * @param call
      * @param callback
      */
-    setOrderForMaterialItems = async (
-        call: grpc.ServerUnaryCall<SetOrderForMaterialItemsRequest>,
-        callback: grpc.sendUnaryData<SetOrderForMaterialItemsResponse>
+    checkOrderSpecsAndSetMaterials = async (
+        call: grpc.ServerUnaryCall<CheckOrderSpecsAndSetMaterialsRequest>,
+        callback: grpc.sendUnaryData<CheckOrderSpecsAndSetMaterialsResponse>
     ): Promise<void> => {
         try {
-            const materialItems = await warehouseRepository
-                .setOrderForMaterialItems(call.request.getOrderserial(), call.request.getMaterialitemidsList());
+            const orderSpecs = orderSpecMapper.orderSpecificationDtoToTs(call.request.getOrder().getOrderspecsList());
+            const checkPassed = await warehouseRepository
+                .checkOrderSpecsAndSetMaterials(call.request.getOrder().getSerial(), orderSpecs);
 
-            const response = new SetOrderForMaterialItemsResponse();
-            response.setMaterialitemsList(materialItems.map(mi => materialItemMapper.toGrpc(mi)));
+            const response = new CheckOrderSpecsAndSetMaterialsResponse();
+            response.setCheckpassed(checkPassed);
 
             callback(null, response);
         } catch (e) {

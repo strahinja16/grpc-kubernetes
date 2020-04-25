@@ -1,4 +1,4 @@
-import {AddMaterialItemDto, MaterialItem, MaterialState} from "../../proto/warehouse/warehouse_pb";
+import {AddMaterialItemDto, MaterialItem, MaterialState} from "../../proto/warehouse_pb";
 import {IAddMaterialItemDto, IMaterialItem, MaterialStateEnum} from "../../models/warehouse/material-item";
 
 class MaterialItemMapper {

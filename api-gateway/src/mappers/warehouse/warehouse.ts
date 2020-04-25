@@ -1,4 +1,4 @@
-import {AddWarehouseDto, Warehouse} from "../../proto/warehouse/warehouse_pb";
+import {AddWarehouseDto, Warehouse} from "../../proto/warehouse_pb";
 import {IAddWarehouseDto, IWarehouse} from "../../models/warehouse/warehouse";
 
 class WarehouseMapper {

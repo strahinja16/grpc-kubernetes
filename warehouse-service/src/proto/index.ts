@@ -1,11 +1,11 @@
-import './warehouse/warehouse_pb';
-import './warehouse/warehouse_grpc_pb';
+import './warehouse_pb';
+import './warehouse_grpc_pb';
 
-import './personnel/personnel_pb';
-import './personnel/personnel_grpc_pb';
+import './personnel_pb';
+import './personnel_grpc_pb';
 
-import './execution/execution_pb';
-import './execution/execution_grpc_pb';
+import './execution_pb';
+import './execution_grpc_pb';
 
 export const protoInit:any = ():void => {
 };

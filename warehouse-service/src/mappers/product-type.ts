@@ -1,4 +1,4 @@
-import {AddProductTypeDto, ProductType} from "../proto/warehouse/warehouse_pb";
+import {AddProductTypeDto, ProductType} from "../proto/warehouse_pb";
 import {ProductType as ProductTypeEntity} from "../db/entities/product-type";
 
 class ProductTypeMapper {

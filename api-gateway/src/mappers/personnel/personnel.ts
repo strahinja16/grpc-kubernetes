@@ -1,6 +1,6 @@
 
 import {IPersonnel, RoleEnum} from "../../models/personnel/personnel";
-import { Personnel } from "../../proto/personnel/personnel_pb";
+import { Personnel } from "../../proto/personnel_pb";
 
 class PersonnelMapper {
     toGql(person: Personnel): IPersonnel {

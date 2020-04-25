@@ -1,4 +1,4 @@
-import {AddMaterialSpecificationDto, MaterialSpecification} from "../../proto/warehouse/warehouse_pb";
+import {AddMaterialSpecificationDto, MaterialSpecification} from "../../proto/warehouse_pb";
 import {IAddMaterialSpecificationDto, IMaterialSpecification} from "../../models/warehouse/material-specification";
 
 class MaterialSpecificationMapper {

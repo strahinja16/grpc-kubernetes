@@ -1,5 +1,5 @@
 import * as grpc from 'grpc';
-import {ExecutionService, IExecutionServer} from "../proto/execution/execution_grpc_pb";
+import {ExecutionService, IExecutionServer} from "../proto/execution_grpc_pb";
 import {
     ChangeOrderStateRequest,
     ChangeOrderStateResponse,
@@ -9,10 +9,13 @@ import {
     GetOrdersResponse,
     PlaceOrderRequest,
     PlaceOrderResponse, State
-} from "../proto/execution/execution_pb";
+} from "../proto/execution_pb";
 import {executionRepository, OrderTimespanEnum} from "../db/repositories";
 import {State as StateEnum} from "../db/entities/order";
 import { orderMapper } from '../mappers/order';
+import warehouseGrpcClient from './clients/warehouse';
+import { v4 as uuid } from 'uuid';
+import {CheckOrderSpecsAndSetMaterialsRequest} from "../proto/warehouse_pb";
 
 class ExecutionServer implements IExecutionServer {
 
@@ -54,7 +57,16 @@ class ExecutionServer implements IExecutionServer {
         callback: grpc.sendUnaryData<PlaceOrderResponse>
     ): Promise<void> => {
         try {
-            // ask if there is enough material
+            call.request.getOrder().setSerial(uuid());
+            const checkOrderSpecsRequest = new CheckOrderSpecsAndSetMaterialsRequest();
+            checkOrderSpecsRequest.setOrder(call.request.getOrder());
+
+            const checkPassed = await warehouseGrpcClient.checkOrderSpecsAndSetMaterials(checkOrderSpecsRequest);
+            if (!checkPassed) {
+                console.log(`execution-service: ExecutionService.placeOrder error: material check didn't pass`);
+                callback(new Error('Insufficient materials for order'), null);
+                return;
+            }
 
             const { order, orderSpecs } = orderMapper.placeOrderDtoToTs(call.request.getOrder());
             const savedOrder = await executionRepository.placeOrder(order, orderSpecs);

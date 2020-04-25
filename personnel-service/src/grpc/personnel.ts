@@ -1,6 +1,6 @@
 import * as grpc from 'grpc';
 import {personnelRepository} from "../db/repositories";
-import {IPersonnelManagementServer, PersonnelManagementService} from "../proto/personnel/personnel_grpc_pb";
+import {IPersonnelManagementServer, PersonnelManagementService} from "../proto/personnel_grpc_pb";
 import {
     ChangeRoleRequest,
     ChangeRoleResponse,
@@ -8,7 +8,7 @@ import {
     LoginResponse,
     SignUpRequest,
     SignUpResponse,
-} from "../proto/personnel/personnel_pb";
+} from "../proto/personnel_pb";
 import {personnelMapper} from "../mappers/personnel";
 import {Role} from "../db/entities/personnel";
 

@@ -8,16 +8,15 @@ import {
     AddProductTypeAndMaterialSpecificationsResponse,
     AddWarehouseRequest,
     AddWarehouseResponse,
-    GetMaterialQuantitiesByNameAndStateRequest, GetMaterialQuantitiesByNameAndStateResponse,
-    SetOrderForMaterialItemsRequest,
-    SetOrderForMaterialItemsResponse,
-} from '../proto/warehouse/warehouse_pb';
-import { WarehouseAndMaterialsClient, IWarehouseAndMaterialsClient } from '../proto/warehouse/warehouse_grpc_pb';
+    GetMaterialQuantitiesByNameAndStateRequest,
+    GetMaterialQuantitiesByNameAndStateResponse,
+} from '../proto/warehouse_pb';
+import { WarehouseAndMaterialsClient, IWarehouseAndMaterialsClient } from '../proto/warehouse_grpc_pb';
 import {IMaterialType} from "../models/warehouse/material-type";
 import {
     InputAddMaterialItems,
     IMaterialItem as IMaterialItem,
-    InputSetOrderForMaterialItems, MaterialStateEnum
+    MaterialStateEnum
 } from "../models/warehouse/material-item";
 import {InputAddWarehouse, IWarehouse} from "../models/warehouse/warehouse";
 import {
@@ -112,25 +111,6 @@ class WarehouseGrpcClient  {
                         productType: productTypeMapper.toGql(response.getProducttype()!),
                         materialSpecs: response.getMaterialspecsList().map(ms => materialSpecificationMapper.toGql(ms)),
                     });
-                });
-        });
-    }
-
-    setOrderForMaterialItems(input: InputSetOrderForMaterialItems)
-        : Promise<IMaterialItem[]> {
-        return new Promise((resolve ,reject) => {
-            const request = new SetOrderForMaterialItemsRequest();
-            request.setMaterialitemidsList(input.materialItemIds);
-            request.setOrderserial(input.orderSerial);
-
-            this.warehouseClient.setOrderForMaterialItems(
-                request,
-                (error: (grpc.ServiceError | null), response: SetOrderForMaterialItemsResponse) => {
-                    if (error != null) {
-                        reject(`api-gateway: WarehouseService.setOrderForMaterialItems ${error.toString()}`);
-                    }
-
-                    resolve(response.getMaterialitemsList().map(mi => materialItemMapper.toGql(mi)));
                 });
         });
     }

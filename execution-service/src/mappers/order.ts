@@ -1,5 +1,5 @@
 import {Order as OrderEntity} from "../db/entities/order";
-import {Order, OrderDto, State} from "../proto/execution/execution_pb";
+import {Order, OrderDto, State} from "../proto/execution_pb";
 import { Timestamp } from "google-protobuf/google/protobuf/timestamp_pb";
 import {OrderSpecification} from "../db/entities/order-specification";
 
@@ -25,6 +25,7 @@ class OrderMapper {
     placeOrderDtoToTs(orderDto: OrderDto): { order: OrderEntity, orderSpecs: OrderSpecification[] } {
         const order = new OrderEntity();
         order.endDate = orderDto.getEnddate().toDate();
+        order.serial = orderDto.getSerial();
         order.personnelId = orderDto.getPersonnelid();
 
         const orderSpecs: OrderSpecification[] = orderDto.getOrderspecsList().map(os => {

@@ -1,4 +1,4 @@
-import {AddWarehouseDto, Warehouse} from "../proto/warehouse/warehouse_pb";
+import {AddWarehouseDto, Warehouse} from "../proto/warehouse_pb";
 import {Warehouse as WarehouseEntity} from "../db/entities/warehouse";
 
 class WarehouseMapper {

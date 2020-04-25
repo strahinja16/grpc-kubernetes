@@ -1,5 +1,5 @@
 import * as grpc from 'grpc';
-import {ExecutionClient, IExecutionClient} from "../proto/execution/execution_grpc_pb";
+import {ExecutionClient, IExecutionClient} from "../proto/execution_grpc_pb";
 import {
     ChangeOrderStateRequest,
     ChangeOrderStateResponse,
@@ -9,7 +9,7 @@ import {
     GetOrdersResponse, OrderDto, OrderSpecificationDto, OrderTimespan,
     PlaceOrderRequest,
     PlaceOrderResponse, State
-} from "../proto/execution/execution_pb";
+} from "../proto/execution_pb";
 import {
     IChangeOrderStateDto,
     IFinishOrderDto,

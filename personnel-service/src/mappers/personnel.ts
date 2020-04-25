@@ -1,5 +1,5 @@
 import {Personnel as PersonnelEntity } from "../db/entities/personnel";
-import {Personnel, Role} from "../proto/personnel/personnel_pb";
+import {Personnel, Role} from "../proto/personnel_pb";
 
 class PersonnelMapper {
     toGrpc(person: Partial<PersonnelEntity>): Personnel {

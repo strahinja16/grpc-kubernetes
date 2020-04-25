@@ -1,6 +1,6 @@
 
 import {IOrder, StateEnum} from "../../models/execution/order";
-import {Order} from "../../proto/execution/execution_pb";
+import {Order} from "../../proto/execution_pb";
 
 class OrderMapper {
     toGql(order: Order): IOrder {

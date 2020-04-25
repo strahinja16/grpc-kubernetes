@@ -1,5 +1,5 @@
 import * as grpc from 'grpc';
-import {IPersonnelManagementClient, PersonnelManagementClient} from "../proto/personnel/personnel_grpc_pb";
+import {IPersonnelManagementClient, PersonnelManagementClient} from "../proto/personnel_grpc_pb";
 import {IChangeRoleDto, ILoginDto, IPersonnel, IPersonnelWithJwt, ISignUpDto} from "../models/personnel/personnel";
 import {
     ChangeRoleRequest,
@@ -11,7 +11,7 @@ import {
     SignUpDto,
     SignUpRequest,
     SignUpResponse
-} from "../proto/personnel/personnel_pb";
+} from "../proto/personnel_pb";
 import {personnelMapper} from "../mappers/personnel/personnel";
 
 class PersonnelGrpcClient  {

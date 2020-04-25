@@ -1,0 +1,130 @@
+syntax = "proto3";
+
+import "execution.proto";
+
+package warehouse;
+
+service WarehouseAndMaterials {
+    rpc addMaterialType (AddMaterialTypeRequest) returns (AddMaterialTypeResponse);
+    rpc addMaterialItems (AddMaterialItemsRequest) returns (AddMaterialItemsResponse);
+    rpc addWarehouse (AddWarehouseRequest) returns (AddWarehouseResponse);
+    rpc addProductTypeAndMaterialSpecifications (AddProductTypeAndMaterialSpecificationsRequest) returns (AddProductTypeAndMaterialSpecificationsResponse);
+    rpc checkOrderSpecsAndSetMaterials (CheckOrderSpecsAndSetMaterialsRequest) returns (CheckOrderSpecsAndSetMaterialsResponse);
+    rpc getMaterialQuantitiesByNameAndState (GetMaterialQuantitiesByNameAndStateRequest) returns (GetMaterialQuantitiesByNameAndStateResponse);
+}
+
+message AddMaterialTypeRequest {
+    string name = 1;
+}
+message AddMaterialTypeResponse {
+    MaterialType materialType = 1;
+}
+
+message AddMaterialItemsRequest {
+    repeated AddMaterialItemDto materialItems = 1;
+}
+message AddMaterialItemsResponse {
+    repeated MaterialItem materialItems = 1;
+}
+
+message AddWarehouseRequest {
+    AddWarehouseDto warehouse = 1;
+}
+message AddWarehouseResponse {
+    Warehouse warehouse = 1;
+}
+
+message AddProductTypeAndMaterialSpecificationsRequest {
+    AddProductTypeDto productType = 1;
+    repeated AddMaterialSpecificationDto materialSpecs = 2;
+}
+message AddProductTypeAndMaterialSpecificationsResponse {
+    ProductType productType = 1;
+    repeated MaterialSpecification materialSpecs = 2;
+}
+
+message CheckOrderSpecsAndSetMaterialsRequest {
+    execution.OrderDto order = 1;
+}
+message CheckOrderSpecsAndSetMaterialsResponse {
+    bool checkPassed = 1;
+}
+
+message GetMaterialQuantitiesByNameAndStateRequest {
+}
+message GetMaterialQuantitiesByNameAndStateResponse {
+    repeated MaterialQuantityByNameAndState materialQuantities = 1;
+}
+
+//---------------------------- dtos --------------------------------
+
+message AddMaterialItemDto {
+    int32 id = 1;
+    string serial = 2;
+    int32 materialTypeId = 3;
+    int32 warehouseId = 4;
+    string orderSerial = 5;
+    MaterialState materialState = 6;
+}
+
+message AddWarehouseDto {
+    string name = 1;
+    int32 capacity = 2;
+}
+
+message AddProductTypeDto {
+    string name = 1;
+    int32 price = 2;
+}
+
+message AddMaterialSpecificationDto {
+    int32 quantity = 1;
+    int32 materialTypeId = 3;
+}
+
+message MaterialQuantityByNameAndState {
+    string materialName = 1;
+    int32 quantity = 2;
+    MaterialState materialState = 3;
+    int32 warehouseId = 4;
+}
+
+//--------------------------- entities -----------------------------
+message Warehouse {
+    int32 id = 1;
+    string name = 2;
+    int32 capacity = 3;
+}
+
+message MaterialType {
+    int32 id = 1;
+    string name = 2;
+}
+
+message ProductType {
+    int32 id = 1;
+    string name = 2;
+    int32 price = 3;
+}
+
+message MaterialSpecification {
+    int32 id = 1;
+    int32 quantity = 2;
+    int32 productTypeId = 3;
+    int32 materialTypeId = 4;
+}
+
+message MaterialItem {
+    int32 id = 1;
+    string serial = 2;
+    int32 materialTypeId = 3;
+    int32 warehouseId = 4;
+    string orderSerial = 5;
+    MaterialState materialState = 6;
+}
+
+enum MaterialState {
+    available = 0;
+    taken = 1;
+    usedUp = 2;
+}
