@@ -20,7 +20,7 @@ class WarehouseGrpcClient  {
                 input,
                 (error: (grpc.ServiceError | null), response: CheckOrderSpecsAndSetMaterialsResponse) => {
                     if (error != null) {
-                        reject(error.details);
+                        reject(error);
                         return;
                     }
 
@@ -35,7 +35,7 @@ class WarehouseGrpcClient  {
                 input,
                 (error: (grpc.ServiceError | null), response: ChangeMaterialItemsStateResponse) => {
                     if (error != null) {
-                        reject(error.details);
+                        reject(error);
                         return;
                     }
 

@@ -44,8 +44,12 @@ class WarehouseServer implements IWarehouseAndMaterialsServer {
             const materialState = (call.request.getMaterialstate() as number) as MaterialStateEnum;
 
             const stateChanged = await warehouseRepository.changeMaterialItemsState(orderSerial, materialState);
+            if (!stateChanged) {
+                throw new Error('Material items state change failed.');
+            }
+
             const response = new ChangeMaterialItemsStateResponse();
-            response.setStatechangecompleted(stateChanged);
+            response.setStatechangecompleted(true);
 
             callback(null, response);
         } catch (error) {
@@ -162,11 +166,11 @@ class WarehouseServer implements IWarehouseAndMaterialsServer {
     ): Promise<void> => {
         try {
             const orderSpecs = orderSpecMapper.orderSpecificationDtoToTs(call.request.getOrder().getOrderspecsList());
-            const checkPassed = await warehouseRepository
+            await warehouseRepository
                 .checkOrderSpecsAndSetMaterials(call.request.getOrder().getSerial(), orderSpecs);
 
             const response = new CheckOrderSpecsAndSetMaterialsResponse();
-            response.setCheckpassed(checkPassed);
+            response.setCheckpassed(true);
 
             callback(null, response);
         } catch (error) {

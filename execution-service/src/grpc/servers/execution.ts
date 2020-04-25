@@ -68,7 +68,7 @@ class ExecutionServer implements IExecutionServer {
 
             const checkPassed = await warehouseGrpcClient.checkOrderSpecsAndSetMaterials(checkOrderSpecsRequest);
             if (!checkPassed) {
-                callback(new Error('Insufficient materials for order'), null);
+                callback(new Error('There are insufficient materials.'), null);
                 return;
             }
 
@@ -104,6 +104,7 @@ class ExecutionServer implements IExecutionServer {
 
             callback(null, response);
         } catch (error) {
+            console.log({ error });
             console.log(`[Execution.changeOrderState] ${error.message}`);
             callback(error, null);
         }
@@ -128,7 +129,7 @@ class ExecutionServer implements IExecutionServer {
 
             const materialStateChanged = await warehouseGrpcClient.changeMaterialItemsState(changeMaterialStateRequest);
             if (!materialStateChanged) {
-                callback(new Error('Material stateChange failed'), null);
+                callback(new Error('Material items state change failed.'), null);
                 return;
             }
 

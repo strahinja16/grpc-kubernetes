@@ -47,7 +47,7 @@ class WarehouseRepository {
         }
     };
 
-    checkOrderSpecsAndSetMaterials = async (orderSerial: string, orderSpecs: IOrderSpec[]): Promise<boolean> => {
+    checkOrderSpecsAndSetMaterials = async (orderSerial: string, orderSpecs: IOrderSpec[]) => {
         const matSpecs = await getRepository(MaterialSpecification).createQueryBuilder('ms')
             .where("ms.productTypeId in (:...ids)", { ids: orderSpecs.map(os => os.productTypeId) })
             .getMany();
@@ -83,7 +83,7 @@ class WarehouseRepository {
         });
 
         if (!materialsAreAvailable) {
-            return;
+            throw new Error('There are insufficient materials.');
         }
 
         materialItems.forEach(mi => {
@@ -92,8 +92,6 @@ class WarehouseRepository {
         });
 
         await getRepository(MaterialItem).save(materialItems);
-
-        return true;
     };
 
     getMaterialQuantitiesByNameAndState = async (): Promise<IMaterialQuantityByNameAndState[]> => {
