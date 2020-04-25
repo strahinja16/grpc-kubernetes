@@ -5,9 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start:dev": "npm run build:dev",
-    "build:dev": "nodemon 'src/server.ts' --exec 'ts-node' src/server.ts -e ts",
-    "build:proto": "./scripts/protoc.sh",
-    "postinstall": "npm run build:proto"
+    "build:dev": "NODE_ENV=development nodemon 'src/server.ts' --exec 'ts-node' src/server.ts -e ts"
   },
   "keywords": [],
   "author": "",

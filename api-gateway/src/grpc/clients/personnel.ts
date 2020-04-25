@@ -13,12 +13,13 @@ import {
     SignUpResponse
 } from "../../proto/personnel_pb";
 import {personnelMapper} from "../../mappers/personnel/personnel";
+import {config} from "../../config";
 
 class PersonnelGrpcClient  {
     personnelClient: IPersonnelManagementClient;
 
     constructor() {
-        this.personnelClient = new PersonnelManagementClient('personnel-service:50051', grpc.credentials.createInsecure());
+        this.personnelClient = new PersonnelManagementClient(config.personnelServiceGrpcUrl!, grpc.credentials.createInsecure());
     }
 
     signUp(input: ISignUpDto): Promise<IPersonnelWithJwt> {

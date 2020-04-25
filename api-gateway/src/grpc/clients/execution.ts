@@ -23,12 +23,13 @@ import {
 import {Timestamp} from "google-protobuf/google/protobuf/timestamp_pb";
 import {IOrderSpecificationDto} from "../../graphql/models/execution/order-specification";
 import {orderMapper} from "../../mappers/execution/order";
+import {config} from "../../config";
 
 class ExecutionGrpcClient  {
     executionClient: IExecutionClient;
 
     constructor() {
-        this.executionClient = new ExecutionClient('execution-service:50051', grpc.credentials.createInsecure());
+        this.executionClient = new ExecutionClient(config.executionServiceGrpcUrl!, grpc.credentials.createInsecure());
     }
 
     getOrders(input: IGetOrdersDto): Promise<IOrder[]> {

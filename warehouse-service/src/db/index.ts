@@ -5,17 +5,18 @@ import {MaterialSpecification} from "./entities/material-specification";
 import {Warehouse} from "./entities/warehouse";
 import {ProductType} from "./entities/product-type";
 import { seedDatabase } from './seeds';
+import {config} from "../config";
 
 export var dbConnection: Connection;
 
 export const getDbConnection = async (): Promise<Connection> => {
     return createConnection({
         type: "postgres",
-        host: "warehousedb",
-        port:  5432, // default port of postgres
-        username: "root", // our created username, you can have your own user name
-        password: "root", // our created username, you can have your own password
-        database: "warehousedb", // our created database name, you can have your own
+        host: config.db.host,
+        port:  config.db.port as number,
+        username: config.db.user,
+        password: config.db.pass,
+        database: config.db.database,
         entities: [
             MaterialType, MaterialItem, MaterialSpecification, Warehouse, ProductType
         ],

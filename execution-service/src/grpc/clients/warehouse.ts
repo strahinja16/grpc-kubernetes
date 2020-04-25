@@ -6,12 +6,13 @@ import {
     CheckOrderSpecsAndSetMaterialsResponse,
     ChangeMaterialItemsStateResponse
 } from '../../proto/warehouse_pb';
+import {config} from "../../config";
 
 class WarehouseGrpcClient  {
     warehouseClient: IWarehouseAndMaterialsClient;
 
     constructor() {
-        this.warehouseClient = new WarehouseAndMaterialsClient('warehouse-service:50051', grpc.credentials.createInsecure());
+        this.warehouseClient = new WarehouseAndMaterialsClient(config.warehouseServiceGrpcUrl!, grpc.credentials.createInsecure());
     }
 
     checkOrderSpecsAndSetMaterials(input: CheckOrderSpecsAndSetMaterialsRequest): Promise<boolean> {

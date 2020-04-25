@@ -5,17 +5,18 @@ import {ProductType} from "./entities/product-type";
 import {Product} from "./entities/product";
 import {seedDatabase} from "./seeds";
 import {OrderSpecification} from "./entities/order-specification";
+import {config} from "../config";
 
 export var dbConnection: Connection;
 
 export const getDbConnection = async (): Promise<Connection> => {
     return createConnection({
         type: "postgres",
-        host: "executiondb",
-        port:  5432, // default port of postgres
-        username: "root", // our created username, you can have your own user name
-        password: "root", // our created username, you can have your own password
-        database: "executiondb", // our created database name, you can have your own
+        host: config.db.host,
+        port:  config.db.port as number,
+        username: config.db.user,
+        password: config.db.pass,
+        database: config.db.database,
         entities: [
             Order, OrderResponse,
             ProductType, Product, OrderSpecification,

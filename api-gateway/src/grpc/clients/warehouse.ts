@@ -25,6 +25,7 @@ import {
 } from "../../graphql/models/warehouse/product-type";
 import { warehouseMappers } from "../../mappers/warehouse";
 import {IMaterialQuantityByNameAndState} from "../../graphql/models/warehouse/custom";
+import {config} from "../../config";
 
 const {
     materialItemMapper,
@@ -38,7 +39,7 @@ class WarehouseGrpcClient  {
     warehouseClient: IWarehouseAndMaterialsClient;
 
     constructor() {
-        this.warehouseClient = new WarehouseAndMaterialsClient('warehouse-service:50051', grpc.credentials.createInsecure());
+        this.warehouseClient = new WarehouseAndMaterialsClient(config.warehouseServiceGrpcUrl!, grpc.credentials.createInsecure());
     }
 
     addMaterialType(input: any): Promise<IMaterialType> {

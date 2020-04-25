@@ -3,10 +3,11 @@ import * as grpc from 'grpc';
 
 import { protoInit } from '../proto';
 import ExecutionService from './servers/execution';
+import {config} from "../config";
 
 protoInit();
 
-const port: string | number = process.env.PORT || 50051;
+const port: string | number = config.grpcPort;
 
 type StartGrpcServerType = () => void;
 export const startGrpcServer: StartGrpcServerType = (): void => {

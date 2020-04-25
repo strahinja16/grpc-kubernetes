@@ -3,6 +3,7 @@ import {v4 as uuid} from 'uuid';
 import {Personnel, Role} from "../entities/personnel";
 import * as passwordHash from "password-hash";
 import * as jwt from 'jsonwebtoken';
+import {config} from "../../config";
 
 export interface IPersonJwt {
     personnel: Partial<Personnel>;
@@ -26,7 +27,7 @@ class PersonnelRepository {
 
         return {
             personnel: savedPersonnel,
-            jwt: jwt.sign(JSON.parse(JSON.stringify(savedPersonnel)), 'APP_KEY'),
+            jwt: jwt.sign(JSON.parse(JSON.stringify(savedPersonnel)), config.appKey!),
         }
     };
 
@@ -45,7 +46,7 @@ class PersonnelRepository {
 
         return {
             personnel: existingPerson,
-            jwt: jwt.sign(JSON.parse(JSON.stringify(existingPerson)), 'APP_KEY'),
+            jwt: jwt.sign(JSON.parse(JSON.stringify(existingPerson)), config.appKey!),
         }
     };
 
