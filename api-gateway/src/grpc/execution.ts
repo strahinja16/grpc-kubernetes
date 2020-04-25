@@ -97,6 +97,7 @@ class ExecutionGrpcClient  {
     finishOrder(input: IFinishOrderDto): Promise<IOrder> {
         return new Promise((resolve ,reject) => {
             const request = new FinishOrderRequest();
+            request.setOrderserial(input.orderSerial);
             request.setOrderid(input.orderId);
 
             this.executionClient.finishOrder(

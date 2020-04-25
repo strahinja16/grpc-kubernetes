@@ -8,14 +8,19 @@ import {
     GetOrdersRequest,
     GetOrdersResponse,
     PlaceOrderRequest,
-    PlaceOrderResponse, State
+    PlaceOrderResponse,
+    State
 } from "../proto/execution_pb";
 import {executionRepository, OrderTimespanEnum} from "../db/repositories";
 import {State as StateEnum} from "../db/entities/order";
-import { orderMapper } from '../mappers/order';
+import {orderMapper} from '../mappers/order';
 import warehouseGrpcClient from './clients/warehouse';
-import { v4 as uuid } from 'uuid';
-import {CheckOrderSpecsAndSetMaterialsRequest} from "../proto/warehouse_pb";
+import {v4 as uuid} from 'uuid';
+import {
+    ChangeMaterialItemsStateRequest,
+    CheckOrderSpecsAndSetMaterialsRequest,
+    MaterialState
+} from "../proto/warehouse_pb";
 
 class ExecutionServer implements IExecutionServer {
 
@@ -115,7 +120,19 @@ class ExecutionServer implements IExecutionServer {
         callback: grpc.sendUnaryData<FinishOrderResponse>
     ): Promise<void> => {
         try {
+            const orderSerial = call.request.getOrderserial();
             const orderId = call.request.getOrderid();
+
+            const changeMaterialStateRequest = new ChangeMaterialItemsStateRequest();
+            changeMaterialStateRequest.setOrderserial(orderSerial);
+            changeMaterialStateRequest.setMaterialstate(MaterialState.USEDUP);
+
+            const materialStateChanged = await warehouseGrpcClient.changeMaterialItemsState(changeMaterialStateRequest);
+            if (!materialStateChanged) {
+                console.log(`execution-service: ExecutionService.finishOrder error: MaterialStateChanged failed`);
+                callback(new Error('Finish order - MaterialStateChange failed'), null);
+                return;
+            }
 
             const finishedOrder = await executionRepository.finishOrder(orderId);
             const response = new FinishOrderResponse();

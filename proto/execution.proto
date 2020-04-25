@@ -36,6 +36,7 @@ message ChangeOrderStateResponse {
 
 message FinishOrderRequest {
     int32 orderId = 1;
+    string orderSerial = 2;
 }
 message FinishOrderResponse {
     Order order = 1;

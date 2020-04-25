@@ -93,6 +93,28 @@ function deserialize_warehouse_AddWarehouseResponse(buffer_arg) {
   return warehouse_pb.AddWarehouseResponse.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
+function serialize_warehouse_ChangeMaterialItemsStateRequest(arg) {
+  if (!(arg instanceof warehouse_pb.ChangeMaterialItemsStateRequest)) {
+    throw new Error('Expected argument of type warehouse.ChangeMaterialItemsStateRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_warehouse_ChangeMaterialItemsStateRequest(buffer_arg) {
+  return warehouse_pb.ChangeMaterialItemsStateRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_warehouse_ChangeMaterialItemsStateResponse(arg) {
+  if (!(arg instanceof warehouse_pb.ChangeMaterialItemsStateResponse)) {
+    throw new Error('Expected argument of type warehouse.ChangeMaterialItemsStateResponse');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_warehouse_ChangeMaterialItemsStateResponse(buffer_arg) {
+  return warehouse_pb.ChangeMaterialItemsStateResponse.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
 function serialize_warehouse_CheckOrderSpecsAndSetMaterialsRequest(arg) {
   if (!(arg instanceof warehouse_pb.CheckOrderSpecsAndSetMaterialsRequest)) {
     throw new Error('Expected argument of type warehouse.CheckOrderSpecsAndSetMaterialsRequest');
@@ -204,6 +226,17 @@ var WarehouseAndMaterialsService = exports.WarehouseAndMaterialsService = {
     requestDeserialize: deserialize_warehouse_GetMaterialQuantitiesByNameAndStateRequest,
     responseSerialize: serialize_warehouse_GetMaterialQuantitiesByNameAndStateResponse,
     responseDeserialize: deserialize_warehouse_GetMaterialQuantitiesByNameAndStateResponse,
+  },
+  changeMaterialItemsState: {
+    path: '/warehouse.WarehouseAndMaterials/ChangeMaterialItemsState',
+    requestStream: false,
+    responseStream: false,
+    requestType: warehouse_pb.ChangeMaterialItemsStateRequest,
+    responseType: warehouse_pb.ChangeMaterialItemsStateResponse,
+    requestSerialize: serialize_warehouse_ChangeMaterialItemsStateRequest,
+    requestDeserialize: deserialize_warehouse_ChangeMaterialItemsStateRequest,
+    responseSerialize: serialize_warehouse_ChangeMaterialItemsStateResponse,
+    responseDeserialize: deserialize_warehouse_ChangeMaterialItemsStateResponse,
   },
 };
 

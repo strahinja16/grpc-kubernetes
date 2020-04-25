@@ -1,6 +1,11 @@
 import * as grpc from 'grpc';
 import { WarehouseAndMaterialsClient, IWarehouseAndMaterialsClient } from '../../proto/warehouse_grpc_pb';
-import {CheckOrderSpecsAndSetMaterialsRequest, CheckOrderSpecsAndSetMaterialsResponse} from '../../proto/warehouse_pb';
+import {
+    ChangeMaterialItemsStateRequest,
+    CheckOrderSpecsAndSetMaterialsRequest,
+    CheckOrderSpecsAndSetMaterialsResponse,
+    ChangeMaterialItemsStateResponse
+} from '../../proto/warehouse_pb';
 
 class WarehouseGrpcClient  {
     warehouseClient: IWarehouseAndMaterialsClient;
@@ -15,10 +20,24 @@ class WarehouseGrpcClient  {
                 input,
                 (error: (grpc.ServiceError | null), response: CheckOrderSpecsAndSetMaterialsResponse) => {
                     if (error != null) {
-                        reject(`api-gateway: WarehouseService.addMaterialType ${error.toString()}`);
+                        reject(`api-gateway: WarehouseService.checkOrderSpecsAndSetMaterials ${error.toString()}`);
                     }
 
                     resolve(response.getCheckpassed());
+                });
+        });
+    }
+
+    changeMaterialItemsState(input: ChangeMaterialItemsStateRequest): Promise<boolean> {
+        return new Promise((resolve ,reject) => {
+            this.warehouseClient.changeMaterialItemsState(
+                input,
+                (error: (grpc.ServiceError | null), response: ChangeMaterialItemsStateResponse) => {
+                    if (error != null) {
+                        reject(`api-gateway: WarehouseService.changeMaterialItemsState ${error.toString()}`);
+                    }
+
+                    resolve(response.getStatechangecompleted());
                 });
         });
     }

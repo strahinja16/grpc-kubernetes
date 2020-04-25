@@ -291,6 +291,52 @@ export namespace GetMaterialQuantitiesByNameAndStateResponse {
     }
 }
 
+export class ChangeMaterialItemsStateRequest extends jspb.Message { 
+    getOrderserial(): string;
+    setOrderserial(value: string): void;
+
+    getMaterialstate(): MaterialState;
+    setMaterialstate(value: MaterialState): void;
+
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): ChangeMaterialItemsStateRequest.AsObject;
+    static toObject(includeInstance: boolean, msg: ChangeMaterialItemsStateRequest): ChangeMaterialItemsStateRequest.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: ChangeMaterialItemsStateRequest, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): ChangeMaterialItemsStateRequest;
+    static deserializeBinaryFromReader(message: ChangeMaterialItemsStateRequest, reader: jspb.BinaryReader): ChangeMaterialItemsStateRequest;
+}
+
+export namespace ChangeMaterialItemsStateRequest {
+    export type AsObject = {
+        orderserial: string,
+        materialstate: MaterialState,
+    }
+}
+
+export class ChangeMaterialItemsStateResponse extends jspb.Message { 
+    getStatechangecompleted(): boolean;
+    setStatechangecompleted(value: boolean): void;
+
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): ChangeMaterialItemsStateResponse.AsObject;
+    static toObject(includeInstance: boolean, msg: ChangeMaterialItemsStateResponse): ChangeMaterialItemsStateResponse.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: ChangeMaterialItemsStateResponse, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): ChangeMaterialItemsStateResponse;
+    static deserializeBinaryFromReader(message: ChangeMaterialItemsStateResponse, reader: jspb.BinaryReader): ChangeMaterialItemsStateResponse;
+}
+
+export namespace ChangeMaterialItemsStateResponse {
+    export type AsObject = {
+        statechangecompleted: boolean,
+    }
+}
+
 export class AddMaterialItemDto extends jspb.Message { 
     getId(): number;
     setId(value: number): void;

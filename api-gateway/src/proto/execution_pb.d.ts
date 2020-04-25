@@ -156,6 +156,9 @@ export class FinishOrderRequest extends jspb.Message {
     getOrderid(): number;
     setOrderid(value: number): void;
 
+    getOrderserial(): string;
+    setOrderserial(value: string): void;
+
 
     serializeBinary(): Uint8Array;
     toObject(includeInstance?: boolean): FinishOrderRequest.AsObject;
@@ -170,6 +173,7 @@ export class FinishOrderRequest extends jspb.Message {
 export namespace FinishOrderRequest {
     export type AsObject = {
         orderid: number,
+        orderserial: string,
     }
 }
 

@@ -8,7 +8,7 @@ import {
     AddProductTypeAndMaterialSpecificationsRequest,
     AddProductTypeAndMaterialSpecificationsResponse,
     AddWarehouseRequest,
-    AddWarehouseResponse,
+    AddWarehouseResponse, ChangeMaterialItemsStateRequest, ChangeMaterialItemsStateResponse,
     CheckOrderSpecsAndSetMaterialsRequest,
     CheckOrderSpecsAndSetMaterialsResponse,
     GetMaterialQuantitiesByNameAndStateRequest,
@@ -24,8 +24,33 @@ import {warehouseMapper} from "../mappers/warehouse";
 import {productTypeMapper} from "../mappers/product-type";
 import {materialSpecificationMapper} from "../mappers/material-specification";
 import {orderSpecMapper} from "../mappers/order-specification";
+import {MaterialState as MaterialStateEnum } from "../db/entities/material-item";
 
 class WarehouseServer implements IWarehouseAndMaterialsServer {
+
+    /**
+     * Changes the state of material items with given order serial
+     * @param call
+     * @param callback
+     */
+    changeMaterialItemsState = async (
+        call: grpc.ServerUnaryCall<ChangeMaterialItemsStateRequest>,
+        callback: grpc.sendUnaryData<ChangeMaterialItemsStateResponse>
+    ): Promise<void> => {
+        try {
+            const orderSerial = call.request.getOrderserial();
+            const materialState = (call.request.getMaterialstate() as number) as MaterialStateEnum;
+
+            const stateChanged = await warehouseRepository.changeMaterialItemsState(orderSerial, materialState);
+            const response = new ChangeMaterialItemsStateResponse();
+            response.setStatechangecompleted(stateChanged);
+
+            callback(null, response);
+        } catch (e) {
+            console.log(`warehouse-service: WarehouseServer.changeMaterialItemsState error: ${e.toString()}`);
+            callback(e.toString(), null);
+        }
+    };
 
     /**
      * Creates new MaterialType
@@ -46,7 +71,7 @@ class WarehouseServer implements IWarehouseAndMaterialsServer {
 
             callback(null, response);
         } catch (e) {
-            console.log(`warehouse-service: WarehouseServer.addMaterialType error: ${e.toString()}`)
+            console.log(`warehouse-service: WarehouseServer.addMaterialType error: ${e.toString()}`);
             callback(e.toString(), null);
         }
     };
@@ -143,7 +168,7 @@ class WarehouseServer implements IWarehouseAndMaterialsServer {
 
             callback(null, response);
         } catch (e) {
-            console.log(`warehouse-service: WarehouseServer.addProductTypeAndMaterialSpecifications error: ${e.toString()}`);
+            console.log(`warehouse-service: WarehouseServer.checkOrderSpecsAndSetMaterials error: ${e.toString()}`);
             callback(e.toString(), null);
         }
     };

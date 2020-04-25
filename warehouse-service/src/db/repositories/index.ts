@@ -112,7 +112,7 @@ class WarehouseRepository {
 
             return true;
         }catch (e) {
-            console.log(`warehouse-service: WarehouseRepository.setOrderForMaterialItems error: ${e.toString()}`)
+            console.log(`warehouse-service: WarehouseRepository.checkOrderSpecsAndSetMaterials error: ${e.toString()}`)
         }
     };
 
@@ -130,6 +130,23 @@ class WarehouseRepository {
             console.log(`warehouse-service: WarehouseRepository.getMaterialQuantitiesByType error: ${e.toString()}`)
         }
     };
+
+    changeMaterialItemsState(orderSerial: string, materialState: MaterialState): Promise<boolean> {
+        try {
+            return new Promise((resolve) => {
+                getRepository(MaterialItem)
+                    .createQueryBuilder()
+                    .update(MaterialItem)
+                    .set({ materialState: materialState })
+                    .where("orderSerial = :orderSerial", { orderSerial })
+                    .execute()
+                    .then(() => resolve(true))
+                    .catch(() => resolve(false));
+            })
+        }catch (e) {
+            console.log(`warehouse-service: WarehouseRepository.getMaterialQuantitiesByType error: ${e.toString()}`)
+        }
+    }
 }
 
 export const warehouseRepository = new WarehouseRepository();

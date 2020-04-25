@@ -39,6 +39,7 @@ export interface IChangeOrderStateDto {
 
 export interface IFinishOrderDto {
     orderId: number;
+    orderSerial: string;
 }
 
 export const typeDef = `
@@ -69,5 +70,6 @@ export const typeDef = `
     
     input InputFinishOrderDto {
         orderId: Int!
+        orderSerial: String!
     }
 `;

@@ -11,6 +11,7 @@ service WarehouseAndMaterials {
     rpc addProductTypeAndMaterialSpecifications (AddProductTypeAndMaterialSpecificationsRequest) returns (AddProductTypeAndMaterialSpecificationsResponse);
     rpc checkOrderSpecsAndSetMaterials (CheckOrderSpecsAndSetMaterialsRequest) returns (CheckOrderSpecsAndSetMaterialsResponse);
     rpc getMaterialQuantitiesByNameAndState (GetMaterialQuantitiesByNameAndStateRequest) returns (GetMaterialQuantitiesByNameAndStateResponse);
+    rpc ChangeMaterialItemsState (ChangeMaterialItemsStateRequest) returns (ChangeMaterialItemsStateResponse);
 }
 
 message AddMaterialTypeRequest {
@@ -54,6 +55,14 @@ message GetMaterialQuantitiesByNameAndStateRequest {
 }
 message GetMaterialQuantitiesByNameAndStateResponse {
     repeated MaterialQuantityByNameAndState materialQuantities = 1;
+}
+
+message ChangeMaterialItemsStateRequest {
+    string orderSerial = 1;
+    MaterialState materialState = 2;
+}
+message ChangeMaterialItemsStateResponse {
+    bool stateChangeCompleted = 1;
 }
 
 //---------------------------- dtos --------------------------------
