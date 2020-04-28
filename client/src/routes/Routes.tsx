@@ -8,13 +8,14 @@ import {useQuery} from "@apollo/react-hooks";
 import {Logout} from "../components/Logout/Logout";
 
 const SignUp = React.lazy(() => import('../components/SignUp/SignUp'));
+const WarehouseDashboard = React.lazy(() => import('../containers/WarehouseDashboard/WarehouseDashboard'));
 
 const LoggedInRouteList: FC = () => (
 	<Suspense fallback={Loading}>
 		<Switch>
-			<Route exact={true} path="/material" render={() => <div>material logged in</div>} />
+			<Route exact={true} path="/warehouse" component={WarehouseDashboard} />
 			<Route exact={true} path="/logout" component={Logout} />
-			<Redirect to="/material" />
+			<Redirect to="/warehouse" />
 		</Switch>
 	</Suspense>
 );

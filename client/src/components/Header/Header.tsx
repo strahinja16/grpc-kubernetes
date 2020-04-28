@@ -16,8 +16,8 @@ const Header: FC = () => {
         <NavLink className="nav__link" to="/execution">
           Execution
         </NavLink>
-        <NavLink className="nav__link" to="/materials">
-          Materials
+        <NavLink className="nav__link" to="/warehouse">
+          Warehouse
         </NavLink>
       </nav>
     );
