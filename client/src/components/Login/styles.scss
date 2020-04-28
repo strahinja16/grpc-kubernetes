@@ -1,0 +1,60 @@
+@import '../../ui';
+
+.auth {
+  width: 300px;
+  margin: 30px auto 0 auto;
+
+  -moz-box-shadow:     0 8px 6px -6px black;
+  -webkit-box-shadow: 0 8px 6px -6px black;
+  box-shadow: rgba(60, 66, 87, 0.12) 0 7px 14px 0, rgba(0, 0, 0, 0.12) 0 3px 6px 0;
+
+  .auth__headline {
+    padding: 15px 0 0 15px;
+    margin-bottom: 10px;
+  }
+
+  .auth__error {
+    font-size: 11px;
+    background-color: red;
+    padding: 5px;
+  }
+
+  .auth__error--hidden {
+    padding: 0;
+    display: none;
+  }
+
+  .auth__form {
+    margin: 0;
+    padding: 0 25px 0 15px;
+  }
+
+  .auth__label {
+    font-size: 11px;
+    font-weight: 500;
+    padding: 5px 0 5px
+  }
+
+  .auth__input {
+    font-size: 11px;
+    padding: 5px 0 5px
+  }
+
+  .auth__input input {
+    height: 20px;
+    width: 100%;
+  }
+
+  .auth__button {
+    background-color: $dark-blue;
+    color: $bg-color;
+    border-radius: 10%;
+    margin-top: 5px;
+    height: 20px;
+    margin-bottom: 15px;
+  }
+
+  .auth__button:hover {
+    cursor: pointer;
+  }
+}
