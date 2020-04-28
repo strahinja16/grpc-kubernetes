@@ -27,7 +27,11 @@ const resolverMap: IResolvers = {
     Query: {
         getMaterialQuantitiesByNameAndState: (root, args, { user }) => {
             authorizeManager(user);
-            return warehouseGrpcClient.getOrderForMaterialItems();
+            return warehouseGrpcClient.getMaterialQuantitiesByNameAndState();
+        },
+        getWarehouseDashboardContent: (root, args, { user }) => {
+            authenticate(user);
+            return warehouseGrpcClient.getWarehouseDashboardContent();
         },
     },
     Mutation: {

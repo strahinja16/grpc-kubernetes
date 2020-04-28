@@ -19,18 +19,82 @@ export interface IMaterialQuantityByNameAndState {
     materialState: MaterialState,
 }
 
+export interface WarehouseQuantity {
+    warehouseId: number;
+    count: number;
+    materialName: string;
+}
+
+export interface WarehouseDashboardContent {
+    warehouses: Warehouse[];
+    materialTypes: MaterialType[];
+    productTypes: ProductType[];
+    warehouseQuantities: WarehouseQuantity[];
+}
+
+export interface WarehouseCapacity {
+    quantity: number;
+    warehouseId: number;
+    capacity: number;
+}
+
 class WarehouseRepository {
     addMaterialType = async (materialType: Partial<MaterialType>): Promise<MaterialType> => {
         return getRepository(MaterialType).save(materialType);
     };
 
     addMaterialItems = async (materialItems: Partial<MaterialItem>[]): Promise<MaterialItem[]> => {
+        const warehouseRequirements: { [warehouseId: number] : number } = {};
+        materialItems.forEach(mi => {
+            if (!Object.keys(warehouseRequirements).includes(mi.warehouseId.toString())) {
+                warehouseRequirements[mi.warehouseId] = 1;
+            } else {
+                warehouseRequirements[mi.warehouseId] += 1;
+            }
+        });
+
+        const warehouseCapacities: WarehouseCapacity[] = await getRepository(MaterialItem).query(`
+            select COUNT(*) as quantity,  mi."warehouseId", wh.capacity
+            from material_item mi 
+            inner join warehouse wh on wh.id = mi."warehouseId"
+            group by mi."warehouseId", wh.capacity
+        `);
+
+        const warehousesAvailable = Object.keys(warehouseRequirements)
+            .every(warehouseId => {
+                const warehouse = warehouseCapacities.find(whc => whc.warehouseId === +warehouseId);
+                return (warehouse.capacity - warehouse.quantity) > warehouseRequirements[+warehouseId];
+            });
+
+        if (!warehousesAvailable) {
+            throw new Error('Some of the warehouses cannot take this many materials.');
+        }
+
         materialItems.forEach(mi => mi.serial = uuid());
         return getRepository(MaterialItem).save(materialItems);
     };
 
     addWarehouse = async (warehouse: Partial<Warehouse>): Promise<Warehouse> => {
         return getRepository(Warehouse).save(warehouse);
+    };
+
+    getWarehouseDashboardContent = async (): Promise<WarehouseDashboardContent> => {
+        const warehouses = await getRepository(Warehouse).createQueryBuilder('wh').getMany();
+        const productTypes = await getRepository(ProductType).createQueryBuilder('pt').getMany();
+        const materialTypes = await getRepository(MaterialType).createQueryBuilder('mt').getMany();
+        const warehouseQuantities = await getRepository(MaterialItem).query(`
+            select COUNT(*), mt.name as "materialName",  mi."warehouseId"
+            from material_item mi
+            inner join material_type mt on mt.id = mi."materialTypeId"
+            group by mt.name , mi."warehouseId"
+        `);
+
+        return {
+            materialTypes,
+            productTypes,
+            warehouses,
+            warehouseQuantities,
+        };
     };
 
     addProductTypeAndMaterialSpecifications = async (

@@ -10,6 +10,8 @@ import {
     AddWarehouseResponse,
     GetMaterialQuantitiesByNameAndStateRequest,
     GetMaterialQuantitiesByNameAndStateResponse,
+    GetWarehouseDashboardContentRequest,
+    GetWarehouseDashboardContentResponse,
 } from '../../proto/warehouse_pb';
 import { WarehouseAndMaterialsClient, IWarehouseAndMaterialsClient } from '../../proto/warehouse_grpc_pb';
 import {IMaterialType} from "../../graphql/models/warehouse/material-type";
@@ -24,7 +26,7 @@ import {
     ProductTypeAndMaterialSpecifications
 } from "../../graphql/models/warehouse/product-type";
 import { warehouseMappers } from "../../mappers/warehouse";
-import {IMaterialQuantityByNameAndState} from "../../graphql/models/warehouse/custom";
+import {IMaterialQuantityByNameAndState, IWarehouseDashboardContent} from "../../graphql/models/warehouse/custom";
 import {config} from "../../config";
 
 const {
@@ -120,7 +122,7 @@ class WarehouseGrpcClient  {
         });
     }
 
-    getOrderForMaterialItems()
+    getMaterialQuantitiesByNameAndState()
         : Promise<IMaterialQuantityByNameAndState[]> {
         return new Promise((resolve ,reject) => {
             const request = new GetMaterialQuantitiesByNameAndStateRequest();
@@ -142,6 +144,24 @@ class WarehouseGrpcClient  {
                                 warehouseId: mq.getWarehouseid(),
                             } as IMaterialQuantityByNameAndState
                     }));
+                });
+        });
+    }
+
+    getWarehouseDashboardContent()
+        : Promise<IWarehouseDashboardContent> {
+        return new Promise((resolve ,reject) => {
+            const request = new GetWarehouseDashboardContentRequest();
+
+            this.warehouseClient.getWarehouseDashboardContent(
+                request,
+                (error: (grpc.ServiceError | null), response: GetWarehouseDashboardContentResponse) => {
+                    if (error != null) {
+                        reject(error.details);
+                        return;
+                    }
+
+                    resolve(warehouseMapper.warehouseDashboardContentToGql(response));
                 });
         });
     }

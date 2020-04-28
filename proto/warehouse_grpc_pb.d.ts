@@ -16,6 +16,7 @@ interface IWarehouseAndMaterialsService extends grpc.ServiceDefinition<grpc.Unty
     checkOrderSpecsAndSetMaterials: IWarehouseAndMaterialsService_IcheckOrderSpecsAndSetMaterials;
     getMaterialQuantitiesByNameAndState: IWarehouseAndMaterialsService_IgetMaterialQuantitiesByNameAndState;
     changeMaterialItemsState: IWarehouseAndMaterialsService_IChangeMaterialItemsState;
+    getWarehouseDashboardContent: IWarehouseAndMaterialsService_IGetWarehouseDashboardContent;
 }
 
 interface IWarehouseAndMaterialsService_IaddMaterialType extends grpc.MethodDefinition<warehouse_pb.AddMaterialTypeRequest, warehouse_pb.AddMaterialTypeResponse> {
@@ -81,6 +82,15 @@ interface IWarehouseAndMaterialsService_IChangeMaterialItemsState extends grpc.M
     responseSerialize: grpc.serialize<warehouse_pb.ChangeMaterialItemsStateResponse>;
     responseDeserialize: grpc.deserialize<warehouse_pb.ChangeMaterialItemsStateResponse>;
 }
+interface IWarehouseAndMaterialsService_IGetWarehouseDashboardContent extends grpc.MethodDefinition<warehouse_pb.GetWarehouseDashboardContentRequest, warehouse_pb.GetWarehouseDashboardContentResponse> {
+    path: string; // "/warehouse.WarehouseAndMaterials/GetWarehouseDashboardContent"
+    requestStream: boolean; // false
+    responseStream: boolean; // false
+    requestSerialize: grpc.serialize<warehouse_pb.GetWarehouseDashboardContentRequest>;
+    requestDeserialize: grpc.deserialize<warehouse_pb.GetWarehouseDashboardContentRequest>;
+    responseSerialize: grpc.serialize<warehouse_pb.GetWarehouseDashboardContentResponse>;
+    responseDeserialize: grpc.deserialize<warehouse_pb.GetWarehouseDashboardContentResponse>;
+}
 
 export const WarehouseAndMaterialsService: IWarehouseAndMaterialsService;
 
@@ -92,6 +102,7 @@ export interface IWarehouseAndMaterialsServer {
     checkOrderSpecsAndSetMaterials: grpc.handleUnaryCall<warehouse_pb.CheckOrderSpecsAndSetMaterialsRequest, warehouse_pb.CheckOrderSpecsAndSetMaterialsResponse>;
     getMaterialQuantitiesByNameAndState: grpc.handleUnaryCall<warehouse_pb.GetMaterialQuantitiesByNameAndStateRequest, warehouse_pb.GetMaterialQuantitiesByNameAndStateResponse>;
     changeMaterialItemsState: grpc.handleUnaryCall<warehouse_pb.ChangeMaterialItemsStateRequest, warehouse_pb.ChangeMaterialItemsStateResponse>;
+    getWarehouseDashboardContent: grpc.handleUnaryCall<warehouse_pb.GetWarehouseDashboardContentRequest, warehouse_pb.GetWarehouseDashboardContentResponse>;
 }
 
 export interface IWarehouseAndMaterialsClient {
@@ -116,6 +127,9 @@ export interface IWarehouseAndMaterialsClient {
     changeMaterialItemsState(request: warehouse_pb.ChangeMaterialItemsStateRequest, callback: (error: grpc.ServiceError | null, response: warehouse_pb.ChangeMaterialItemsStateResponse) => void): grpc.ClientUnaryCall;
     changeMaterialItemsState(request: warehouse_pb.ChangeMaterialItemsStateRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: warehouse_pb.ChangeMaterialItemsStateResponse) => void): grpc.ClientUnaryCall;
     changeMaterialItemsState(request: warehouse_pb.ChangeMaterialItemsStateRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: warehouse_pb.ChangeMaterialItemsStateResponse) => void): grpc.ClientUnaryCall;
+    getWarehouseDashboardContent(request: warehouse_pb.GetWarehouseDashboardContentRequest, callback: (error: grpc.ServiceError | null, response: warehouse_pb.GetWarehouseDashboardContentResponse) => void): grpc.ClientUnaryCall;
+    getWarehouseDashboardContent(request: warehouse_pb.GetWarehouseDashboardContentRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: warehouse_pb.GetWarehouseDashboardContentResponse) => void): grpc.ClientUnaryCall;
+    getWarehouseDashboardContent(request: warehouse_pb.GetWarehouseDashboardContentRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: warehouse_pb.GetWarehouseDashboardContentResponse) => void): grpc.ClientUnaryCall;
 }
 
 export class WarehouseAndMaterialsClient extends grpc.Client implements IWarehouseAndMaterialsClient {
@@ -141,4 +155,7 @@ export class WarehouseAndMaterialsClient extends grpc.Client implements IWarehou
     public changeMaterialItemsState(request: warehouse_pb.ChangeMaterialItemsStateRequest, callback: (error: grpc.ServiceError | null, response: warehouse_pb.ChangeMaterialItemsStateResponse) => void): grpc.ClientUnaryCall;
     public changeMaterialItemsState(request: warehouse_pb.ChangeMaterialItemsStateRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: warehouse_pb.ChangeMaterialItemsStateResponse) => void): grpc.ClientUnaryCall;
     public changeMaterialItemsState(request: warehouse_pb.ChangeMaterialItemsStateRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: warehouse_pb.ChangeMaterialItemsStateResponse) => void): grpc.ClientUnaryCall;
+    public getWarehouseDashboardContent(request: warehouse_pb.GetWarehouseDashboardContentRequest, callback: (error: grpc.ServiceError | null, response: warehouse_pb.GetWarehouseDashboardContentResponse) => void): grpc.ClientUnaryCall;
+    public getWarehouseDashboardContent(request: warehouse_pb.GetWarehouseDashboardContentRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: warehouse_pb.GetWarehouseDashboardContentResponse) => void): grpc.ClientUnaryCall;
+    public getWarehouseDashboardContent(request: warehouse_pb.GetWarehouseDashboardContentRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: warehouse_pb.GetWarehouseDashboardContentResponse) => void): grpc.ClientUnaryCall;
 }

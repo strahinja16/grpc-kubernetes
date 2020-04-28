@@ -15,8 +15,10 @@ import {
     CheckOrderSpecsAndSetMaterialsResponse,
     GetMaterialQuantitiesByNameAndStateRequest,
     GetMaterialQuantitiesByNameAndStateResponse,
+    GetWarehouseDashboardContentRequest,
+    GetWarehouseDashboardContentResponse,
     MaterialQuantityByNameAndState,
-    MaterialState,
+    MaterialState, WarehouseQuantity,
 } from '../proto/warehouse_pb';
 import { WarehouseAndMaterialsService, IWarehouseAndMaterialsServer } from '../proto/warehouse_grpc_pb';
 import {warehouseRepository} from "../db/repositories";
@@ -205,6 +207,38 @@ class WarehouseServer implements IWarehouseAndMaterialsServer {
             callback(null, response);
         } catch (error) {
             console.log(`[Warehouse.getMaterialQuantitiesByNameAndState] ${error.message}`);
+            callback(error, null);
+        }
+    };
+
+    /**
+     * Gets warehouses, material distribution across warehouses, material types and product types
+     * @param call
+     * @param callback
+     */
+    getWarehouseDashboardContent = async (
+        call: grpc.ServerUnaryCall<GetWarehouseDashboardContentRequest>,
+        callback: grpc.sendUnaryData<GetWarehouseDashboardContentResponse>
+    ): Promise<void> => {
+        try {
+            const content = await warehouseRepository.getWarehouseDashboardContent();
+
+            const response = new GetWarehouseDashboardContentResponse();
+            response.setWarehousesList(content.warehouses.map(wh => warehouseMapper.toGrpc(wh)));
+            response.setMaterialtypesList(content.materialTypes.map(mt => materialTypeMapper.toGrpc(mt)));
+            response.setProducttypesList(content.productTypes.map(pt => productTypeMapper.toGrpc(pt)));
+            response.setWarehousequantitiesList(content.warehouseQuantities.map(whq => {
+                const warehouseQuantity = new WarehouseQuantity();
+                warehouseQuantity.setCount(whq.count);
+                warehouseQuantity.setMaterialname(whq.materialName);
+                warehouseQuantity.setWarehouseid(whq.warehouseId);
+
+                return warehouseQuantity;
+            }));
+
+            callback(null, response);
+        } catch (error) {
+            console.log(`[Warehouse.getWarehouseDashboardContent] ${error.message}`);
             callback(error, null);
         }
     };

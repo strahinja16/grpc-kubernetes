@@ -159,6 +159,28 @@ function deserialize_warehouse_GetMaterialQuantitiesByNameAndStateResponse(buffe
   return warehouse_pb.GetMaterialQuantitiesByNameAndStateResponse.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
+function serialize_warehouse_GetWarehouseDashboardContentRequest(arg) {
+  if (!(arg instanceof warehouse_pb.GetWarehouseDashboardContentRequest)) {
+    throw new Error('Expected argument of type warehouse.GetWarehouseDashboardContentRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_warehouse_GetWarehouseDashboardContentRequest(buffer_arg) {
+  return warehouse_pb.GetWarehouseDashboardContentRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_warehouse_GetWarehouseDashboardContentResponse(arg) {
+  if (!(arg instanceof warehouse_pb.GetWarehouseDashboardContentResponse)) {
+    throw new Error('Expected argument of type warehouse.GetWarehouseDashboardContentResponse');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_warehouse_GetWarehouseDashboardContentResponse(buffer_arg) {
+  return warehouse_pb.GetWarehouseDashboardContentResponse.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
 
 var WarehouseAndMaterialsService = exports.WarehouseAndMaterialsService = {
   addMaterialType: {
@@ -237,6 +259,17 @@ var WarehouseAndMaterialsService = exports.WarehouseAndMaterialsService = {
     requestDeserialize: deserialize_warehouse_ChangeMaterialItemsStateRequest,
     responseSerialize: serialize_warehouse_ChangeMaterialItemsStateResponse,
     responseDeserialize: deserialize_warehouse_ChangeMaterialItemsStateResponse,
+  },
+  getWarehouseDashboardContent: {
+    path: '/warehouse.WarehouseAndMaterials/GetWarehouseDashboardContent',
+    requestStream: false,
+    responseStream: false,
+    requestType: warehouse_pb.GetWarehouseDashboardContentRequest,
+    responseType: warehouse_pb.GetWarehouseDashboardContentResponse,
+    requestSerialize: serialize_warehouse_GetWarehouseDashboardContentRequest,
+    requestDeserialize: deserialize_warehouse_GetWarehouseDashboardContentRequest,
+    responseSerialize: serialize_warehouse_GetWarehouseDashboardContentResponse,
+    responseDeserialize: deserialize_warehouse_GetWarehouseDashboardContentResponse,
   },
 };
 

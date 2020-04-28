@@ -337,6 +337,64 @@ export namespace ChangeMaterialItemsStateResponse {
     }
 }
 
+export class GetWarehouseDashboardContentRequest extends jspb.Message { 
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): GetWarehouseDashboardContentRequest.AsObject;
+    static toObject(includeInstance: boolean, msg: GetWarehouseDashboardContentRequest): GetWarehouseDashboardContentRequest.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: GetWarehouseDashboardContentRequest, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): GetWarehouseDashboardContentRequest;
+    static deserializeBinaryFromReader(message: GetWarehouseDashboardContentRequest, reader: jspb.BinaryReader): GetWarehouseDashboardContentRequest;
+}
+
+export namespace GetWarehouseDashboardContentRequest {
+    export type AsObject = {
+    }
+}
+
+export class GetWarehouseDashboardContentResponse extends jspb.Message { 
+    clearWarehousesList(): void;
+    getWarehousesList(): Array<Warehouse>;
+    setWarehousesList(value: Array<Warehouse>): void;
+    addWarehouses(value?: Warehouse, index?: number): Warehouse;
+
+    clearWarehousequantitiesList(): void;
+    getWarehousequantitiesList(): Array<WarehouseQuantity>;
+    setWarehousequantitiesList(value: Array<WarehouseQuantity>): void;
+    addWarehousequantities(value?: WarehouseQuantity, index?: number): WarehouseQuantity;
+
+    clearMaterialtypesList(): void;
+    getMaterialtypesList(): Array<MaterialType>;
+    setMaterialtypesList(value: Array<MaterialType>): void;
+    addMaterialtypes(value?: MaterialType, index?: number): MaterialType;
+
+    clearProducttypesList(): void;
+    getProducttypesList(): Array<ProductType>;
+    setProducttypesList(value: Array<ProductType>): void;
+    addProducttypes(value?: ProductType, index?: number): ProductType;
+
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): GetWarehouseDashboardContentResponse.AsObject;
+    static toObject(includeInstance: boolean, msg: GetWarehouseDashboardContentResponse): GetWarehouseDashboardContentResponse.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: GetWarehouseDashboardContentResponse, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): GetWarehouseDashboardContentResponse;
+    static deserializeBinaryFromReader(message: GetWarehouseDashboardContentResponse, reader: jspb.BinaryReader): GetWarehouseDashboardContentResponse;
+}
+
+export namespace GetWarehouseDashboardContentResponse {
+    export type AsObject = {
+        warehousesList: Array<Warehouse.AsObject>,
+        warehousequantitiesList: Array<WarehouseQuantity.AsObject>,
+        materialtypesList: Array<MaterialType.AsObject>,
+        producttypesList: Array<ProductType.AsObject>,
+    }
+}
+
 export class AddMaterialItemDto extends jspb.Message { 
     getId(): number;
     setId(value: number): void;
@@ -640,6 +698,35 @@ export namespace MaterialItem {
         warehouseid: number,
         orderserial: string,
         materialstate: MaterialState,
+    }
+}
+
+export class WarehouseQuantity extends jspb.Message { 
+    getCount(): number;
+    setCount(value: number): void;
+
+    getMaterialname(): string;
+    setMaterialname(value: string): void;
+
+    getWarehouseid(): number;
+    setWarehouseid(value: number): void;
+
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): WarehouseQuantity.AsObject;
+    static toObject(includeInstance: boolean, msg: WarehouseQuantity): WarehouseQuantity.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: WarehouseQuantity, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): WarehouseQuantity;
+    static deserializeBinaryFromReader(message: WarehouseQuantity, reader: jspb.BinaryReader): WarehouseQuantity;
+}
+
+export namespace WarehouseQuantity {
+    export type AsObject = {
+        count: number,
+        materialname: string,
+        warehouseid: number,
     }
 }
 

@@ -12,6 +12,7 @@ service WarehouseAndMaterials {
     rpc checkOrderSpecsAndSetMaterials (CheckOrderSpecsAndSetMaterialsRequest) returns (CheckOrderSpecsAndSetMaterialsResponse);
     rpc getMaterialQuantitiesByNameAndState (GetMaterialQuantitiesByNameAndStateRequest) returns (GetMaterialQuantitiesByNameAndStateResponse);
     rpc ChangeMaterialItemsState (ChangeMaterialItemsStateRequest) returns (ChangeMaterialItemsStateResponse);
+    rpc GetWarehouseDashboardContent (GetWarehouseDashboardContentRequest) returns (GetWarehouseDashboardContentResponse);
 }
 
 message AddMaterialTypeRequest {
@@ -58,11 +59,20 @@ message GetMaterialQuantitiesByNameAndStateResponse {
 }
 
 message ChangeMaterialItemsStateRequest {
-    string orderSerial = 1;
-    MaterialState materialState = 2;
+     string orderSerial = 1;
+     MaterialState materialState = 2;
 }
 message ChangeMaterialItemsStateResponse {
     bool stateChangeCompleted = 1;
+}
+
+message GetWarehouseDashboardContentRequest {
+}
+message GetWarehouseDashboardContentResponse {
+    repeated Warehouse warehouses = 1;
+    repeated WarehouseQuantity warehouseQuantities = 2;
+    repeated MaterialType materialTypes = 3;
+    repeated ProductType productTypes = 4;
 }
 
 //---------------------------- dtos --------------------------------
@@ -131,6 +141,13 @@ message MaterialItem {
     string orderSerial = 5;
     MaterialState materialState = 6;
 }
+
+message WarehouseQuantity {
+    int32 count = 1;
+    string materialName = 2;
+    int32 warehouseId = 3;
+}
+
 
 enum MaterialState {
     available = 0;

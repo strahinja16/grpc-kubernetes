@@ -4,6 +4,7 @@ export const typeDef = `
 
   type Query {
     getMaterialQuantitiesByNameAndState: [MaterialQuantityByNameAndState!]!
+    getWarehouseDashboardContent: WarehouseDashboardContent!
   }
 
   type Mutation {
