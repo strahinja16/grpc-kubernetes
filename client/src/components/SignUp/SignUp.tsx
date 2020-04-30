@@ -5,6 +5,7 @@ import {useMutation} from "@apollo/react-hooks";
 import {SIGN_UP, SIGN_UP_UPDATE} from "../../graphql/mutations/personnel";
 import Loading from "../Loading/Loading";
 import '../Login/styles.scss';
+import { Button, Form, Message } from "semantic-ui-react";
 
 const SignUp = () => {
   const [error, setError] = useState('');
@@ -88,36 +89,30 @@ const SignUp = () => {
         <h3 className="auth__headline">
           Sign up
         </h3>
-        <form className="auth__form" onSubmit={handleSubmit}>
-          <div className={error ? 'auth__error' : 'auth__error-hidden'}>{error}</div>
-          <div className="auth__label">
-            <label htmlFor="text">Name</label>
-          </div>
-          <div className="auth__input">
+        <Form className="auth__form" onSubmit={handleSubmit}>
+          {error && <Message negative><p>{error}</p></Message>}
+          <Form.Field>
+            <label htmlFor="name">Name</label>
             <input
               onChange={handleOnChange}
               type="text"
-              placeholder="Name"
+              placeholder="name"
               name="name"
               value={inputValues.name}
             />
-          </div>
-          <div className="auth__label">
-            <label htmlFor="text">Lastname</label>
-          </div>
-          <div className="auth__input">
+          </Form.Field>
+          <Form.Field>
+            <label htmlFor="email">Lastname</label>
             <input
               onChange={handleOnChange}
-              type="text"
+              type="email"
               placeholder="Lastname"
               name="lastname"
               value={inputValues.lastname}
             />
-          </div>
-          <div className="auth__label">
+          </Form.Field>
+          <Form.Field>
             <label htmlFor="email">Email</label>
-          </div>
-          <div className="auth__input">
             <input
               onChange={handleOnChange}
               type="email"
@@ -125,11 +120,9 @@ const SignUp = () => {
               name="email"
               value={inputValues.email}
             />
-          </div>
-          <div className="auth__label">
+          </Form.Field>
+          <Form.Field>
             <label htmlFor="password">Password</label>
-          </div>
-          <div className="auth__input">
             <input
               onChange={handleOnChange}
               type="password"
@@ -137,11 +130,11 @@ const SignUp = () => {
               name="password"
               value={inputValues.password}
             />
-          </div>
-          <button className="auth__button" type="submit" onSubmit={handleSubmit} name="button">
+          </Form.Field>
+          <Button className="auth__button" type="submit" onSubmit={handleSubmit} name="button">
             Sign up
-          </button>
-        </form>
+          </Button>
+        </Form>
       </section>
     );
 };

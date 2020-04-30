@@ -1,6 +1,7 @@
 // @ts-ignore
 import Joi from 'joi-browser';
 import React, { useCallback, useState } from 'react';
+import { Button, Form, Message } from 'semantic-ui-react'
 import {useMutation} from "@apollo/react-hooks";
 import {LOGIN, LOGIN_UPDATE} from "../../graphql/mutations/personnel";
 import Loading from "../Loading/Loading";
@@ -75,12 +76,10 @@ const Login = () => {
         <h3 className="auth__headline">
           Log in
         </h3>
-        <form className="auth__form" onSubmit={handleSubmit}>
-          <div className={error ? 'auth__error' : 'auth__error-hidden'}>{error}</div>
-          <div className="auth__label">
+        <Form className="auth__form" onSubmit={handleSubmit}>
+          {error && <Message negative><p>{error}</p></Message>}
+          <Form.Field>
             <label htmlFor="email">Email</label>
-          </div>
-          <div className="auth__input">
             <input
               onChange={handleOnChange}
               type="email"
@@ -88,11 +87,9 @@ const Login = () => {
               name="email"
               value={inputValues.email}
             />
-          </div>
-          <div className="auth__label">
+          </Form.Field>
+          <Form.Field>
             <label htmlFor="password">Password</label>
-          </div>
-          <div className="auth__input">
             <input
               onChange={handleOnChange}
               type="password"
@@ -100,11 +97,11 @@ const Login = () => {
               name="password"
               value={inputValues.password}
             />
-          </div>
-          <button className="auth__button" type="submit" onSubmit={handleSubmit} name="button">
+          </Form.Field>
+          <Button className="auth__button" type="submit" onSubmit={handleSubmit} name="button">
             Login
-          </button>
-        </form>
+          </Button>
+        </Form>
       </section>
     );
 };
