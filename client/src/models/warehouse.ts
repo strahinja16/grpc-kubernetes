@@ -1,3 +1,4 @@
+
 export interface IWarehouseQuantity {
   warehouseId: number;
   count: number;
@@ -27,3 +28,21 @@ export interface IWarehouseContent {
   productTypes: IProductType[];
   warehouseQuantities: IWarehouseQuantity[];
 }
+
+export interface IMaterialItem {
+  id: number;
+  serial: string;
+  materialTypeId: number;
+  warehouseId: number;
+  orderSerial: string;
+  materialState: IMaterialState
+}
+
+
+export enum IMaterialState {
+  available,
+  taken,
+  usedUp,
+}
+
+

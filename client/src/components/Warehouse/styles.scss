@@ -4,6 +4,10 @@
       display: inline !important;
       text-transform: uppercase;
     }
+    .warehouse__header:hover {
+      cursor: pointer;
+    }
+
     .warehouse__icon {
       float: right !important;
     }

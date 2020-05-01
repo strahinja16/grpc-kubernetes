@@ -20,8 +20,8 @@ const Header: FC = () => {
       <Menu pointing secondary>
         <Menu.Menu position='right'>
           <Menu.Item
-            name='warehouse'
-            active={activeItem === 'warehouse'}
+            name='warehouses'
+            active={activeItem === 'warehouses'}
             onClick={handleItemClick}
           />
           <Menu.Item
