@@ -61,8 +61,13 @@ class WarehouseRepository {
         `);
 
         const warehousesAvailable = Object.keys(warehouseRequirements)
-            .every(warehouseId => {
+            .every(async (warehouseId) => {
                 const warehouse = warehouseCapacities.find(whc => whc.warehouseId === +warehouseId);
+                if (!warehouse) {
+                    const whFromDb = await getRepository(Warehouse).findOne(warehouseId);
+                    return whFromDb.capacity > warehouseRequirements[+warehouseId];
+                }
+
                 return (warehouse.capacity - warehouse.quantity) > warehouseRequirements[+warehouseId];
             });
 

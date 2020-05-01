@@ -10,6 +10,7 @@ import {
 import { IMaterialItem, IWarehouse } from "../../models/warehouse";
 import MaterialItemTable from "../../components/MaterialItemTable/MaterialItemTable";
 import './styles.scss';
+import AddMaterialItemsModal from "../../components/modals/AddMaterialItemsModal/AddMaterialItemsModal";
 
 const WarehouseAndMaterials = () => {
   const { id } = useParams();
@@ -27,7 +28,7 @@ const WarehouseAndMaterials = () => {
   const distinctMaterialTypes = Array.from(new Set([...getMaterialItems.map(mi => mi.materialTypeId)]));
   const warehouseName = materialTypeAndWhData.getWarehouseDashboardContent.warehouses
     .find((wh: IWarehouse) => wh.id === Number(id))!.name;
-  
+
   return (
     <Container className="material-items-container">
       <div className="material-items-container__header-wrapper">
@@ -43,7 +44,7 @@ const WarehouseAndMaterials = () => {
           floated="right"
           onClick={onAddMaterialItems}
         >
-          <Icon name='warehouse' /> Add warehouse
+          <Icon name='warehouse' /> Add materials
         </Button>
       </div>
       <Grid className="material-items-container__material-items" stackable columns={1}>
@@ -58,7 +59,14 @@ const WarehouseAndMaterials = () => {
           ))
         }
       </Grid>
-      {/*{showModal && <AddWarehouseModal closeModal={closeModal} />}*/}
+      {showModal && (
+          <AddMaterialItemsModal
+            materialTypes={materialTypeAndWhData.getWarehouseDashboardContent.materialTypes}
+            closeModal={closeModal}
+            warehouseId={id}
+          />
+        )
+      }
       <Divider />
     </Container>
   );
