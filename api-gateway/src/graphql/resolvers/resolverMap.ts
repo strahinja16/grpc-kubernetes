@@ -38,6 +38,12 @@ const resolverMap: IResolvers = {
             authenticate(user);
             return warehouseGrpcClient.getMaterialItems(input.warehouseId);
         },
+
+        getOrders: (root, { input }, { user }) => {
+            authenticate(user);
+            return executionGrpcClient.getOrders(input);
+        },
+
     },
     Mutation: {
         addMaterialType: (root, { input }, { user }) => {
@@ -67,11 +73,6 @@ const resolverMap: IResolvers = {
         changeRole: (root, { input }, { user }) => {
             authorizeAdmin(user);
             return personnelGrpcClient.changeRole(input);
-        },
-
-        getOrders: (root, { input }, { user }) => {
-            authenticate(user);
-            return executionGrpcClient.getOrders(input);
         },
 
         placeOrder: (root, { input }, { user }) => {

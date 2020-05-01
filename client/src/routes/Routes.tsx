@@ -10,12 +10,14 @@ import {Logout} from "../components/Logout/Logout";
 const SignUp = React.lazy(() => import('../components/SignUp/SignUp'));
 const WarehouseDashboard = React.lazy(() => import('../containers/WarehouseDashboard/WarehouseDashboard'));
 const WarehouseAndMaterials = React.lazy(() => import('../containers/WarehouseAndMaterials/WarehouseAndMaterials'));
+const ExecutionDashboard = React.lazy(() => import('../containers/ExecutionDashboard/ExecutionDashboard'));
 
 const LoggedInRouteList: FC = () => (
 	<Suspense fallback={Loading}>
 		<Switch>
       <Route exact={true} path="/warehouse/:id" component={WarehouseAndMaterials} />
       <Route exact={true} path="/warehouses" component={WarehouseDashboard} />
+      <Route exact={true} path="/execution" component={ExecutionDashboard} />
 			<Route exact={true} path="/logout" component={Logout} />
 			<Redirect to="/warehouses" />
 		</Switch>

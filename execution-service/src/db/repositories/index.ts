@@ -138,7 +138,7 @@ class ExecutionRepository {
         const orderRepository = getRepository(Order);
 
         return await orderRepository.createQueryBuilder("o")
-            .where("o.startDate >= :startDate")
+            .where("o.endDate >= :startDate")
             .setParameters({ startDate: moment().startOf('day').toDate() })
             .getMany();
     };

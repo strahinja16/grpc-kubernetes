@@ -1,12 +1,11 @@
 import React, { FC, Fragment, useState } from "react";
-import { IMaterialItem, IMaterialState, IMaterialType } from "../../models/warehouse";
+import { IOrder, IOrderState } from "../../models/execution";
 import { Icon, Label, Menu, Message, Table } from "semantic-ui-react";
-import { getMaterialStateColor, getMaterialStateString } from "../../util/materialState";
+import { getOrderStateColor, getOrderStateString } from "../../util/orderState";
 import "./styles.scss";
 
-export interface MaterialItemTableProps {
-  materialItems: IMaterialItem[];
-  materialTypes: IMaterialType[]
+export interface OrderTableProps {
+  orders: IOrder[];
 }
 
 export enum PaginationArrow {
@@ -14,23 +13,17 @@ export enum PaginationArrow {
   right,
 }
 
-const MaterialItemTable: FC<MaterialItemTableProps> = ({ materialItems, materialTypes }) => {
-  const pages = materialItems
-    ? Math.ceil(materialItems.length / 5)
-    : 1;
-
-  const materialName = materialItems
-    ? materialTypes.find(mt => mt.id === materialItems[0].materialTypeId)!.name
-    : 'noname';
+const OrderTable: FC<OrderTableProps> = ({ orders }) => {
+  const pages = orders ? Math.ceil(orders.length / 5) : 1;
   const [index, setIndex] = useState(0);
   const [page, setPage] = useState(1);
   const [sorted, setSorted] = useState(false);
-  const materialStates = Object.values(IMaterialState);
-  const stats = [IMaterialState.available, IMaterialState.taken, IMaterialState.usedUp]
+  const orderStates = Object.values(IOrderState);
+  const stats = [IOrderState.started, IOrderState.paused, IOrderState.finished]
     .reduce((acc, state) => {
-    return `${acc} \t ${materialItems
-      .filter(mi => mi.materialState === state).length} ${getMaterialStateString(state as IMaterialState)} `
-  }, '');
+      return `${acc} \t ${orders
+        .filter(o => o.state === state).length} ${getOrderStateString(state)} `
+    }, '');
 
   const handlePageClicked = (page: number) => {
     setPage(page);
@@ -51,17 +44,16 @@ const MaterialItemTable: FC<MaterialItemTableProps> = ({ materialItems, material
     handlePageClicked(1);
   };
 
-  const getMaterialState = (state: IMaterialState) => {
-    const color = getMaterialStateColor(state);
-    const content = getMaterialStateString(state);
+  const getOrderState = (state: IOrderState) => {
+    const color = getOrderStateColor(state);
+    const content = getOrderStateString(state);
 
     return <Label color={color} horizontal content={content} />;
   };
 
   if (sorted) {
-
-    materialItems = materialItems.sort((a, b) => {
-      return materialStates.indexOf(a.materialState) - materialStates.indexOf(b.materialState);
+    orders = orders.sort((a, b) => {
+      return orderStates.indexOf(a.state) - orderStates.indexOf(b.state);
     });
   }
 
@@ -69,16 +61,17 @@ const MaterialItemTable: FC<MaterialItemTableProps> = ({ materialItems, material
     <div>
       <Message
         attached
-        header={materialName}
+        header='Orders stats'
         content={stats}
       />
       <Table celled style={{ marginTop: 0 }}>
         <Table.Header>
           <Table.Row>
-            <Table.HeaderCell>Material</Table.HeaderCell>
             <Table.HeaderCell>SerialNo</Table.HeaderCell>
+            <Table.HeaderCell>Start date</Table.HeaderCell>
+            <Table.HeaderCell>End date</Table.HeaderCell>
             <Table.HeaderCell className="sort-header" onClick={handleOnSortColumnClick}>
-              Status
+              State
               {sorted &&  (
                 <Fragment>
                   <Label as='a' color='purple' ribbon='right'>
@@ -87,22 +80,23 @@ const MaterialItemTable: FC<MaterialItemTableProps> = ({ materialItems, material
                 </Fragment>
               )}
             </Table.HeaderCell>
+            <Table.HeaderCell>Action</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
 
         <Table.Body>
-          {materialItems.slice(index, index + 5).map((mi, index) => (
-            <Table.Row key={mi.id}>
-              <Table.Cell>{materialName}-{(index + 1) + (page - 1)* 5}</Table.Cell>
-              <Table.Cell>{mi.serial}</Table.Cell>
-              <Table.Cell>{getMaterialState(mi.materialState)}</Table.Cell>
+          {orders.slice(index, index + 5).map(order => (
+            <Table.Row key={order.id}>
+              <Table.Cell>{order.serial}</Table.Cell>
+              <Table.Cell>{order.startDate}</Table.Cell>
+              <Table.Cell>{getOrderState(order.state)}</Table.Cell>
+              <Table.Cell>Action</Table.Cell>
             </Table.Row>
           ))}
         </Table.Body>
-
         <Table.Footer>
           <Table.Row>
-            <Table.HeaderCell colSpan='3'>
+            <Table.HeaderCell colSpan='5'>
               <Menu floated='right' pagination>
                 <Menu.Item
                   disabled={page === 1}
@@ -140,4 +134,4 @@ const MaterialItemTable: FC<MaterialItemTableProps> = ({ materialItems, material
   );
 };
 
-export default MaterialItemTable;
+export default OrderTable;

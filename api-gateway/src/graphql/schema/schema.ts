@@ -6,6 +6,7 @@ export const typeDef = `
     getMaterialQuantitiesByNameAndState: [MaterialQuantityByNameAndState!]!
     getWarehouseDashboardContent: WarehouseDashboardContent!
     getMaterialItems(input: InputGetMaterialItems!): [MaterialItem!]!
+    getOrders(input: InputGetOrdersDto!): [Order]!
   }
 
   type Mutation {
@@ -17,7 +18,6 @@ export const typeDef = `
     signUp(input: InputSignUp!): PersonnelWithJwt!
     login(input: InputLogin!): PersonnelWithJwt!
     changeRole(input: InputChangeRole!): Personnel!
-    getOrders(input: InputGetOrdersDto!): [Order]!
     placeOrder(input: InputPlaceOrderDto!): Order!
     changeOrderState(input: InputChangeOrderStateDto!): Order!
     finishOrder(input: InputFinishOrderDto!): Order!
