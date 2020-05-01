@@ -37,12 +37,12 @@ const Warehouses: FC<WarehousesProps> = ({ warehouses, quantities }) => {
       <Grid className="warehouses-container__warehouses" stackable columns={4}>
         {
           warehouses.map(wh => (
-            <GridColumn stretched>
-            <Warehouse
-              key={wh.id}
-              wh={wh}
-              quantities={quantities.filter(q => q.warehouseId === wh.id)!}
-            />
+            <GridColumn stretched key={wh.id}>
+              <Warehouse
+                key={wh.id}
+                wh={wh}
+                quantities={quantities.filter(q => q.warehouseId === wh.id)!}
+              />
             </GridColumn>))
         }
       </Grid>

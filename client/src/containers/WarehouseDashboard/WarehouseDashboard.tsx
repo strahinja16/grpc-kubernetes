@@ -14,9 +14,15 @@ const WarehouseDashboard = () => {
   const { getWarehouseDashboardContent: content } : { getWarehouseDashboardContent: IWarehouseContent } = data;
   return (
     <Fragment>
-      <Warehouses warehouses={content.warehouses} quantities={content.warehouseQuantities} />
+      <Warehouses
+        warehouses={content.warehouses}
+        quantities={content.warehouseQuantities}
+      />
       <MaterialTypes materialTypes={content.materialTypes}/>
-      <ProductTypes productTypes={content.productTypes} />
+      <ProductTypes
+        productTypes={content.productTypes}
+        materialTypes={content.materialTypes}
+      />
     </Fragment>
   );
 };

@@ -51,7 +51,7 @@ const AddMaterialTypeModal: FC<AddMaterialTypeModalProps> = ({ closeModal }) => 
     return !result.error;
   };
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = () => {
     if (validateForm()) {
       addMaterialType({ variables: { input: { ...inputValues } } })
         .then(() => {
@@ -63,7 +63,7 @@ const AddMaterialTypeModal: FC<AddMaterialTypeModalProps> = ({ closeModal }) => 
     }
   };
 
-  const handleCancel = (e: any) => {
+  const handleCancel = () => {
     closeModal();
   };
 
@@ -94,8 +94,7 @@ const AddMaterialTypeModal: FC<AddMaterialTypeModalProps> = ({ closeModal }) => 
               Submit
             </Button>
             <Button
-              type="submit"
-              onSubmit={handleCancel}
+              onClick={handleCancel}
               name="button"
               secondary
             >

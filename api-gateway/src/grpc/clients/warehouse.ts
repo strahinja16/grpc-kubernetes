@@ -102,6 +102,10 @@ class WarehouseGrpcClient  {
     addProductTypeAndMaterialSpecifications(input: InputAddProductTypeAndMaterialSpecifications)
         : Promise<ProductTypeAndMaterialSpecifications> {
         return new Promise((resolve ,reject) => {
+            if (!input.materialSpecs.length) {
+              reject(new Error('Material specs are required'));
+              return;
+            }
             const request = new AddProductTypeAndMaterialSpecificationsRequest();
             request.setProducttype(productTypeMapper.addProductTypeDtoToGrpc(input.productType));
             request.setMaterialspecsList(input.materialSpecs.map(ms => materialSpecificationMapper.addMaterialSpecDtoToGrpc(ms)));

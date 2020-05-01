@@ -10,13 +10,18 @@ export const ADD_MATERIAL_TYPE = gql`
   }
 `;
 
-export const ADD_MATERIAL_TYPE_UPDATE = (callback: any) => (cache: any, { data: { addMaterialType } }: any) => {
+export const ADD_MATERIAL_TYPE_UPDATE = (callback: any) => (cache: any, {
+  data: { addMaterialType }
+}: any) => {
   const oldData = cache.readQuery({ query: GET_WAREHOUSE_CONTENT });
 
   const data = {
     getWarehouseDashboardContent: {
       ...oldData.getWarehouseDashboardContent,
-      materialTypes: [...oldData.getWarehouseDashboardContent.materialTypes, addMaterialType]
+      materialTypes: [
+        ...oldData.getWarehouseDashboardContent.materialTypes,
+        addMaterialType
+      ]
     }
   };
   cache.writeQuery({ query: GET_WAREHOUSE_CONTENT, data });
@@ -33,13 +38,50 @@ export const ADD_WAREHOUSE = gql`
   }
 `;
 
-export const ADD_WAREHOUSE_UPDATE = (callback: any) => (cache: any, { data: { addWarehouse } }: any) => {
+export const ADD_WAREHOUSE_UPDATE = (callback: any) => (cache: any, {
+  data: { addWarehouse }
+}: any) => {
   const oldData = cache.readQuery({ query: GET_WAREHOUSE_CONTENT });
 
   const data = {
     getWarehouseDashboardContent: {
       ...oldData.getWarehouseDashboardContent,
       warehouses: [...oldData.getWarehouseDashboardContent.warehouses, addWarehouse]
+    }
+  };
+  cache.writeQuery({ query: GET_WAREHOUSE_CONTENT, data });
+  callback();
+};
+
+export const ADD_PRODUCT_TYPE = gql`
+  mutation($input: InputAddProductTypeAndMaterialSpecifications!) {
+    addProductTypeAndMaterialSpecifications(input: $input) {
+      productType {
+        id,
+        name, 
+        price
+      }
+      materialSpecs {
+        quantity 
+        materialTypeId,
+        productTypeId,
+      }
+    }
+  }
+`;
+
+export const ADD_PRODUCT_TYPE_UPDATE = (callback: any) => (cache: any, {
+  data: { addProductTypeAndMaterialSpecifications }
+}: any) => {
+  const oldData = cache.readQuery({ query: GET_WAREHOUSE_CONTENT });
+
+  const data = {
+    getWarehouseDashboardContent: {
+      ...oldData.getWarehouseDashboardContent,
+      productTypes: [
+        ...oldData.getWarehouseDashboardContent.productTypes,
+        addProductTypeAndMaterialSpecifications.productType
+      ]
     }
   };
   cache.writeQuery({ query: GET_WAREHOUSE_CONTENT, data });

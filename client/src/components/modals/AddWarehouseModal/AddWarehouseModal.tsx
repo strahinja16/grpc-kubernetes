@@ -55,7 +55,7 @@ const AddWarehouseModal: FC<AddWarehouseModalProps> = ({ closeModal }) => {
     return !result.error;
   };
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = () => {
     if (validateForm()) {
       addWarehouse({ variables: { input: { warehouse: {
         name: inputValues.name,
@@ -70,7 +70,7 @@ const AddWarehouseModal: FC<AddWarehouseModalProps> = ({ closeModal }) => {
     }
   };
 
-  const handleCancel = (e: any) => {
+  const handleCancel = () => {
     closeModal();
   };
 
@@ -111,8 +111,7 @@ const AddWarehouseModal: FC<AddWarehouseModalProps> = ({ closeModal }) => {
               Submit
             </Button>
             <Button
-              type="submit"
-              onSubmit={handleCancel}
+              onClick={handleCancel}
               name="button"
               secondary
             >

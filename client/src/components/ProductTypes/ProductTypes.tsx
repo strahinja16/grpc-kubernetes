@@ -1,14 +1,20 @@
 
-import React, { FC } from "react";
-import { IProductType } from "../../models/warehouse";
+import React, { FC, useState } from "react";
+import { IMaterialType, IProductType } from "../../models/warehouse";
 import { Button, Container, Divider, Header, Icon, Table } from "semantic-ui-react";
 import { lorem } from "../../util/lorem";
+import AddProductTypeModal from "../modals/AddProductTypeModal/AddProductTypeModal";
 
 export interface ProductTypesProps {
   productTypes: IProductType[];
+  materialTypes: IMaterialType[];
 }
 
-const ProductTypes: FC<ProductTypesProps> = ({ productTypes }) => {
+const ProductTypes: FC<ProductTypesProps> = ({ productTypes, materialTypes }) => {
+  const [showModal, setShowModal] = useState(false);
+  const onAddProductType = () => setShowModal(true);
+  const closeModal = () => setShowModal(false);
+
   return (
     <Container>
       <Header content="Product types" />
@@ -38,6 +44,7 @@ const ProductTypes: FC<ProductTypesProps> = ({ productTypes }) => {
                 labelPosition='left'
                 size='small'
                 primary
+                onClick={onAddProductType}
               >
                 <Icon name='product hunt' /> Add product type
               </Button>
@@ -45,6 +52,12 @@ const ProductTypes: FC<ProductTypesProps> = ({ productTypes }) => {
           </Table.Row>
         </Table.Footer>
       </Table>
+      {showModal && (
+        <AddProductTypeModal
+          materialTypes={materialTypes}
+          closeModal={closeModal}
+        />)
+      }
       <Divider />
     </Container>
   );
