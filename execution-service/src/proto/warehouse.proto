@@ -7,6 +7,7 @@ package warehouse;
 service WarehouseAndMaterials {
     rpc addMaterialType (AddMaterialTypeRequest) returns (AddMaterialTypeResponse);
     rpc addMaterialItems (AddMaterialItemsRequest) returns (AddMaterialItemsResponse);
+    rpc getMaterialItemsByWarehouse (GetMaterialItemsByWarehouseRequest) returns (GetMaterialItemsByWarehouseResponse);
     rpc addWarehouse (AddWarehouseRequest) returns (AddWarehouseResponse);
     rpc addProductTypeAndMaterialSpecifications (AddProductTypeAndMaterialSpecificationsRequest) returns (AddProductTypeAndMaterialSpecificationsResponse);
     rpc checkOrderSpecsAndSetMaterials (CheckOrderSpecsAndSetMaterialsRequest) returns (CheckOrderSpecsAndSetMaterialsResponse);
@@ -73,6 +74,13 @@ message GetWarehouseDashboardContentResponse {
     repeated WarehouseQuantity warehouseQuantities = 2;
     repeated MaterialType materialTypes = 3;
     repeated ProductType productTypes = 4;
+}
+
+message GetMaterialItemsByWarehouseRequest {
+    int32 warehouseId = 1;
+}
+message GetMaterialItemsByWarehouseResponse {
+    repeated MaterialItem materialItems = 1;
 }
 
 //---------------------------- dtos --------------------------------

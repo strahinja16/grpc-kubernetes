@@ -137,6 +137,28 @@ function deserialize_warehouse_CheckOrderSpecsAndSetMaterialsResponse(buffer_arg
   return warehouse_pb.CheckOrderSpecsAndSetMaterialsResponse.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
+function serialize_warehouse_GetMaterialItemsByWarehouseRequest(arg) {
+  if (!(arg instanceof warehouse_pb.GetMaterialItemsByWarehouseRequest)) {
+    throw new Error('Expected argument of type warehouse.GetMaterialItemsByWarehouseRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_warehouse_GetMaterialItemsByWarehouseRequest(buffer_arg) {
+  return warehouse_pb.GetMaterialItemsByWarehouseRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_warehouse_GetMaterialItemsByWarehouseResponse(arg) {
+  if (!(arg instanceof warehouse_pb.GetMaterialItemsByWarehouseResponse)) {
+    throw new Error('Expected argument of type warehouse.GetMaterialItemsByWarehouseResponse');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_warehouse_GetMaterialItemsByWarehouseResponse(buffer_arg) {
+  return warehouse_pb.GetMaterialItemsByWarehouseResponse.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
 function serialize_warehouse_GetMaterialQuantitiesByNameAndStateRequest(arg) {
   if (!(arg instanceof warehouse_pb.GetMaterialQuantitiesByNameAndStateRequest)) {
     throw new Error('Expected argument of type warehouse.GetMaterialQuantitiesByNameAndStateRequest');
@@ -204,6 +226,17 @@ var WarehouseAndMaterialsService = exports.WarehouseAndMaterialsService = {
     requestDeserialize: deserialize_warehouse_AddMaterialItemsRequest,
     responseSerialize: serialize_warehouse_AddMaterialItemsResponse,
     responseDeserialize: deserialize_warehouse_AddMaterialItemsResponse,
+  },
+  getMaterialItemsByWarehouse: {
+    path: '/warehouse.WarehouseAndMaterials/getMaterialItemsByWarehouse',
+    requestStream: false,
+    responseStream: false,
+    requestType: warehouse_pb.GetMaterialItemsByWarehouseRequest,
+    responseType: warehouse_pb.GetMaterialItemsByWarehouseResponse,
+    requestSerialize: serialize_warehouse_GetMaterialItemsByWarehouseRequest,
+    requestDeserialize: deserialize_warehouse_GetMaterialItemsByWarehouseRequest,
+    responseSerialize: serialize_warehouse_GetMaterialItemsByWarehouseResponse,
+    responseDeserialize: deserialize_warehouse_GetMaterialItemsByWarehouseResponse,
   },
   addWarehouse: {
     path: '/warehouse.WarehouseAndMaterials/addWarehouse',
