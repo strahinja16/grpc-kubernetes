@@ -12,6 +12,8 @@ import {
     GetMaterialQuantitiesByNameAndStateResponse,
     GetWarehouseDashboardContentRequest,
     GetWarehouseDashboardContentResponse,
+    GetMaterialItemsByWarehouseRequest,
+    GetMaterialItemsByWarehouseResponse
 } from '../../proto/warehouse_pb';
 import { WarehouseAndMaterialsClient, IWarehouseAndMaterialsClient } from '../../proto/warehouse_grpc_pb';
 import {IMaterialType} from "../../graphql/models/warehouse/material-type";
@@ -166,6 +168,23 @@ class WarehouseGrpcClient  {
                     }
 
                     resolve(warehouseMapper.warehouseDashboardContentToGql(response));
+                });
+        });
+    }
+
+    getMaterialItems(warehouseId: number) {
+        return new Promise((resolve ,reject) => {
+            const request = new GetMaterialItemsByWarehouseRequest();
+            request.setWarehouseid(warehouseId);
+            this.warehouseClient.getMaterialItemsByWarehouse(
+                request,
+                (error: (grpc.ServiceError | null), response: GetMaterialItemsByWarehouseResponse) => {
+                    if (error != null) {
+                        reject(error);
+                        return;
+                    }
+
+                    resolve(response.getMaterialitemsList().map(mi => materialItemMapper.toGql(mi)));
                 });
         });
     }

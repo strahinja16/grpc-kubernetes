@@ -48,6 +48,10 @@ export const typeDef = `
        materialItems: [InputMaterialItemDto!]!
     }
     
+    input InputGetMaterialItems {
+       warehouseId: Int!
+    }
+    
     input InputMaterialItemDto {
        materialState: Int!
        materialTypeId: Int!

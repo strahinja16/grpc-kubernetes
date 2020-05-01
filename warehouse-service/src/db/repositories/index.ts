@@ -74,6 +74,12 @@ class WarehouseRepository {
         return getRepository(MaterialItem).save(materialItems);
     };
 
+    getMaterialItemsByWarehouseId = async (warehouseId: number): Promise<MaterialItem[]> => {
+        return getRepository(MaterialItem).createQueryBuilder('mi')
+            .where("mi.warehouseId = :id", { id: warehouseId })
+            .getMany();
+    };
+
     addWarehouse = async (warehouse: Partial<Warehouse>): Promise<Warehouse> => {
         return getRepository(Warehouse).save(warehouse);
     };

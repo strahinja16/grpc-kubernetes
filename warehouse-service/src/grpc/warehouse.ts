@@ -12,14 +12,14 @@ import {
     ChangeMaterialItemsStateRequest,
     ChangeMaterialItemsStateResponse,
     CheckOrderSpecsAndSetMaterialsRequest,
-    CheckOrderSpecsAndSetMaterialsResponse,
+    CheckOrderSpecsAndSetMaterialsResponse, GetMaterialItemsByWarehouseRequest, GetMaterialItemsByWarehouseResponse,
     GetMaterialQuantitiesByNameAndStateRequest,
     GetMaterialQuantitiesByNameAndStateResponse,
     GetWarehouseDashboardContentRequest,
     GetWarehouseDashboardContentResponse,
     MaterialQuantityByNameAndState,
-    MaterialState, WarehouseQuantity,
-} from '../proto/warehouse_pb';
+    MaterialState, WarehouseQuantity
+} from "../proto/warehouse_pb";
 import { WarehouseAndMaterialsService, IWarehouseAndMaterialsServer } from '../proto/warehouse_grpc_pb';
 import {warehouseRepository} from "../db/repositories";
 import {materialItemMapper} from "../mappers/material-item";
@@ -239,6 +239,27 @@ class WarehouseServer implements IWarehouseAndMaterialsServer {
             callback(null, response);
         } catch (error) {
             console.log(`[Warehouse.getWarehouseDashboardContent] ${error.message}`);
+            callback(error, null);
+        }
+    };
+
+    /**
+     * Gets material items by warehouse id
+     * @param call
+     * @param callback
+     */
+    getMaterialItemsByWarehouse = async (
+        call: grpc.ServerUnaryCall<GetMaterialItemsByWarehouseRequest>,
+        callback: grpc.sendUnaryData<GetMaterialItemsByWarehouseResponse>
+    ): Promise<void> => {
+        try {
+            const materialItems = await warehouseRepository.getMaterialItemsByWarehouseId(call.request.getWarehouseid());
+
+            const response = new GetMaterialItemsByWarehouseResponse();
+            response.setMaterialitemsList(materialItems.map(mi => materialItemMapper.toGrpc(mi)));
+            callback(null, response);
+        } catch (error) {
+            console.log(`[Warehouse.getMaterialItemsByWarehouse] ${error.message}`);
             callback(error, null);
         }
     };

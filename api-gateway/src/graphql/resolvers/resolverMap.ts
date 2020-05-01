@@ -33,6 +33,11 @@ const resolverMap: IResolvers = {
             authenticate(user);
             return warehouseGrpcClient.getWarehouseDashboardContent();
         },
+
+        getMaterialItems: (root, { input }, { user }) => {
+            authenticate(user);
+            return warehouseGrpcClient.getMaterialItems(input.warehouseId);
+        },
     },
     Mutation: {
         addMaterialType: (root, { input }, { user }) => {
