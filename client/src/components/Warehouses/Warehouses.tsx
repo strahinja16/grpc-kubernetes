@@ -1,8 +1,9 @@
 
-import React, {FC} from 'react';
+import React, { FC, useState } from "react";
 import Warehouse from "../Warehouse/Warehouse";
 import {IWarehouse, IWarehouseQuantity} from "../../models/warehouse";
-import { Card, Container, Divider, Header } from "semantic-ui-react";
+import { Button, Container, Divider, Grid, GridColumn, Header, Icon } from "semantic-ui-react";
+import AddWarehouseModal from "../modals/AddWarehouseModal/AddWarehouseModal";
 import './styles.scss';
 
 export interface WarehousesProps {
@@ -11,19 +12,41 @@ export interface WarehousesProps {
 }
 
 const Warehouses: FC<WarehousesProps> = ({ warehouses, quantities }) => {
+  const [showModal, setShowModal] = useState(false);
+  const onAddWarehouse = () => setShowModal(true);
+  const closeModal = () => setShowModal(false);
+
   return (
-    <Container>
-      <Header content="Warehouses" />
-      <Card.Group className="warehouses">
+    <Container className="warehouses-container">
+      <div className="warehouses-container__header-wrapper">
+        <Header
+          className="warehouses-container__header"
+          content="Warehouses"
+        />
+        <Button
+          className="warehouses-container__header-button"
+          icon
+          labelPosition='left'
+          primary
+          floated="right"
+          onClick={onAddWarehouse}
+        >
+          <Icon name='warehouse' /> Add warehouse
+        </Button>
+      </div>
+      <Grid className="warehouses-container__warehouses" stackable columns={4}>
         {
           warehouses.map(wh => (
+            <GridColumn stretched>
             <Warehouse
               key={wh.id}
               wh={wh}
               quantities={quantities.filter(q => q.warehouseId === wh.id)!}
-            />))
+            />
+            </GridColumn>))
         }
-      </Card.Group>
+      </Grid>
+      {showModal && <AddWarehouseModal closeModal={closeModal} />}
       <Divider />
     </Container>
   );

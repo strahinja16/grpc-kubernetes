@@ -1,3 +1,16 @@
-.warehouses {
-  justify-content: space-between;
+.warehouses-container {
+  .warehouses-container__header-wrapper {
+    margin-bottom: 20px;
+
+    .warehouses-container__header {
+      display: inline;
+    }
+
+    .warehouses-container__header-button {
+    }
+  }
+
+  .warehouses-container__warehouses {
+    margin: auto;
+  }
 }

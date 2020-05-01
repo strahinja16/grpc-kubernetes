@@ -2,7 +2,7 @@ import React, { FC, useState } from "react";
 import {IMaterialType} from "../../models/warehouse";
 import { Button, Container, Divider, Header, Icon, Table } from "semantic-ui-react";
 import { lorem } from "../../util/lorem";
-import AddMaterialTypeModal from "../AddMaterialTypeModal/AddMaterialTypeModal";
+import AddMaterialTypeModal from "../modals/AddMaterialTypeModal/AddMaterialTypeModal";
 
 export interface MaterialTypesProps {
   materialTypes: IMaterialType[];

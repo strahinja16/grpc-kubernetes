@@ -62,7 +62,6 @@ const Login = () => {
         .then(() => {
           if (data.error) {
             setErrorBriefly(data.error);
-
           }
         })
         .catch((e) => setErrorBriefly(e.message));

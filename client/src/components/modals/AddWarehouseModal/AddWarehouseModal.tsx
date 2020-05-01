@@ -3,20 +3,21 @@ import Joi from 'joi-browser';
 import React, { FC, useCallback, useState } from "react";
 import { Button, Form, Message, Modal } from "semantic-ui-react";
 import { useMutation } from "@apollo/react-hooks";
-import Loading from "../Loading/Loading";
-import { ADD_MATERIAL_TYPE, ADD_MATERIAL_TYPE_UPDATE } from "../../graphql/mutations/warehouse";
+import Loading from "../../Loading/Loading";
+import { ADD_WAREHOUSE, ADD_WAREHOUSE_UPDATE } from "../../../graphql/mutations/warehouse";
 
-export interface AddMaterialTypeModalProps {
+export interface AddWarehouseModalProps {
   closeModal: () => void
 }
 
-const AddMaterialTypeModal: FC<AddMaterialTypeModalProps> = ({ closeModal }) => {
+const AddWarehouseModal: FC<AddWarehouseModalProps> = ({ closeModal }) => {
   const [error, setError] = useState('');
-  const [addMaterialType, { data, loading }] = useMutation(ADD_MATERIAL_TYPE, {
-    update: ADD_MATERIAL_TYPE_UPDATE(closeModal),
+  const [addWarehouse, { data, loading }] = useMutation(ADD_WAREHOUSE, {
+    update: ADD_WAREHOUSE_UPDATE(closeModal),
   });
   const [inputValues, setInputValues] = useState({
     name: '',
+    capacity: '',
   });
 
   const handleOnChange = useCallback(event => {
@@ -38,10 +39,13 @@ const AddMaterialTypeModal: FC<AddMaterialTypeModalProps> = ({ closeModal }) => 
       name: Joi.string()
         .required()
         .error(new Error('Name is required.')),
+      capacity: Joi.number()
+        .required()
+        .error(new Error('Capacity is required in number format.')),
     });
 
     const result = Joi.validate(
-      { name: inputValues.name },
+      { name: inputValues.name, capacity: parseInt(inputValues.capacity, 10) },
       schema
     );
 
@@ -53,11 +57,13 @@ const AddMaterialTypeModal: FC<AddMaterialTypeModalProps> = ({ closeModal }) => 
 
   const handleSubmit = (e: any) => {
     if (validateForm()) {
-      addMaterialType({ variables: { input: { ...inputValues } } })
+      addWarehouse({ variables: { input: { warehouse: {
+        name: inputValues.name,
+        capacity: parseInt(inputValues.capacity, 10)
+      }}}})
         .then(() => {
           if (data.error) {
             setErrorBriefly(data.error);
-
           }
         })
         .catch((e: any) => setErrorBriefly(e.message));
@@ -72,12 +78,12 @@ const AddMaterialTypeModal: FC<AddMaterialTypeModalProps> = ({ closeModal }) => 
     ? <Loading/>
     :(
       <Modal open style={{ width: '300px'}}>
-        <Modal.Header>Add material type</Modal.Header>
+        <Modal.Header>Add warehouse</Modal.Header>
         <Modal.Content>
           <Form onSubmit={handleSubmit}>
             {error && <Message negative><p>{error}</p></Message>}
             <Form.Field>
-              <label htmlFor="email">Name</label>
+              <label htmlFor="name">Name</label>
               <input
                 onChange={handleOnChange}
                 type="text"
@@ -86,8 +92,17 @@ const AddMaterialTypeModal: FC<AddMaterialTypeModalProps> = ({ closeModal }) => 
                 value={inputValues.name}
               />
             </Form.Field>
+            <Form.Field>
+              <label htmlFor="capacity">Capacity</label>
+              <input
+                onChange={handleOnChange}
+                type="text"
+                placeholder="Capacity"
+                name="capacity"
+                value={inputValues.capacity}
+              />
+            </Form.Field>
             <Button
-              className="add-material-type__button"
               type="submit"
               onSubmit={handleSubmit}
               name="button"
@@ -96,7 +111,6 @@ const AddMaterialTypeModal: FC<AddMaterialTypeModalProps> = ({ closeModal }) => 
               Submit
             </Button>
             <Button
-              className="add-material-type_button"
               type="submit"
               onSubmit={handleCancel}
               name="button"
@@ -110,4 +124,4 @@ const AddMaterialTypeModal: FC<AddMaterialTypeModalProps> = ({ closeModal }) => 
     );
 };
 
-export default AddMaterialTypeModal;
+export default AddWarehouseModal;
