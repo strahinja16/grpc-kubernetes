@@ -9,7 +9,6 @@ import ProductTypes from "../../components/ProductTypes/ProductTypes";
 
 const WarehouseDashboard = () => {
   const { data, loading} = useQuery(GET_WAREHOUSE_CONTENT);
-
   if (loading) return <Loading/>;
 
   const { getWarehouseDashboardContent: content } : { getWarehouseDashboardContent: IWarehouseContent } = data;

@@ -1,4 +1,4 @@
-import gql from 'graphql-tag';
+import { gql } from 'apollo-boost';
 import {GET_LOGGED_IN_USER} from "../queries/personnel";
 
 export const LOGIN = gql`

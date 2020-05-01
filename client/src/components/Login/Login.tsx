@@ -98,7 +98,13 @@ const Login = () => {
               value={inputValues.password}
             />
           </Form.Field>
-          <Button className="auth__button" type="submit" onSubmit={handleSubmit} name="button">
+          <Button
+            className="auth__button"
+            type="submit"
+            onSubmit={handleSubmit}
+            name="button"
+            primary
+          >
             Login
           </Button>
         </Form>

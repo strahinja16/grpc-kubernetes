@@ -1,13 +1,18 @@
-import React, {FC} from 'react';
+import React, { FC, useState } from "react";
 import {IMaterialType} from "../../models/warehouse";
 import { Button, Container, Divider, Header, Icon, Table } from "semantic-ui-react";
 import { lorem } from "../../util/lorem";
+import AddMaterialTypeModal from "../AddMaterialTypeModal/AddMaterialTypeModal";
 
 export interface MaterialTypesProps {
   materialTypes: IMaterialType[];
 }
 
 const MaterialTypes: FC<MaterialTypesProps> = ({ materialTypes }) => {
+  const [showModal, setShowModal] = useState(false);
+  const onAddMaterialType = () => setShowModal(true);
+  const closeModal = () => setShowModal(false);
+
   return (
     <Container>
       <Header content="Material types" />
@@ -20,7 +25,7 @@ const MaterialTypes: FC<MaterialTypesProps> = ({ materialTypes }) => {
         </Table.Header>
         <Table.Body>
           {materialTypes.map(mt => (
-            <Table.Row>
+            <Table.Row key={mt.id}>
               <Table.Cell>{mt.name}</Table.Cell>
               <Table.Cell>{lorem.generateSentences(1)}</Table.Cell>
             </Table.Row>
@@ -34,6 +39,8 @@ const MaterialTypes: FC<MaterialTypesProps> = ({ materialTypes }) => {
                 icon
                 labelPosition='left'
                 size='small'
+                primary
+                onClick={onAddMaterialType}
               >
                 <Icon name='archive' /> Add material type
               </Button>
@@ -41,6 +48,7 @@ const MaterialTypes: FC<MaterialTypesProps> = ({ materialTypes }) => {
           </Table.Row>
         </Table.Footer>
       </Table>
+      {showModal && <AddMaterialTypeModal closeModal={closeModal} />}
       <Divider />
     </Container>
   );

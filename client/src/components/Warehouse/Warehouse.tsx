@@ -26,7 +26,7 @@ const Warehouse: FC<WarehouseProps> = ({ wh, quantities }) => (
       <List divided relaxed>
         {
           quantities.map(qt => (
-            <List.Item>
+            <List.Item key={qt.materialName}>
               <List.Icon name='archive' size='large' verticalAlign='middle' />
               <List.Content>
                 <List.Header>{qt.count} {qt.materialName}</List.Header>

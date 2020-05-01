@@ -1,5 +1,5 @@
 
-import React, {FC} from 'react';
+import React, { FC } from "react";
 import { IProductType } from "../../models/warehouse";
 import { Button, Container, Divider, Header, Icon, Table } from "semantic-ui-react";
 import { lorem } from "../../util/lorem";
@@ -22,7 +22,7 @@ const ProductTypes: FC<ProductTypesProps> = ({ productTypes }) => {
         </Table.Header>
         <Table.Body>
           {productTypes.map(mt => (
-            <Table.Row>
+            <Table.Row key={mt.id}>
               <Table.Cell>{mt.name}</Table.Cell>
               <Table.Cell>${mt.price}</Table.Cell>
               <Table.Cell>{lorem.generateSentences(1)}</Table.Cell>
@@ -37,6 +37,7 @@ const ProductTypes: FC<ProductTypesProps> = ({ productTypes }) => {
                 icon
                 labelPosition='left'
                 size='small'
+                primary
               >
                 <Icon name='product hunt' /> Add product type
               </Button>

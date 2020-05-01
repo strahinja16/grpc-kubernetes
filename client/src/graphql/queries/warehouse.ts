@@ -25,3 +25,29 @@ export const GET_WAREHOUSE_CONTENT = gql`
     }
   }
 `;
+
+export const GET_WAREHOUSE_CONTENT_CLIENT = gql`
+  {
+    getWarehouseDashboardContent @client {
+      warehouses {
+        id,
+        name,
+        capacity
+      }
+      materialTypes {
+        id,
+        name,
+      },
+      productTypes {
+        id,
+        name,
+        price
+      },
+      warehouseQuantities {
+        count,
+        materialName
+        warehouseId
+      },
+    }
+  }
+`;
