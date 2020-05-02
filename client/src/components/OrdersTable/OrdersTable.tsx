@@ -16,6 +16,7 @@ import {
   FINISH_ORDER,
   FINISH_ORDER_UPDATE
 } from "../../graphql/mutations/execution";
+import { getDateTimeFromTimestamp } from "../../util/date";
 
 export interface OrderTableProps {
   orders: IOrder[];
@@ -159,8 +160,8 @@ const OrderTable: FC<OrderTableProps> = ({ orders }) => {
           {orders.slice(index, index + 5).map(order => (
             <Table.Row key={order.id}>
               <Table.Cell>{order.serial}</Table.Cell>
-              <Table.Cell>{order.startDate}</Table.Cell>
-              <Table.Cell>{order.endDate}</Table.Cell>
+              <Table.Cell>{getDateTimeFromTimestamp(Number(order.startDate))}</Table.Cell>
+              <Table.Cell>{getDateTimeFromTimestamp(Number(order.endDate))}</Table.Cell>
               <Table.Cell>{getOrderState(order.state)}</Table.Cell>
               <Table.Cell>{getNextExecutionActionNames(order.state).map(action => (
                 <Label
