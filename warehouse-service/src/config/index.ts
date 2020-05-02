@@ -12,6 +12,7 @@ const {
     DB_USER,
     DB_PASS,
     DB_DATABASE,
+    EXECUTION_SERVICE_GRPC_URL,
 } = process.env;
 
 const port = PORT || 3000;
@@ -28,5 +29,6 @@ export const config  = {
         user: DB_USER,
         pass: DB_PASS,
         database: DB_DATABASE,
-    }
+    },
+    executionServiceGrpcUrl: EXECUTION_SERVICE_GRPC_URL,
 };

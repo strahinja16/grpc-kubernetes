@@ -161,12 +161,19 @@ class WarehouseRepository {
             throw new Error('There are insufficient materials.');
         }
 
-        materialItems.forEach(mi => {
+        const matsForUpdate: MaterialItem[] = [];
+
+        Object.keys(matReq).forEach(materialTypeId => {
+            const materialsWithType = materialItems.filter(mi => mi.materialTypeId === +materialTypeId);
+            matsForUpdate.push(...materialsWithType.filter((mi, index) => index < matReq[+materialTypeId]));
+        });
+
+        matsForUpdate.forEach(mi => {
             mi.orderSerial = orderSerial;
             mi.materialState = MaterialState.taken;
         });
 
-        await getRepository(MaterialItem).save(materialItems);
+        await getRepository(MaterialItem).save(matsForUpdate);
     };
 
     getMaterialQuantitiesByNameAndState = async (): Promise<IMaterialQuantityByNameAndState[]> => {

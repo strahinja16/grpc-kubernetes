@@ -1,6 +1,8 @@
 import * as grpc from 'grpc';
 import {ExecutionService, IExecutionServer} from "../../proto/execution_grpc_pb";
 import {
+    AddProductTypeRequest,
+    AddProductTypeResponse,
     ChangeOrderStateRequest,
     ChangeOrderStateResponse,
     FinishOrderRequest,
@@ -106,6 +108,33 @@ class ExecutionServer implements IExecutionServer {
         } catch (error) {
             console.log({ error });
             console.log(`[Execution.changeOrderState] ${error.message}`);
+            callback(error, null);
+        }
+    };
+
+    /**
+     * Creates new product type
+     * @param call
+     * @param callback
+     */
+    addProductType = async (
+      call: grpc.ServerUnaryCall<AddProductTypeRequest>,
+      callback: grpc.sendUnaryData<AddProductTypeResponse>
+    ): Promise<void> => {
+        try {
+            const name = call.request.getName();
+            const price = call.request.getPrice();
+            const productType = await executionRepository.addProductType(name, price);
+            const response = new AddProductTypeResponse();
+
+            response.setId(productType.id);
+            response.setPrice(productType.price);
+            response.setName(productType.name);
+
+            callback(null, response);
+        } catch (error) {
+            console.log({ error });
+            console.log(`[Execution.addProductType] ${error.message}`);
             callback(error, null);
         }
     };

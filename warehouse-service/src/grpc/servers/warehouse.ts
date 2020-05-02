@@ -19,16 +19,17 @@ import {
     GetWarehouseDashboardContentResponse,
     MaterialQuantityByNameAndState,
     MaterialState, WarehouseQuantity
-} from "../proto/warehouse_pb";
-import { WarehouseAndMaterialsService, IWarehouseAndMaterialsServer } from '../proto/warehouse_grpc_pb';
-import {warehouseRepository} from "../db/repositories";
-import {materialItemMapper} from "../mappers/material-item";
-import { materialTypeMapper } from '../mappers/material-type';
-import {warehouseMapper} from "../mappers/warehouse";
-import {productTypeMapper} from "../mappers/product-type";
-import {materialSpecificationMapper} from "../mappers/material-specification";
-import {orderSpecMapper} from "../mappers/order-specification";
-import {MaterialState as MaterialStateEnum } from "../db/entities/material-item";
+} from "../../proto/warehouse_pb";
+import { WarehouseAndMaterialsService, IWarehouseAndMaterialsServer } from '../../proto/warehouse_grpc_pb';
+import {warehouseRepository} from "../../db/repositories";
+import {materialItemMapper} from "../../mappers/material-item";
+import { materialTypeMapper } from '../../mappers/material-type';
+import {warehouseMapper} from "../../mappers/warehouse";
+import {productTypeMapper} from "../../mappers/product-type";
+import {materialSpecificationMapper} from "../../mappers/material-specification";
+import {orderSpecMapper} from "../../mappers/order-specification";
+import {MaterialState as MaterialStateEnum } from "../../db/entities/material-item";
+import { executionGrpcClient } from "../clients/execution";
 
 class WarehouseServer implements IWarehouseAndMaterialsServer {
 
@@ -141,6 +142,11 @@ class WarehouseServer implements IWarehouseAndMaterialsServer {
     ): Promise<void> => {
         try {
             const tsProductType = productTypeMapper.addProductTypeDtoToTs(call.request.getProducttype());
+            const executionProductType = await executionGrpcClient.addProductType(tsProductType);
+            if (!executionProductType.id) {
+                callback(new Error('Adding the product type in execution failed'), null);
+            }
+
             const tsMaterialSpecs = call.request.getMaterialspecsList()
                 .map(ms => materialSpecificationMapper.addMaterialSpecificationDtoToTs(ms));
             const {materialSpecs, productType} = await warehouseRepository

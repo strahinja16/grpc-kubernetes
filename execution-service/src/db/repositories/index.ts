@@ -9,6 +9,7 @@ import moment from 'moment';
 import {OrderSpecification} from "../entities/order-specification";
 import {OrderResponse} from "../entities/order-response";
 import {Product} from "../entities/product";
+import { ProductType } from "../entities/product-type";
 
 export enum OrderTimespanEnum {
     currentWeek = 0,
@@ -29,6 +30,13 @@ class ExecutionRepository {
         }
 
         return this.getUpcomingOrders();
+    }
+
+    async addProductType(name: string, price: number): Promise<ProductType> {
+        const productType = new ProductType();
+        productType.price = price;
+        productType.name = name;
+        return getRepository(ProductType).save(productType);
     }
 
     async placeOrder(order: Order, orderSpecs: OrderSpecification[]): Promise<Order> {

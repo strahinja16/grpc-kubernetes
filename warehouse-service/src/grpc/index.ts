@@ -2,7 +2,7 @@ import 'dotenv/config';
 import * as grpc from 'grpc';
 
 import { protoInit } from '../proto';
-import WarehouseService from './warehouse';
+import WarehouseService from './servers/warehouse';
 import {config} from "../config";
 
 protoInit();
