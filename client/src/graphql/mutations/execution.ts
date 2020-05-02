@@ -1,6 +1,6 @@
 import { gql } from "apollo-boost";
 import { GET_ORDERS } from "../queries/execution";
-import { IOrder, IOrderState, OrderTimespan } from "../../models/execution";
+import { IOrder, IOrderState, IOrderTimespan } from "../../models/execution";
 
 export const CHANGE_ORDER_STATE = gql`
   mutation($input: InputChangeOrderStateDto!) {
@@ -17,7 +17,7 @@ export const CHANGE_ORDER_STATE_UPDATE = () => (cache: any, {
   data: { changeOrderState }
 }: any) => {
   const oldData = cache.readQuery({ query: GET_ORDERS, variables: {
-      input: { state: Number(IOrderState.started), timespan: Number(OrderTimespan.allUpcoming) }
+      input: { state: Number(IOrderState.started), timespan: Number(IOrderTimespan.allUpcoming) }
     }});
 
   const data = {
@@ -27,7 +27,7 @@ export const CHANGE_ORDER_STATE_UPDATE = () => (cache: any, {
     })]
   };
   cache.writeQuery({ query: GET_ORDERS, data, variables: {
-      input: { state: Number(IOrderState.started), timespan: Number(OrderTimespan.allUpcoming) }
+      input: { state: Number(IOrderState.started), timespan: Number(IOrderTimespan.allUpcoming) }
     }});
 };
 
@@ -46,7 +46,7 @@ export const FINISH_ORDER_UPDATE = () => (cache: any, {
   data: { finishOrder }
 }: any) => {
   const oldData = cache.readQuery({ query: GET_ORDERS, variables: {
-      input: { state: Number(IOrderState.started), timespan: Number(OrderTimespan.allUpcoming) }
+      input: { state: Number(IOrderState.started), timespan: Number(IOrderTimespan.allUpcoming) }
     }});
 
   const data = {
@@ -56,7 +56,7 @@ export const FINISH_ORDER_UPDATE = () => (cache: any, {
     })]
   };
   cache.writeQuery({ query: GET_ORDERS, data, variables: {
-      input: { state: Number(IOrderState.started), timespan: Number(OrderTimespan.allUpcoming) }
+      input: { state: Number(IOrderState.started), timespan: Number(IOrderTimespan.allUpcoming) }
     }});
 };
 
@@ -76,7 +76,7 @@ export const PLACE_ORDER_UPDATE = (callback: any) => (cache: any, {
   data: { placeOrder }
 }: any) => {
   const oldData = cache.readQuery({ query: GET_ORDERS, variables: {
-      input: { state: Number(IOrderState.started), timespan: Number(OrderTimespan.allUpcoming) }
+      input: { state: Number(IOrderState.started), timespan: Number(IOrderTimespan.allUpcoming) }
     }});
 
   const data = {
@@ -85,7 +85,7 @@ export const PLACE_ORDER_UPDATE = (callback: any) => (cache: any, {
   };
 
   cache.writeQuery({ query: GET_ORDERS, data, variables: {
-      input: { state: Number(IOrderState.started), timespan: Number(OrderTimespan.allUpcoming) }
+      input: { state: Number(IOrderState.started), timespan: Number(IOrderTimespan.allUpcoming) }
     }});
 
   callback();

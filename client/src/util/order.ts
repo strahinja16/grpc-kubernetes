@@ -1,4 +1,4 @@
-import { IOrderState, OrderActions } from "../models/execution";
+import { IOrderState, OrderActions, IOrderTimespan } from "../models/execution";
 
 export const getOrderStateColor = (OrderState: IOrderState) => {
   if (OrderState === IOrderState.started) {
@@ -68,3 +68,41 @@ export const getNextStateFromAction = (action: string) => {
     return IOrderState.finished;
   }
 };
+
+
+export const orderTimespansForDropdown = [
+  {
+    key: 'lastWeek',
+    text: 'Last week',
+    value: IOrderTimespan.lastWeek,
+  },
+  {
+    key: 'currentWeek',
+    text: 'Current week',
+    value: IOrderTimespan.currentWeek,
+  },
+  {
+    key: 'allUpcoming',
+    text: 'All upcoming',
+    value: IOrderTimespan.allUpcoming,
+  }
+];
+
+export const orderStatesForDropdown = [
+  {
+    key: 'started',
+    text: 'Started',
+    value: IOrderState.started,
+  },
+  {
+    key: 'paused',
+    text: 'Paused',
+    value: IOrderState.paused,
+  },
+  {
+    key: 'finished',
+    text: 'Finished',
+    value: IOrderState.finished,
+  }
+];
+

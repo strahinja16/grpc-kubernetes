@@ -1,5 +1,5 @@
 
-export enum OrderTimespan {
+export enum IOrderTimespan {
   currentWeek = 0,
   lastWeek = 1,
   allUpcoming = 2,

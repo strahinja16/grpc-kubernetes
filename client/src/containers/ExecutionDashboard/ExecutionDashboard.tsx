@@ -3,23 +3,26 @@ import {useQuery} from "@apollo/react-hooks";
 import { Button, Container, Header, Icon } from "semantic-ui-react";
 import Loading from '../../components/Loading/Loading';
 import { GET_ORDERS } from "../../graphql/queries/execution";
-import { IOrderState, OrderTimespan } from "../../models/execution";
+import { IOrderState, IOrderTimespan } from "../../models/execution";
 import OrderTable from "../../components/OrdersTable/OrdersTable";
-import './styles.scss';
 import PlaceOrderModal from "../../components/Modals/PlaceOrderModal/PlaceOrderModal";
+import OrderFilterModal from "../../components/Modals/OrderFilterModal/OrderFilterModal";
+import './styles.scss';
 
 const ExecutionDashboard = () => {
   const [orderState, setOrderState] = useState(IOrderState.started);
-  const [timespan, setTimespan ] = useState(OrderTimespan.allUpcoming);
-  const [showModal, setShowModal] = useState(false);
-  const onPlaceOrder = () => setShowModal(true);
-  const closeModal = () => setShowModal(false);
+  const [timespan, setTimespan ] = useState(IOrderTimespan.allUpcoming);
+  const [showPlaceOrderModal, setShowPlaceOrderModal] = useState(false);
+  const [showFilterModal, setShowFilterModal] = useState(false);
+  const onShowFilter = () => setShowFilterModal(true);
+  const onPlaceOrder = () => setShowPlaceOrderModal(true);
+  const closePlaceOrderModal = () => setShowPlaceOrderModal(false);
+  const closeFilterModal = () => setShowFilterModal(false);
 
   const { data, loading } = useQuery(GET_ORDERS, {
-    variables: { input: { state: Number(orderState), timespan: Number(timespan) } }
+    variables: { input: { state: Number(orderState), timespan: Number(timespan) } },
+    fetchPolicy: "network-only",
   });
-
-  if (loading) return <Loading/>;
 
   return (
     <Container className="order-container">
@@ -38,9 +41,28 @@ const ExecutionDashboard = () => {
         >
           <Icon name='clipboard' /> Schedule an order
         </Button>
+        <Button
+          className="order-container__header-button"
+          icon
+          labelPosition='left'
+          color="purple"
+          floated="right"
+          onClick={onShowFilter}
+        >
+          <Icon name='filter' /> Filter
+        </Button>
       </div>
-      <OrderTable orders={data.getOrders} />
-      {showModal && <PlaceOrderModal closeModal={closeModal}/>}
+      {loading ? <Loading /> : <OrderTable orders={data.getOrders} />}
+      {showPlaceOrderModal && <PlaceOrderModal closeModal={closePlaceOrderModal}/>}
+      {showFilterModal && (
+        <OrderFilterModal
+          setOrderState={setOrderState}
+          setTimespan={setTimespan}
+          closeModal={closeFilterModal}
+          timespan={timespan}
+          orderState={orderState}
+        />
+      )}
     </Container>
   );
 };
