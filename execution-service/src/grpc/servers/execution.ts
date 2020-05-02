@@ -6,7 +6,7 @@ import {
     ChangeOrderStateRequest,
     ChangeOrderStateResponse,
     FinishOrderRequest,
-    FinishOrderResponse,
+    FinishOrderResponse, GetOrderResponsesRequest, GetOrderResponsesResponse,
     GetOrdersRequest,
     GetOrdersResponse,
     PlaceOrderRequest,
@@ -23,6 +23,7 @@ import {
     CheckOrderSpecsAndSetMaterialsRequest,
     MaterialState
 } from "../../proto/warehouse_pb";
+import { orderResponseMapper } from "../../mappers/orderResponse";
 
 class ExecutionServer implements IExecutionServer {
 
@@ -50,6 +51,28 @@ class ExecutionServer implements IExecutionServer {
             callback(null, response);
         } catch (error) {
             console.log(`[Execution.getOrders] ${error.message}`);
+            callback(error, null);
+        }
+    };
+
+    /**
+     * Gets order responses by order id
+     * @param call
+     * @param callback
+     */
+    getOrderResponses = async (
+      call: grpc.ServerUnaryCall<GetOrderResponsesRequest>,
+      callback: grpc.sendUnaryData<GetOrderResponsesResponse>
+    ): Promise<void> => {
+        try {
+            const orderResponses = await executionRepository.getOrderResponses(call.request.getOrderid());
+
+            const response = new GetOrderResponsesResponse();
+            response.setOrderresponsesList(orderResponses.map(o => orderResponseMapper.toGrpc(o)));
+
+            callback(null, response);
+        } catch (error) {
+            console.log(`[Execution.getOrderResponses] ${error.message}`);
             callback(error, null);
         }
     };

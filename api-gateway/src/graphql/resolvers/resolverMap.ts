@@ -44,6 +44,11 @@ const resolverMap: IResolvers = {
             return executionGrpcClient.getOrders(input);
         },
 
+        getOrderResponses: (root, { input }, { user }) => {
+            authenticate(user);
+            return executionGrpcClient.getOrderResponses(input);
+        },
+
     },
     Mutation: {
         addMaterialType: (root, { input }, { user }) => {

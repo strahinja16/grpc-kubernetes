@@ -32,6 +32,12 @@ class ExecutionRepository {
         return this.getUpcomingOrders();
     }
 
+    async getOrderResponses(orderId: number): Promise<OrderResponse[]> {
+        return getRepository(OrderResponse).createQueryBuilder('or')
+          .where('or.orderId = :orderId', { orderId })
+          .getMany();
+    }
+
     async addProductType(name: string, price: number): Promise<ProductType> {
         const productType = new ProductType();
         productType.price = price;

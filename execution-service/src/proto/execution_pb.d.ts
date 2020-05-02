@@ -255,6 +255,50 @@ export namespace AddProductTypeResponse {
     }
 }
 
+export class GetOrderResponsesRequest extends jspb.Message { 
+    getOrderid(): number;
+    setOrderid(value: number): void;
+
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): GetOrderResponsesRequest.AsObject;
+    static toObject(includeInstance: boolean, msg: GetOrderResponsesRequest): GetOrderResponsesRequest.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: GetOrderResponsesRequest, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): GetOrderResponsesRequest;
+    static deserializeBinaryFromReader(message: GetOrderResponsesRequest, reader: jspb.BinaryReader): GetOrderResponsesRequest;
+}
+
+export namespace GetOrderResponsesRequest {
+    export type AsObject = {
+        orderid: number,
+    }
+}
+
+export class GetOrderResponsesResponse extends jspb.Message { 
+    clearOrderresponsesList(): void;
+    getOrderresponsesList(): Array<OrderResponse>;
+    setOrderresponsesList(value: Array<OrderResponse>): void;
+    addOrderresponses(value?: OrderResponse, index?: number): OrderResponse;
+
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): GetOrderResponsesResponse.AsObject;
+    static toObject(includeInstance: boolean, msg: GetOrderResponsesResponse): GetOrderResponsesResponse.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: GetOrderResponsesResponse, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): GetOrderResponsesResponse;
+    static deserializeBinaryFromReader(message: GetOrderResponsesResponse, reader: jspb.BinaryReader): GetOrderResponsesResponse;
+}
+
+export namespace GetOrderResponsesResponse {
+    export type AsObject = {
+        orderresponsesList: Array<OrderResponse.AsObject>,
+    }
+}
+
 export class OrderDto extends jspb.Message { 
 
     hasEnddate(): boolean;
@@ -362,6 +406,49 @@ export namespace Order {
         enddate?: google_protobuf_timestamp_pb.Timestamp.AsObject,
         state: State,
         personnelid: string,
+    }
+}
+
+export class OrderResponse extends jspb.Message { 
+    getId(): number;
+    setId(value: number): void;
+
+
+    hasStartdate(): boolean;
+    clearStartdate(): void;
+    getStartdate(): google_protobuf_timestamp_pb.Timestamp | undefined;
+    setStartdate(value?: google_protobuf_timestamp_pb.Timestamp): void;
+
+
+    hasEnddate(): boolean;
+    clearEnddate(): void;
+    getEnddate(): google_protobuf_timestamp_pb.Timestamp | undefined;
+    setEnddate(value?: google_protobuf_timestamp_pb.Timestamp): void;
+
+    getState(): State;
+    setState(value: State): void;
+
+    getOrderid(): number;
+    setOrderid(value: number): void;
+
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): OrderResponse.AsObject;
+    static toObject(includeInstance: boolean, msg: OrderResponse): OrderResponse.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: OrderResponse, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): OrderResponse;
+    static deserializeBinaryFromReader(message: OrderResponse, reader: jspb.BinaryReader): OrderResponse;
+}
+
+export namespace OrderResponse {
+    export type AsObject = {
+        id: number,
+        startdate?: google_protobuf_timestamp_pb.Timestamp.AsObject,
+        enddate?: google_protobuf_timestamp_pb.Timestamp.AsObject,
+        state: State,
+        orderid: number,
     }
 }
 

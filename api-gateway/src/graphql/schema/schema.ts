@@ -7,6 +7,7 @@ export const typeDef = `
     getWarehouseDashboardContent: WarehouseDashboardContent!
     getMaterialItems(input: InputGetMaterialItems!): [MaterialItem!]!
     getOrders(input: InputGetOrdersDto!): [Order]!
+    getOrderResponses(input: InputGetOrderResponses!): [OrderResponse!]!
   }
 
   type Mutation {

@@ -5,6 +5,8 @@ import {
     ChangeOrderStateResponse,
     FinishOrderRequest,
     FinishOrderResponse,
+    GetOrderResponsesRequest,
+    GetOrderResponsesResponse,
     GetOrdersRequest,
     GetOrdersResponse,
     OrderDto,
@@ -24,6 +26,8 @@ import {Timestamp} from "google-protobuf/google/protobuf/timestamp_pb";
 import {IOrderSpecificationDto} from "../../graphql/models/execution/order-specification";
 import {orderMapper} from "../../mappers/execution/order";
 import {config} from "../../config";
+import { orderResponseMapper } from "../../mappers/execution/orderResponse";
+import { IOrderResponse } from "../../graphql/models/execution/order-response";
 
 class ExecutionGrpcClient  {
     executionClient: IExecutionClient;
@@ -48,6 +52,24 @@ class ExecutionGrpcClient  {
 
                     resolve(response.getOrdersList().map(o => orderMapper.toGql(o)));
                 });
+        });
+    }
+
+    getOrderResponses(input: any): Promise<IOrderResponse[]> {
+        return new Promise((resolve ,reject) => {
+            const request = new GetOrderResponsesRequest();
+            request.setOrderid(input.orderId);
+
+            this.executionClient.getOrderResponses(
+              request,
+              (error: (grpc.ServiceError | null), response: GetOrderResponsesResponse) => {
+                  if (error != null) {
+                      reject(error.details);
+                      return;
+                  }
+
+                  resolve(response.getOrderresponsesList().map(o => orderResponseMapper.toGql(o)));
+              });
         });
     }
 

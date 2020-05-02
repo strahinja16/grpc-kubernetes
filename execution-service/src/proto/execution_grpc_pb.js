@@ -71,6 +71,28 @@ function deserialize_execution_FinishOrderResponse(buffer_arg) {
   return execution_pb.FinishOrderResponse.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
+function serialize_execution_GetOrderResponsesRequest(arg) {
+  if (!(arg instanceof execution_pb.GetOrderResponsesRequest)) {
+    throw new Error('Expected argument of type execution.GetOrderResponsesRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_execution_GetOrderResponsesRequest(buffer_arg) {
+  return execution_pb.GetOrderResponsesRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_execution_GetOrderResponsesResponse(arg) {
+  if (!(arg instanceof execution_pb.GetOrderResponsesResponse)) {
+    throw new Error('Expected argument of type execution.GetOrderResponsesResponse');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_execution_GetOrderResponsesResponse(buffer_arg) {
+  return execution_pb.GetOrderResponsesResponse.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
 function serialize_execution_GetOrdersRequest(arg) {
   if (!(arg instanceof execution_pb.GetOrdersRequest)) {
     throw new Error('Expected argument of type execution.GetOrdersRequest');
@@ -171,6 +193,17 @@ var ExecutionService = exports.ExecutionService = {
     requestDeserialize: deserialize_execution_AddProductTypeRequest,
     responseSerialize: serialize_execution_AddProductTypeResponse,
     responseDeserialize: deserialize_execution_AddProductTypeResponse,
+  },
+  getOrderResponses: {
+    path: '/execution.Execution/getOrderResponses',
+    requestStream: false,
+    responseStream: false,
+    requestType: execution_pb.GetOrderResponsesRequest,
+    responseType: execution_pb.GetOrderResponsesResponse,
+    requestSerialize: serialize_execution_GetOrderResponsesRequest,
+    requestDeserialize: deserialize_execution_GetOrderResponsesRequest,
+    responseSerialize: serialize_execution_GetOrderResponsesResponse,
+    responseDeserialize: deserialize_execution_GetOrderResponsesResponse,
   },
 };
 

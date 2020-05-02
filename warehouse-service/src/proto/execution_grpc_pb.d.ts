@@ -14,6 +14,7 @@ interface IExecutionService extends grpc.ServiceDefinition<grpc.UntypedServiceIm
     changeOrderState: IExecutionService_IchangeOrderState;
     finishOrder: IExecutionService_IfinishOrder;
     addProductType: IExecutionService_IaddProductType;
+    getOrderResponses: IExecutionService_IgetOrderResponses;
 }
 
 interface IExecutionService_IgetOrders extends grpc.MethodDefinition<execution_pb.GetOrdersRequest, execution_pb.GetOrdersResponse> {
@@ -61,6 +62,15 @@ interface IExecutionService_IaddProductType extends grpc.MethodDefinition<execut
     responseSerialize: grpc.serialize<execution_pb.AddProductTypeResponse>;
     responseDeserialize: grpc.deserialize<execution_pb.AddProductTypeResponse>;
 }
+interface IExecutionService_IgetOrderResponses extends grpc.MethodDefinition<execution_pb.GetOrderResponsesRequest, execution_pb.GetOrderResponsesResponse> {
+    path: string; // "/execution.Execution/getOrderResponses"
+    requestStream: boolean; // false
+    responseStream: boolean; // false
+    requestSerialize: grpc.serialize<execution_pb.GetOrderResponsesRequest>;
+    requestDeserialize: grpc.deserialize<execution_pb.GetOrderResponsesRequest>;
+    responseSerialize: grpc.serialize<execution_pb.GetOrderResponsesResponse>;
+    responseDeserialize: grpc.deserialize<execution_pb.GetOrderResponsesResponse>;
+}
 
 export const ExecutionService: IExecutionService;
 
@@ -70,6 +80,7 @@ export interface IExecutionServer {
     changeOrderState: grpc.handleUnaryCall<execution_pb.ChangeOrderStateRequest, execution_pb.ChangeOrderStateResponse>;
     finishOrder: grpc.handleUnaryCall<execution_pb.FinishOrderRequest, execution_pb.FinishOrderResponse>;
     addProductType: grpc.handleUnaryCall<execution_pb.AddProductTypeRequest, execution_pb.AddProductTypeResponse>;
+    getOrderResponses: grpc.handleUnaryCall<execution_pb.GetOrderResponsesRequest, execution_pb.GetOrderResponsesResponse>;
 }
 
 export interface IExecutionClient {
@@ -88,6 +99,9 @@ export interface IExecutionClient {
     addProductType(request: execution_pb.AddProductTypeRequest, callback: (error: grpc.ServiceError | null, response: execution_pb.AddProductTypeResponse) => void): grpc.ClientUnaryCall;
     addProductType(request: execution_pb.AddProductTypeRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: execution_pb.AddProductTypeResponse) => void): grpc.ClientUnaryCall;
     addProductType(request: execution_pb.AddProductTypeRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: execution_pb.AddProductTypeResponse) => void): grpc.ClientUnaryCall;
+    getOrderResponses(request: execution_pb.GetOrderResponsesRequest, callback: (error: grpc.ServiceError | null, response: execution_pb.GetOrderResponsesResponse) => void): grpc.ClientUnaryCall;
+    getOrderResponses(request: execution_pb.GetOrderResponsesRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: execution_pb.GetOrderResponsesResponse) => void): grpc.ClientUnaryCall;
+    getOrderResponses(request: execution_pb.GetOrderResponsesRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: execution_pb.GetOrderResponsesResponse) => void): grpc.ClientUnaryCall;
 }
 
 export class ExecutionClient extends grpc.Client implements IExecutionClient {
@@ -107,4 +121,7 @@ export class ExecutionClient extends grpc.Client implements IExecutionClient {
     public addProductType(request: execution_pb.AddProductTypeRequest, callback: (error: grpc.ServiceError | null, response: execution_pb.AddProductTypeResponse) => void): grpc.ClientUnaryCall;
     public addProductType(request: execution_pb.AddProductTypeRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: execution_pb.AddProductTypeResponse) => void): grpc.ClientUnaryCall;
     public addProductType(request: execution_pb.AddProductTypeRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: execution_pb.AddProductTypeResponse) => void): grpc.ClientUnaryCall;
+    public getOrderResponses(request: execution_pb.GetOrderResponsesRequest, callback: (error: grpc.ServiceError | null, response: execution_pb.GetOrderResponsesResponse) => void): grpc.ClientUnaryCall;
+    public getOrderResponses(request: execution_pb.GetOrderResponsesRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: execution_pb.GetOrderResponsesResponse) => void): grpc.ClientUnaryCall;
+    public getOrderResponses(request: execution_pb.GetOrderResponsesRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: execution_pb.GetOrderResponsesResponse) => void): grpc.ClientUnaryCall;
 }

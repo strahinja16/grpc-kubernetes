@@ -10,6 +10,7 @@ service Execution {
     rpc changeOrderState (ChangeOrderStateRequest) returns (ChangeOrderStateResponse);
     rpc finishOrder (FinishOrderRequest) returns (FinishOrderResponse);
     rpc addProductType (AddProductTypeRequest) returns (AddProductTypeResponse);
+    rpc getOrderResponses (GetOrderResponsesRequest) returns (GetOrderResponsesResponse);
 }
 
 message GetOrdersRequest {
@@ -54,6 +55,14 @@ message AddProductTypeResponse {
     int32 price = 3;
 }
 
+message GetOrderResponsesRequest {
+    int32 orderId = 1;
+}
+
+message GetOrderResponsesResponse {
+    repeated OrderResponse orderResponses = 1;
+}
+
 //---------------------------- dtos --------------------------------
 
 message OrderDto {
@@ -77,6 +86,15 @@ message Order {
     State state = 5;
     string personnelId = 6;
 }
+
+message OrderResponse {
+    int32 id = 1;
+    google.protobuf.Timestamp startDate = 3;
+    google.protobuf.Timestamp endDate = 4;
+    State state = 5;
+    int32 orderId = 6;
+}
+
 
 enum OrderTimespan {
     currentWeek = 0;
