@@ -1,8 +1,21 @@
 import React, { FC, Fragment, useState } from "react";
 import { IOrder, IOrderState } from "../../models/execution";
 import { Icon, Label, Menu, Message, Table } from "semantic-ui-react";
-import { getOrderStateColor, getOrderStateString } from "../../util/orderState";
+import {
+  getNextExecutionActionNames,
+  getNextStateFromAction,
+  getOrderActionColor,
+  getOrderStateColor,
+  getOrderStateString
+} from "../../util/order";
 import "./styles.scss";
+import { useMutation } from "@apollo/react-hooks";
+import {
+  CHANGE_ORDER_STATE,
+  CHANGE_ORDER_STATE_UPDATE,
+  FINISH_ORDER,
+  FINISH_ORDER_UPDATE
+} from "../../graphql/mutations/execution";
 
 export interface OrderTableProps {
   orders: IOrder[];
@@ -15,10 +28,21 @@ export enum PaginationArrow {
 
 const OrderTable: FC<OrderTableProps> = ({ orders }) => {
   const pages = orders ? Math.ceil(orders.length / 5) : 1;
+
   const [index, setIndex] = useState(0);
   const [page, setPage] = useState(1);
   const [sorted, setSorted] = useState(false);
+  const [error, setError] = useState('');
+
   const orderStates = Object.values(IOrderState);
+  const [changeOrderState, { data: changeOrderData }] = useMutation(CHANGE_ORDER_STATE, {
+    update: CHANGE_ORDER_STATE_UPDATE(),
+  });
+
+  const [finishOrder, { data: finishOrderData }] = useMutation(FINISH_ORDER, {
+    update: FINISH_ORDER_UPDATE(),
+  });
+
   const stats = [IOrderState.started, IOrderState.paused, IOrderState.finished]
     .reduce((acc, state) => {
       return `${acc} \t ${orders
@@ -30,8 +54,15 @@ const OrderTable: FC<OrderTableProps> = ({ orders }) => {
     if (page === 1) {
       setIndex(0)
     } else {
-      setIndex((page - 1) * 4 + (page -2))
+      setIndex((page - 1) * 4 + (page - 2))
     }
+  };
+
+  const setErrorBriefly = (error: string) => {
+    setError(error);
+    setTimeout(() => {
+      setError('');
+    }, 3000);
   };
 
   const handleArrowClicked = (arrow: PaginationArrow) => {
@@ -42,6 +73,43 @@ const OrderTable: FC<OrderTableProps> = ({ orders }) => {
   const handleOnSortColumnClick = () => {
     setSorted(true);
     handlePageClicked(1);
+  };
+
+  const handleStateChangeAction = (order: IOrder, action: string) => {
+    const nextState = getNextStateFromAction(action);
+    if (nextState !== IOrderState.finished) {
+      changeOrderState({
+        variables: {
+          input: {
+            orderId: order.id,
+            state: Number(getNextStateFromAction(action)),
+          }
+        }
+      })
+        .then(() => {
+          if (changeOrderData && changeOrderData.error) {
+            setErrorBriefly(changeOrderData.error);
+          }
+        })
+        .catch((e) => setErrorBriefly(e.message));
+
+      return;
+    }
+
+    finishOrder({
+      variables: {
+        input: {
+          orderId: order.id,
+          orderSerial: order.serial,
+        }
+      }
+    })
+      .then(() => {
+        if (finishOrderData && finishOrderData.error) {
+          setErrorBriefly(finishOrderData.error);
+        }
+      })
+      .catch((e) => setErrorBriefly(e.message));
   };
 
   const getOrderState = (state: IOrderState) => {
@@ -59,6 +127,7 @@ const OrderTable: FC<OrderTableProps> = ({ orders }) => {
 
   return (
     <div>
+      {error && <Message attached negative><p>{error}</p></Message>}
       <Message
         attached
         header='Orders stats'
@@ -72,15 +141,17 @@ const OrderTable: FC<OrderTableProps> = ({ orders }) => {
             <Table.HeaderCell>End date</Table.HeaderCell>
             <Table.HeaderCell className="sort-header" onClick={handleOnSortColumnClick}>
               State
+            </Table.HeaderCell>
+            <Table.HeaderCell>
+              Action
               {sorted &&  (
                 <Fragment>
-                  <Label as='a' color='purple' ribbon='right'>
+                  <Label as='a' color='purple'ribbon='right'>
                     Sorted
                   </Label>
                 </Fragment>
               )}
             </Table.HeaderCell>
-            <Table.HeaderCell>Action</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
 
@@ -89,8 +160,17 @@ const OrderTable: FC<OrderTableProps> = ({ orders }) => {
             <Table.Row key={order.id}>
               <Table.Cell>{order.serial}</Table.Cell>
               <Table.Cell>{order.startDate}</Table.Cell>
+              <Table.Cell>{order.endDate}</Table.Cell>
               <Table.Cell>{getOrderState(order.state)}</Table.Cell>
-              <Table.Cell>Action</Table.Cell>
+              <Table.Cell>{getNextExecutionActionNames(order.state).map(action => (
+                <Label
+                  key={action}
+                  className="sort-header"
+                  onClick={() => handleStateChangeAction(order,action)}
+                  content={action}
+                  color={getOrderActionColor(action)}
+                />))}
+              </Table.Cell>
             </Table.Row>
           ))}
         </Table.Body>

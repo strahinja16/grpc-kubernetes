@@ -20,3 +20,8 @@ export interface IOrder {
   personnelId: string;
 }
 
+export const OrderActions = {
+  start: 'start',
+  pause: 'pause',
+  finish: 'finish'
+};

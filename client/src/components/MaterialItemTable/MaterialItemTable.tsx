@@ -1,7 +1,7 @@
 import React, { FC, Fragment, useState } from "react";
 import { IMaterialItem, IMaterialState, IMaterialType } from "../../models/warehouse";
 import { Icon, Label, Menu, Message, Table } from "semantic-ui-react";
-import { getMaterialStateColor, getMaterialStateString } from "../../util/materialState";
+import { getMaterialStateColor, getMaterialStateString } from "../../util/material";
 import "./styles.scss";
 
 export interface MaterialItemTableProps {
