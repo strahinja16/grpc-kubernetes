@@ -38,7 +38,7 @@ export const GET_WAREHOUSE_MATERIAL_ITEMS = gql`
   }
 `;
 
-export const GET_MATERIAL_TYPES_AND_WAREHOUSES_CLIENT = gql`
+export const GET_WAREHOUSE_CONTENT_CLIENT = gql`
   query {
     getWarehouseDashboardContent @client {
       materialTypes {
@@ -48,6 +48,11 @@ export const GET_MATERIAL_TYPES_AND_WAREHOUSES_CLIENT = gql`
       warehouses {
         id,
         name
+      },
+      productTypes {
+        id,
+        name,
+        price
       }
     }
   }

@@ -4,19 +4,19 @@ import { useParams } from 'react-router-dom';
 import { Button, Container, Divider, Grid, GridColumn, Header, Icon } from "semantic-ui-react";
 import Loading from '../../components/Loading/Loading';
 import {
-  GET_MATERIAL_TYPES_AND_WAREHOUSES_CLIENT,
+  GET_WAREHOUSE_CONTENT_CLIENT,
   GET_WAREHOUSE_MATERIAL_ITEMS
 } from "../../graphql/queries/warehouse";
 import { IMaterialItem, IWarehouse } from "../../models/warehouse";
 import MaterialItemTable from "../../components/MaterialItemTable/MaterialItemTable";
+import AddMaterialItemsModal from "../../components/Modals/AddMaterialItemsModal/AddMaterialItemsModal";
 import './styles.scss';
-import AddMaterialItemsModal from "../../components/modals/AddMaterialItemsModal/AddMaterialItemsModal";
 
 const WarehouseAndMaterials = () => {
   const { id } = useParams();
   const [showModal, setShowModal] = useState(false);
   const closeModal = () => setShowModal(false);
-  const { data: materialTypeAndWhData} = useQuery(GET_MATERIAL_TYPES_AND_WAREHOUSES_CLIENT);
+  const { data: whData} = useQuery(GET_WAREHOUSE_CONTENT_CLIENT);
   const { data, loading} = useQuery(GET_WAREHOUSE_MATERIAL_ITEMS, {
     variables: { input: { warehouseId: Number(id) } }
   });
@@ -26,7 +26,7 @@ const WarehouseAndMaterials = () => {
 
   const { getMaterialItems }: { getMaterialItems: IMaterialItem[] } = data;
   const distinctMaterialTypes = Array.from(new Set([...getMaterialItems.map(mi => mi.materialTypeId)]));
-  const warehouseName = materialTypeAndWhData.getWarehouseDashboardContent.warehouses
+  const warehouseName = whData.getWarehouseDashboardContent.warehouses
     .find((wh: IWarehouse) => wh.id === Number(id))!.name;
 
   return (
@@ -53,7 +53,7 @@ const WarehouseAndMaterials = () => {
             <GridColumn key={mt}>
               <MaterialItemTable
                 materialItems={getMaterialItems.filter(mi => mi.materialTypeId === mt)}
-                materialTypes={materialTypeAndWhData.getWarehouseDashboardContent.materialTypes}
+                materialTypes={whData.getWarehouseDashboardContent.materialTypes}
               />
             </GridColumn>
           ))
@@ -61,7 +61,7 @@ const WarehouseAndMaterials = () => {
       </Grid>
       {showModal && (
           <AddMaterialItemsModal
-            materialTypes={materialTypeAndWhData.getWarehouseDashboardContent.materialTypes}
+            materialTypes={whData.getWarehouseDashboardContent.materialTypes}
             closeModal={closeModal}
             warehouseId={id}
           />

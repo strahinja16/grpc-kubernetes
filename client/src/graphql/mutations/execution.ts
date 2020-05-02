@@ -59,3 +59,34 @@ export const FINISH_ORDER_UPDATE = () => (cache: any, {
       input: { state: Number(IOrderState.started), timespan: Number(OrderTimespan.allUpcoming) }
     }});
 };
+
+export const PLACE_ORDER = gql`
+  mutation($input: InputPlaceOrderDto!) {
+    placeOrder(input: $input) {
+      id,
+      state,
+      startDate,
+      endDate,
+      serial
+    }
+  }
+`;
+
+export const PLACE_ORDER_UPDATE = (callback: any) => (cache: any, {
+  data: { placeOrder }
+}: any) => {
+  const oldData = cache.readQuery({ query: GET_ORDERS, variables: {
+      input: { state: Number(IOrderState.started), timespan: Number(OrderTimespan.allUpcoming) }
+    }});
+
+  const data = {
+    ...oldData,
+    getOrders: [...oldData.getOrders, placeOrder]
+  };
+
+  cache.writeQuery({ query: GET_ORDERS, data, variables: {
+      input: { state: Number(IOrderState.started), timespan: Number(OrderTimespan.allUpcoming) }
+    }});
+
+  callback();
+};

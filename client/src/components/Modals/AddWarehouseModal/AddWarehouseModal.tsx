@@ -77,7 +77,7 @@ const AddWarehouseModal: FC<AddWarehouseModalProps> = ({ closeModal }) => {
   return loading
     ? <Loading/>
     :(
-      <Modal open style={{ width: '300px'}}>
+      <Modal open size="mini">
         <Modal.Header>Add warehouse</Modal.Header>
         <Modal.Content>
           <Form onSubmit={handleSubmit}>

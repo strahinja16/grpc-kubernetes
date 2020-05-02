@@ -3,7 +3,7 @@ import React, { FC, useState } from "react";
 import Warehouse from "../Warehouse/Warehouse";
 import {IWarehouse, IWarehouseQuantity} from "../../models/warehouse";
 import { Button, Container, Divider, Grid, GridColumn, Header, Icon } from "semantic-ui-react";
-import AddWarehouseModal from "../modals/AddWarehouseModal/AddWarehouseModal";
+import AddWarehouseModal from "../Modals/AddWarehouseModal/AddWarehouseModal";
 import './styles.scss';
 
 export interface WarehousesProps {

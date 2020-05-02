@@ -117,7 +117,7 @@ const AddMaterialItemsModal: FC<AddMaterialItemsModalProps> = ({ closeModal, mat
   return loading
     ? <Loading/>
     :(
-      <Modal open style={{ width: '400px'}}>
+      <Modal open size="mini">
         <Modal.Header>Add materials</Modal.Header>
         <Modal.Content>
           <Form onSubmit={handleSubmit}>

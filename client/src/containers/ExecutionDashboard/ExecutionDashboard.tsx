@@ -5,11 +5,15 @@ import Loading from '../../components/Loading/Loading';
 import { GET_ORDERS } from "../../graphql/queries/execution";
 import { IOrderState, OrderTimespan } from "../../models/execution";
 import OrderTable from "../../components/OrdersTable/OrdersTable";
+import './styles.scss';
+import PlaceOrderModal from "../../components/Modals/PlaceOrderModal/PlaceOrderModal";
 
 const ExecutionDashboard = () => {
   const [orderState, setOrderState] = useState(IOrderState.started);
   const [timespan, setTimespan ] = useState(OrderTimespan.allUpcoming);
-
+  const [showModal, setShowModal] = useState(false);
+  const onPlaceOrder = () => setShowModal(true);
+  const closeModal = () => setShowModal(false);
 
   const { data, loading } = useQuery(GET_ORDERS, {
     variables: { input: { state: Number(orderState), timespan: Number(timespan) } }
@@ -30,12 +34,13 @@ const ExecutionDashboard = () => {
           labelPosition='left'
           primary
           floated="right"
-          onClick={() => {}}
+          onClick={onPlaceOrder}
         >
           <Icon name='clipboard' /> Schedule an order
         </Button>
       </div>
       <OrderTable orders={data.getOrders} />
+      {showModal && <PlaceOrderModal closeModal={closeModal}/>}
     </Container>
   );
 };

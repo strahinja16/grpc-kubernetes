@@ -3,53 +3,64 @@ import React, { FC, useCallback, useState } from "react";
 import { Button, Form, Message, Modal } from "semantic-ui-react";
 import { useMutation, useQuery } from "@apollo/react-hooks";
 import Loading from "../../Loading/Loading";
-import {
-  ADD_MATERIAL_ITEMS, ADD_MATERIAL_ITEMS_UPDATE,
-} from "../../../graphql/mutations/warehouse";
-import { IMaterialType } from "../../../models/warehouse";
+import { IProductType } from "../../../models/warehouse";
 import { GET_WAREHOUSE_CONTENT_CLIENT } from "../../../graphql/queries/warehouse";
+import { PLACE_ORDER, PLACE_ORDER_UPDATE } from "../../../graphql/mutations/execution";
+import { GET_LOGGED_IN_USER } from "../../../graphql/queries/personnel";
 
-export interface AddOrderModalProps {
+export interface PlaceOrderModalProps {
   closeModal: () => void
-  materialTypes: IMaterialType[]
-  warehouseId: number;
 }
 
-const AddOrderModal: FC<AddOrderModalProps> = ({ closeModal, materialTypes, warehouseId }) => {
+const PlaceOrderModal: FC<PlaceOrderModalProps> = ({ closeModal }) => {
   const [error, setError] = useState('');
 
   const { data: whData} = useQuery(GET_WAREHOUSE_CONTENT_CLIENT);
-  const [addOrder, { data, loading }] = useMutation(ADD_ORDER, {
-    update: ADD_ORDER_UPDATE(closeModal),
+  const { data: userData } = useQuery(GET_LOGGED_IN_USER);
+  const productTypes: IProductType[] = whData.getWarehouseDashboardContent.productTypes;
+  const [placeOrder, { data, loading }] = useMutation(PLACE_ORDER, {
+    update: PLACE_ORDER_UPDATE(closeModal),
   });
 
-  const materialsIncluded: { [key: string]: boolean } = {};
-  materialTypes.forEach(mt => materialsIncluded[mt.name] = false);
-  const materialQuantities: { [key: string]: number } = {};
-  materialTypes.forEach(mt => materialQuantities[mt.name] = 0);
+  const productsIncluded: { [key: string]: boolean } = {};
+  productTypes.forEach(pt => productsIncluded[pt.name] = false);
+  const productQuantities: { [key: string]: number } = {};
+  productTypes.forEach(pt => productQuantities[pt.name] = 0);
 
   const [inputValues, setInputValues] = useState({
     name: '',
     price: '',
-    materialsIncluded,
-    materialQuantities,
+    dateTime: `${new Date().getFullYear()}-${`${new Date().getMonth() + 1}`
+      .padStart(2, '0')}-${`${new Date().getDate()}`
+      .padStart(2, '0')}T${`${new Date().getHours()}`
+      .padStart(2, '0')}:${`${new Date().getMinutes()}`
+      .padStart(2, '0')}`,
+    productsIncluded,
+    productQuantities,
   });
 
-  const handleOnCheckboxChange = useCallback((mtName: string) => {
-      inputValues.materialsIncluded[mtName] = !inputValues.materialsIncluded[mtName];
+  const handleOnCheckboxChange = useCallback((ptName: string) => {
+      inputValues.productsIncluded[ptName] = !inputValues.productsIncluded[ptName];
       setInputValues(Object.assign({}, inputValues));
     },
     [inputValues]
   );
 
-  const handleMaterialQuantityInputChange = useCallback((mtName: string, value: string) => {
+  const handleProductQuantityInputChange = useCallback((ptName: string, value: string) => {
       const parsedValue = Number(value);
       if (isNaN(parsedValue)) {
         setErrorBriefly("Quantity value must be number.");
         return;
       }
 
-      inputValues.materialQuantities[mtName] = parsedValue;
+      inputValues.productQuantities[ptName] = parsedValue;
+      setInputValues(Object.assign({}, inputValues));
+    },
+    [inputValues]
+  );
+
+  const handleDateTimeChange = useCallback((e) => {
+      inputValues.dateTime = e.target.value;
       setInputValues(Object.assign({}, inputValues));
     },
     [inputValues]
@@ -63,44 +74,40 @@ const AddOrderModal: FC<AddOrderModalProps> = ({ closeModal, materialTypes, ware
   };
 
   const validateForm = () => {
-    const filteredSpecs = Object.keys(materialsIncluded)
-      .filter(mtName => inputValues.materialsIncluded[mtName]);
+    const filteredProducts = Object.keys(productsIncluded)
+      .filter(mtName => inputValues.productsIncluded[mtName]);
 
-    const specsValid = filteredSpecs.length && filteredSpecs
-      .filter(mtName => inputValues.materialsIncluded[mtName])
-      .every(mtName => inputValues.materialQuantities[mtName] > 0);
+    const productsValid = filteredProducts.length && filteredProducts
+      .filter(ptName => inputValues.productsIncluded[ptName])
+      .every(ptName => inputValues.productQuantities[ptName] > 0);
 
-    if (!specsValid) {
-      setErrorBriefly("There has to be at least one checked material." +
-        "Checked material types must have quantities greater than 0");
+    const dateValid = new Date(inputValues.dateTime) > new Date();
+    if (!dateValid) {
+      setErrorBriefly("Date and time must be greater than current date and time");
+    } else if (!productsValid) {
+      setErrorBriefly("There has to be at least one checked product." +
+        "Checked products must have quantities greater than 0");
     }
 
-
-    return specsValid;
+    return productsValid && dateValid;
   };
 
   const handleSubmit = () => {
     if (validateForm()) {
-      const OrderWithQuantities = Object.keys(materialsIncluded)
-        .filter(mtName => inputValues.materialsIncluded[mtName])
-        .map(mtName => ({
-          materialTypeId: Number(materialTypes.find(mt => mt.name === mtName)!.id),
-          materialState: 0,
-          quantity: inputValues.materialQuantities[mtName],
-          warehouseId: Number(warehouseId),
-        }));
+      const filteredProducts = Object.keys(productsIncluded)
+        .filter(mtName => inputValues.productsIncluded[mtName]);
 
-      const Order: { materialTypeId: number, materialState: number, warehouseId: number }[] = [];
-      OrderWithQuantities.forEach(mi => {
-        const quantity = mi.quantity;
-        delete mi.quantity;
-        Array.from(Array(quantity).keys()).forEach(q => Order.push(mi));
-      });
+      const orderSpecs = filteredProducts.map(product => ({
+        productTypeId: productTypes.find(pt => pt.name === product)!.id,
+        quantity: inputValues.productQuantities[product],
+      }));
 
-      addOrder({
+      placeOrder({
         variables: {
           input: {
-            Order,
+            endDate: new Date(inputValues.dateTime),
+            personnelId: userData.user.serial,
+            orderSpecs,
           }
         }
       })
@@ -120,31 +127,39 @@ const AddOrderModal: FC<AddOrderModalProps> = ({ closeModal, materialTypes, ware
   return loading
     ? <Loading/>
     :(
-      <Modal open style={{ width: '400px'}}>
-        <Modal.Header>Add materials</Modal.Header>
+      <Modal open size="mini">
+        <Modal.Header>Place order</Modal.Header>
         <Modal.Content>
           <Form onSubmit={handleSubmit}>
             {error && <Message negative><p>{error}</p></Message>}
+            <Form.Field style={{ marginTop: '-10px' }}>
+              <label htmlFor="endDate">End date</label>
+              <input
+                type="datetime-local"
+                onChange={handleDateTimeChange}
+                value={inputValues.dateTime}
+              />
+            </Form.Field>
             <Form.Field>
               {
-                materialTypes.map(mt => (
-                  <Form.Group inline key={mt.id}>
+                productTypes.map(pt => (
+                  <Form.Group inline key={pt.id}>
                     <Form.Checkbox
                       width={8}
                       inline
-                      name={`${mt.name}-checkbox`}
-                      onChange={() => handleOnCheckboxChange(mt.name)}
+                      name={`${pt.name}-checkbox`}
+                      onChange={() => handleOnCheckboxChange(pt.name)}
                       required={false}
-                      checked={inputValues.materialsIncluded[mt.name]}
-                      label={mt.name}
+                      checked={inputValues.productsIncluded[pt.name]}
+                      label={pt.name}
                     />
                     <Form.Field width={8} style={{ padding: 0}}>
                       <input
-                        onChange={(e) => handleMaterialQuantityInputChange(mt.name, e.target.value)}
+                        onChange={(e) => handleProductQuantityInputChange(pt.name, e.target.value)}
                         type="text"
                         placeholder="Quantity"
-                        name={`${mt.name}-quantity`}
-                        value={inputValues.materialQuantities[mt.name]}
+                        name={`${pt.name}-quantity`}
+                        value={inputValues.productQuantities[pt.name]}
                       />
                     </Form.Field>
                   </Form.Group>
@@ -172,4 +187,4 @@ const AddOrderModal: FC<AddOrderModalProps> = ({ closeModal, materialTypes, ware
     );
 };
 
-export default AddOrderModal;
+export default PlaceOrderModal;

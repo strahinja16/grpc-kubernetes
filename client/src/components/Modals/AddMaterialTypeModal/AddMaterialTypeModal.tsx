@@ -70,7 +70,7 @@ const AddMaterialTypeModal: FC<AddMaterialTypeModalProps> = ({ closeModal }) => 
   return loading
     ? <Loading/>
     :(
-      <Modal open style={{ width: '300px'}}>
+      <Modal open size="mini">
         <Modal.Header>Add material type</Modal.Header>
         <Modal.Content>
           <Form onSubmit={handleSubmit}>

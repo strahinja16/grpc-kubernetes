@@ -3,7 +3,7 @@ import React, { FC, useState } from "react";
 import { IMaterialType, IProductType } from "../../models/warehouse";
 import { Button, Container, Divider, Header, Icon, Table } from "semantic-ui-react";
 import { lorem } from "../../util/lorem";
-import AddProductTypeModal from "../modals/AddProductTypeModal/AddProductTypeModal";
+import AddProductTypeModal from "../Modals/AddProductTypeModal/AddProductTypeModal";
 
 export interface ProductTypesProps {
   productTypes: IProductType[];

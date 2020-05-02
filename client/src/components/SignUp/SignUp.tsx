@@ -101,10 +101,10 @@ const SignUp = () => {
             />
           </Form.Field>
           <Form.Field>
-            <label htmlFor="email">Lastname</label>
+            <label htmlFor="name">Lastname</label>
             <input
               onChange={handleOnChange}
-              type="email"
+              type="text"
               placeholder="Lastname"
               name="lastname"
               value={inputValues.lastname}
