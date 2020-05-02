@@ -9,6 +9,7 @@ service Execution {
     rpc placeOrder (PlaceOrderRequest) returns (PlaceOrderResponse);
     rpc changeOrderState (ChangeOrderStateRequest) returns (ChangeOrderStateResponse);
     rpc finishOrder (FinishOrderRequest) returns (FinishOrderResponse);
+    rpc addProductType (AddProductTypeRequest) returns (AddProductTypeResponse);
 }
 
 message GetOrdersRequest {
@@ -40,6 +41,17 @@ message FinishOrderRequest {
 }
 message FinishOrderResponse {
     Order order = 1;
+}
+
+message AddProductTypeRequest {
+    string name = 1;
+    int32 price = 2;
+}
+
+message AddProductTypeResponse {
+    int32 id = 1;
+    string name = 2;
+    int32 price = 3;
 }
 
 //---------------------------- dtos --------------------------------

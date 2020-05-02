@@ -5,6 +5,28 @@ var grpc = require('grpc');
 var execution_pb = require('./execution_pb.js');
 var google_protobuf_timestamp_pb = require('google-protobuf/google/protobuf/timestamp_pb.js');
 
+function serialize_execution_AddProductTypeRequest(arg) {
+  if (!(arg instanceof execution_pb.AddProductTypeRequest)) {
+    throw new Error('Expected argument of type execution.AddProductTypeRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_execution_AddProductTypeRequest(buffer_arg) {
+  return execution_pb.AddProductTypeRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_execution_AddProductTypeResponse(arg) {
+  if (!(arg instanceof execution_pb.AddProductTypeResponse)) {
+    throw new Error('Expected argument of type execution.AddProductTypeResponse');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_execution_AddProductTypeResponse(buffer_arg) {
+  return execution_pb.AddProductTypeResponse.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
 function serialize_execution_ChangeOrderStateRequest(arg) {
   if (!(arg instanceof execution_pb.ChangeOrderStateRequest)) {
     throw new Error('Expected argument of type execution.ChangeOrderStateRequest');
@@ -138,6 +160,17 @@ var ExecutionService = exports.ExecutionService = {
     requestDeserialize: deserialize_execution_FinishOrderRequest,
     responseSerialize: serialize_execution_FinishOrderResponse,
     responseDeserialize: deserialize_execution_FinishOrderResponse,
+  },
+  addProductType: {
+    path: '/execution.Execution/addProductType',
+    requestStream: false,
+    responseStream: false,
+    requestType: execution_pb.AddProductTypeRequest,
+    responseType: execution_pb.AddProductTypeResponse,
+    requestSerialize: serialize_execution_AddProductTypeRequest,
+    requestDeserialize: deserialize_execution_AddProductTypeRequest,
+    responseSerialize: serialize_execution_AddProductTypeResponse,
+    responseDeserialize: deserialize_execution_AddProductTypeResponse,
   },
 };
 

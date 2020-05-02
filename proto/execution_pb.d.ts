@@ -201,6 +201,60 @@ export namespace FinishOrderResponse {
     }
 }
 
+export class AddProductTypeRequest extends jspb.Message { 
+    getName(): string;
+    setName(value: string): void;
+
+    getPrice(): number;
+    setPrice(value: number): void;
+
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): AddProductTypeRequest.AsObject;
+    static toObject(includeInstance: boolean, msg: AddProductTypeRequest): AddProductTypeRequest.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: AddProductTypeRequest, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): AddProductTypeRequest;
+    static deserializeBinaryFromReader(message: AddProductTypeRequest, reader: jspb.BinaryReader): AddProductTypeRequest;
+}
+
+export namespace AddProductTypeRequest {
+    export type AsObject = {
+        name: string,
+        price: number,
+    }
+}
+
+export class AddProductTypeResponse extends jspb.Message { 
+    getId(): number;
+    setId(value: number): void;
+
+    getName(): string;
+    setName(value: string): void;
+
+    getPrice(): number;
+    setPrice(value: number): void;
+
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): AddProductTypeResponse.AsObject;
+    static toObject(includeInstance: boolean, msg: AddProductTypeResponse): AddProductTypeResponse.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: AddProductTypeResponse, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): AddProductTypeResponse;
+    static deserializeBinaryFromReader(message: AddProductTypeResponse, reader: jspb.BinaryReader): AddProductTypeResponse;
+}
+
+export namespace AddProductTypeResponse {
+    export type AsObject = {
+        id: number,
+        name: string,
+        price: number,
+    }
+}
+
 export class OrderDto extends jspb.Message { 
 
     hasEnddate(): boolean;
