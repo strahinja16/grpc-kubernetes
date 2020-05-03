@@ -20,6 +20,14 @@ export interface IOrder {
   personnelId: string;
 }
 
+export interface IOrderResponse {
+  id: number;
+  orderId: number;
+  startDate: Date;
+  endDate: Date | null;
+  state: IOrderState;
+}
+
 export const OrderActions = {
   start: 'start',
   pause: 'pause',

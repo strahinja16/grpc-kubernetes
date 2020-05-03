@@ -11,6 +11,7 @@ const SignUp = React.lazy(() => import('../components/SignUp/SignUp'));
 const WarehouseDashboard = React.lazy(() => import('../containers/WarehouseDashboard/WarehouseDashboard'));
 const WarehouseAndMaterials = React.lazy(() => import('../containers/WarehouseAndMaterials/WarehouseAndMaterials'));
 const ExecutionDashboard = React.lazy(() => import('../containers/ExecutionDashboard/ExecutionDashboard'));
+const OrderDetails = React.lazy(() => import('../containers/OrderDetails/OrderDetails'));
 
 const LoggedInRouteList: FC = () => (
 	<Suspense fallback={Loading}>
@@ -18,7 +19,8 @@ const LoggedInRouteList: FC = () => (
       <Route exact={true} path="/warehouse/:id" component={WarehouseAndMaterials} />
       <Route exact={true} path="/warehouses" component={WarehouseDashboard} />
       <Route exact={true} path="/execution" component={ExecutionDashboard} />
-			<Route exact={true} path="/logout" component={Logout} />
+      <Route exact={true} path="/order/:id" component={OrderDetails} />
+      <Route exact={true} path="/logout" component={Logout} />
 			<Redirect to="/warehouses" />
 		</Switch>
 	</Suspense>

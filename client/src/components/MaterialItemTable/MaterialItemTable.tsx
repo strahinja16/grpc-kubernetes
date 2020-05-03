@@ -37,7 +37,7 @@ const MaterialItemTable: FC<MaterialItemTableProps> = ({ materialItems, material
     if (page === 1) {
       setIndex(0)
     } else {
-      setIndex((page - 1) * 4 + (page -2))
+      setIndex((page - 1) * 4 + (page - 1))
     }
   };
 

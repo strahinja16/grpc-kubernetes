@@ -1,4 +1,6 @@
+import moment from "moment";
+
 export const getDateTimeFromTimestamp = (timestamp: number) => {
-  const date = new Date(timestamp);
-  return `${date.getDay()}/${date.getMonth()}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`;
+  if (timestamp === 0) return '';
+  return moment.unix(Number(timestamp) / 1000).format('DD/MM/YYYY HH:mm:ss')
 };

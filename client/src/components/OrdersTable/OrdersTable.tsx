@@ -17,6 +17,9 @@ import {
   FINISH_ORDER_UPDATE
 } from "../../graphql/mutations/execution";
 import { getDateTimeFromTimestamp } from "../../util/date";
+import { useHistory } from "react-router-dom";
+import moment from 'moment'
+import 'moment/min/locales';
 
 export interface OrderTableProps {
   orders: IOrder[];
@@ -34,6 +37,7 @@ const OrderTable: FC<OrderTableProps> = ({ orders }) => {
   const [page, setPage] = useState(1);
   const [sorted, setSorted] = useState(false);
   const [error, setError] = useState('');
+  const history = useHistory();
 
   const orderStates = Object.values(IOrderState);
   const [changeOrderState, { data: changeOrderData }] = useMutation(CHANGE_ORDER_STATE, {
@@ -55,7 +59,7 @@ const OrderTable: FC<OrderTableProps> = ({ orders }) => {
     if (page === 1) {
       setIndex(0)
     } else {
-      setIndex((page - 1) * 4 + (page - 2))
+      setIndex((page - 1) * 4 + (page - 1))
     }
   };
 
@@ -120,6 +124,10 @@ const OrderTable: FC<OrderTableProps> = ({ orders }) => {
     return <Label color={color} horizontal content={content} />;
   };
 
+  const handleOpenOrderDetails = (orderId: number) => {
+    history.push(`/order/${orderId}`);
+  };
+
   if (sorted) {
     orders = orders.sort((a, b) => {
       return orderStates.indexOf(a.state) - orderStates.indexOf(b.state);
@@ -147,7 +155,7 @@ const OrderTable: FC<OrderTableProps> = ({ orders }) => {
               Action
               {sorted &&  (
                 <Fragment>
-                  <Label as='a' color='purple'ribbon='right'>
+                  <Label as='a' color='purple' ribbon='right'>
                     Sorted
                   </Label>
                 </Fragment>
@@ -159,7 +167,12 @@ const OrderTable: FC<OrderTableProps> = ({ orders }) => {
         <Table.Body>
           {orders.slice(index, index + 5).map(order => (
             <Table.Row key={order.id}>
-              <Table.Cell>{order.serial}</Table.Cell>
+              <Table.Cell
+                className="sort-header"
+                onClick={() => handleOpenOrderDetails(order.id)}
+              >
+                {order.serial}
+              </Table.Cell>
               <Table.Cell>{getDateTimeFromTimestamp(Number(order.startDate))}</Table.Cell>
               <Table.Cell>{getDateTimeFromTimestamp(Number(order.endDate))}</Table.Cell>
               <Table.Cell>{getOrderState(order.state)}</Table.Cell>
