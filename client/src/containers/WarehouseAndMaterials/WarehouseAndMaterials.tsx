@@ -18,7 +18,8 @@ const WarehouseAndMaterials = () => {
   const closeModal = () => setShowModal(false);
   const { data: whData} = useQuery(GET_WAREHOUSE_CONTENT_CLIENT);
   const { data, loading} = useQuery(GET_WAREHOUSE_MATERIAL_ITEMS, {
-    variables: { input: { warehouseId: Number(id) } }
+    variables: { input: { warehouseId: Number(id) } },
+    fetchPolicy: "network-only",
   });
   const onAddMaterialItems = () => setShowModal(true);
 
