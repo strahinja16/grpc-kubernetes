@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: warehousedb
+  namespace: dev
+  labels:
+    app: warehousedb
+spec:
+  type: ClusterIP
+  ports:
+    - port: 5432
+  selector:
+    app: warehousedb
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: warehousedb
+  namespace: dev
+  labels:
+    app: warehousedb
+spec:
+  selector:
+    matchLabels:
+      app: warehousedb
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: warehousedb
+    spec:
+      containers:
+        - name: warehousedb
+          image: postgres
+          ports:
+            - containerPort: 5432
+          envFrom:
+            - secretRef:
+                name: warehouse-postgres-secret

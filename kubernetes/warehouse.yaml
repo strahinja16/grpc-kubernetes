@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: warehouse
+  namespace: dev
+  labels:
+    app: warehouse
+spec:
+  type: ClusterIP
+  selector:
+    app: warehouse
+  ports:
+    - name: warehouse-express
+      port: 3000
+      targetPort: 3000
+    - name: warehouse-grpc
+      port: 50051
+      targetPort: 50051
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: warehouse
+  namespace: dev
+  labels:
+    app: warehouse
+spec:
+  selector:
+    matchLabels:
+      app: warehouse
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: warehouse
+    spec:
+      containers:
+        - name: warehouse
+          image: strahinja16/sir-warehouse-service:1.0.0

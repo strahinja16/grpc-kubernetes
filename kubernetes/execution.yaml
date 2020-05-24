@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: execution
+  namespace: dev
+  labels:
+    app: execution
+spec:
+  type: ClusterIP
+  selector:
+    app: execution
+  ports:
+    - name: execution-express
+      port: 3000
+      targetPort: 3000
+    - name: execution-grpc
+      port: 50051
+      targetPort: 50051
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: execution
+  namespace: dev
+  labels:
+    app: execution
+spec:
+  selector:
+    matchLabels:
+      app: execution
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: execution
+    spec:
+      containers:
+        - name: execution
+          image: strahinja16/sir-execution-service:1.0.0
