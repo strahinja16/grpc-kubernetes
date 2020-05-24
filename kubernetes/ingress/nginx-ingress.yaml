@@ -2,14 +2,21 @@ apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
   name: nginx-ingress
+  namespace: dev
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /$1
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      rewrite /$1 break;
+      rewrite ^/services/api-gateway/(.*)$ /$1 break;
 spec:
   rules:
     - host: mini-mes.io
       http:
         paths:
           - path: /
+            backend:
+              serviceName: client
+              servicePort: 3004
+          - path: /services/api-gateway/
             backend:
               serviceName: api-gateway
               servicePort: 3000
