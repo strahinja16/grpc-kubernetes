@@ -1,3 +1,11 @@
 .sort-header:hover {
   cursor: pointer !important;
 }
+
+.augmentable {
+  transition: transform .2s;
+}
+
+.augmentable:hover {
+  transform: scale(1.2);
+}

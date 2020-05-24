@@ -8,7 +8,6 @@ import {
   getOrderStateColor,
   getOrderStateString
 } from "../../util/order";
-import "./styles.scss";
 import { useMutation } from "@apollo/react-hooks";
 import {
   CHANGE_ORDER_STATE,
@@ -20,6 +19,7 @@ import { getDateTimeFromTimestamp } from "../../util/date";
 import { useHistory } from "react-router-dom";
 import moment from 'moment'
 import 'moment/min/locales';
+import "./styles.scss";
 
 export interface OrderTableProps {
   orders: IOrder[];
@@ -179,7 +179,7 @@ const OrderTable: FC<OrderTableProps> = ({ orders }) => {
               <Table.Cell>{getNextExecutionActionNames(order.state).map(action => (
                 <Label
                   key={action}
-                  className="sort-header"
+                  className="sort-header augmentable"
                   onClick={() => handleStateChangeAction(order,action)}
                   content={action}
                   color={getOrderActionColor(action)}
