@@ -35,8 +35,8 @@ export const getDbConnection = async (): Promise<Connection> => {
             return connection;
         })
         .then((connection: Connection) => {
-            // connection.synchronize()
-            //     .then(() => seedDatabase(connection));
+            connection.synchronize()
+                .then(() => seedDatabase(connection));
 
             return connection;
         })
