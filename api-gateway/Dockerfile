@@ -1,4 +1,4 @@
-FROM mhart/alpine-node:12
+FROM node:10.16-alpine
 
 RUN apk add --update --no-cache \
     python \

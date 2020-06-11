@@ -60,8 +60,8 @@ class WarehouseRepository {
             group by mi."warehouseId", wh.capacity
         `);
 
-        const warehousesAvailable = Object.keys(warehouseRequirements)
-            .every(async (warehouseId) => {
+        const warehousesAvailabilities = Object.keys(warehouseRequirements)
+            .map(async (warehouseId) => {
                 const warehouse = warehouseCapacities.find(whc => whc.warehouseId === +warehouseId);
                 if (!warehouse) {
                     const whFromDb = await getRepository(Warehouse).findOne(warehouseId);
@@ -70,6 +70,8 @@ class WarehouseRepository {
 
                 return (warehouse.capacity - warehouse.quantity) > warehouseRequirements[+warehouseId];
             });
+
+        const warehousesAvailable = (await Promise.all(warehousesAvailabilities)).every(available => available);
 
         if (!warehousesAvailable) {
             throw new Error('Some of the warehouses cannot take this many materials.');

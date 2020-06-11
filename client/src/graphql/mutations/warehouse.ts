@@ -132,7 +132,7 @@ export const ADD_MATERIAL_ITEMS_UPDATE = (warehouseId: number, callback: any) =>
       warehouseQuantity.count += 1;
       warehouseQuantities[warehouseQuantities.indexOf(warehouseQuantity)] = warehouseQuantity;
     } else {
-      warehouseQuantities.push({ warehouseId: mi.warehouseId, count: 1, materialName });
+      warehouseQuantities.push({ warehouseId: mi.warehouseId, count: 1, materialName, __typename: "WarehouseQuantity" });
     }
   });
 
@@ -142,7 +142,7 @@ export const ADD_MATERIAL_ITEMS_UPDATE = (warehouseId: number, callback: any) =>
       .find((wq: IWarehouseQuantity) => wq.warehouseId === whq.warehouseId && wq.materialName === whq.materialName);
 
     if (existing) {
-      quantities[quantities.indexOf(existing)] = { ...existing, count: existing.count + whq.count };
+      quantities[quantities.indexOf(existing)] = { ...existing, count: existing.count + whq.count, __typename: "WarehouseQuantity" };
     } else {
       quantities.push(whq);
     }

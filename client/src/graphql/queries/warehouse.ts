@@ -40,7 +40,7 @@ export const GET_WAREHOUSE_MATERIAL_ITEMS = gql`
 
 export const GET_WAREHOUSE_CONTENT_CLIENT = gql`
   query {
-    getWarehouseDashboardContent @client {
+    getWarehouseDashboardContent {
       materialTypes {
         id,
         name,

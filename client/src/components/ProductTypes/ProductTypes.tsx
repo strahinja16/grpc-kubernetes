@@ -4,6 +4,9 @@ import { IMaterialType, IProductType } from "../../models/warehouse";
 import { Button, Container, Divider, Header, Icon, Table } from "semantic-ui-react";
 import { lorem } from "../../util/lorem";
 import AddProductTypeModal from "../Modals/AddProductTypeModal/AddProductTypeModal";
+import { useQuery } from "@apollo/react-hooks";
+import { GET_LOGGED_IN_USER } from "../../graphql/queries/personnel";
+import { RoleEnum as Role } from "../../models/personnel";
 
 export interface ProductTypesProps {
   productTypes: IProductType[];
@@ -14,6 +17,7 @@ const ProductTypes: FC<ProductTypesProps> = ({ productTypes, materialTypes }) =>
   const [showModal, setShowModal] = useState(false);
   const onAddProductType = () => setShowModal(true);
   const closeModal = () => setShowModal(false);
+  const { data: userData } = useQuery(GET_LOGGED_IN_USER);
 
   return (
     <Container>
@@ -38,16 +42,19 @@ const ProductTypes: FC<ProductTypesProps> = ({ productTypes, materialTypes }) =>
         <Table.Footer fullWidth>
           <Table.Row>
             <Table.HeaderCell colSpan='3'>
-              <Button
-                floated='right'
-                icon
-                labelPosition='left'
-                size='small'
-                primary
-                onClick={onAddProductType}
-              >
-                <Icon name='product hunt' /> Add product type
-              </Button>
+              {
+                [Role.admin, Role.manager].includes(userData.user.role as Role) &&
+                <Button
+                  floated='right'
+                  icon
+                  labelPosition='left'
+                  size='small'
+                  primary
+                  onClick={onAddProductType}
+                >
+                  <Icon name='product hunt' /> Add product type
+                </Button>
+              }
             </Table.HeaderCell>
           </Table.Row>
         </Table.Footer>

@@ -37,4 +37,4 @@ spec:
     spec:
       containers:
         - name: warehouse
-          image: strahinja16/sir-warehouse-service:1.0.0
+          image: strahinja16/sir-warehouse-service:1.0.1

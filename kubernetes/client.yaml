@@ -36,6 +36,6 @@ spec:
       containers:
         - name: client
           stdin: true
-          image: strahinja16/sir-client:1.0.0
+          image: strahinja16/sir-client:1.0.6
           ports:
             - containerPort: 3004

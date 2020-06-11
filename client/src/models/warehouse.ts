@@ -3,6 +3,7 @@ export interface IWarehouseQuantity {
   warehouseId: number;
   count: number;
   materialName: string;
+  __typename?: string;
 }
 
 export interface IWarehouse {

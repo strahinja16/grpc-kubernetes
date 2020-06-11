@@ -11,11 +11,14 @@ import { IMaterialItem, IWarehouse } from "../../models/warehouse";
 import MaterialItemTable from "../../components/MaterialItemTable/MaterialItemTable";
 import AddMaterialItemsModal from "../../components/Modals/AddMaterialItemsModal/AddMaterialItemsModal";
 import './styles.scss';
+import { GET_LOGGED_IN_USER } from "../../graphql/queries/personnel";
+import { RoleEnum as Role } from "../../models/personnel";
 
 const WarehouseAndMaterials = () => {
   const { id } = useParams();
   const [showModal, setShowModal] = useState(false);
   const closeModal = () => setShowModal(false);
+  const { data: userData } = useQuery(GET_LOGGED_IN_USER);
   const { data: whData} = useQuery(GET_WAREHOUSE_CONTENT_CLIENT);
   const { data, loading} = useQuery(GET_WAREHOUSE_MATERIAL_ITEMS, {
     variables: { input: { warehouseId: Number(id) } },
@@ -37,16 +40,19 @@ const WarehouseAndMaterials = () => {
           className="material-items-container__header"
           content={`Materials at ${warehouseName}`}
         />
-        <Button
-          className="material-items-container__header-button"
-          icon
-          labelPosition='left'
-          primary
-          floated="right"
-          onClick={onAddMaterialItems}
-        >
-          <Icon name='warehouse' /> Add materials
-        </Button>
+        {
+          [Role.admin, Role.manager].includes(userData.user.role as Role) &&
+          <Button
+            className="material-items-container__header-button"
+            icon
+            labelPosition='left'
+            primary
+            floated="right"
+            onClick={onAddMaterialItems}
+          >
+            <Icon name='warehouse' /> Add materials
+          </Button>
+        }
       </div>
       <Grid className="material-items-container__material-items" stackable columns={1}>
         {

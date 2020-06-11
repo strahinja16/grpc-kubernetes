@@ -34,4 +34,4 @@ spec:
     spec:
       containers:
         - name: api-gateway
-          image: strahinja16/sir-api-gateway:1.0.0
+          image: strahinja16/sir-api-gateway:1.0.1
